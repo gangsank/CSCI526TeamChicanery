@@ -23,7 +23,7 @@ public class EnemyRanger : MonoBehaviour
 
     void Shoot()
     {
-        GameObject inst = Instantiate<GameObject>(bullet, transform.transform.position, transform.rotation, transform.parent);
+        GameObject inst = Instantiate(bullet, transform.position + 2 * transform.forward, transform.rotation, transform.parent);
         inst.transform.Translate(0, 0.4f, 0);
         inst.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 100f);
     }
