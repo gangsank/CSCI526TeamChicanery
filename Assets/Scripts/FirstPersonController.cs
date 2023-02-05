@@ -56,10 +56,8 @@ public class FirstPersonController : MonoBehaviour
 	public float BottomClamp = -90.0f;
 
 	// World 
-	public GameObject world;
-	private bool isWorldRotating = false;
-	private int currentPlatform = 0;
-	private float platoformAngle = 90f;
+	//public GameObject world;
+	//private bool isWorldRotating = false;
 
 	// cinemachine
 	private float _cinemachineTargetPitch;
@@ -112,16 +110,12 @@ public class FirstPersonController : MonoBehaviour
 
 	private void Update()
 	{
-		if (!isWorldRotating)
-		{
-			JumpAndGravity();
-			GroundedCheck();
-			GroundSlide();
-			Move();
-			GroundSlide();
-			Attack();
-		}
-
+		JumpAndGravity();
+		GroundedCheck();
+		GroundSlide();
+		Move();
+		GroundSlide();
+		Attack();
 	}
 
 	private void LateUpdate()
@@ -138,7 +132,7 @@ public class FirstPersonController : MonoBehaviour
 
 	private void CameraRotation()
 	{
-		if (sliding || isWorldRotating) return;
+		if (sliding) return;
 
 		if (!Grounded)
 		{
@@ -152,7 +146,7 @@ public class FirstPersonController : MonoBehaviour
 
 	private void Move()
 	{
-		_controller.Move(new Vector3(0, 0, 5) * Time.deltaTime);
+		//_controller.Move(new Vector3(0, 0, 5) * Time.deltaTime);
 
 		// set target speed based on move speed, sprint speed and if sprint is pressed
 		float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
@@ -178,6 +172,11 @@ public class FirstPersonController : MonoBehaviour
 		// move the player
 		_controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 	}
+
+	public void CancelJump()
+	{
+		_verticalVelocity = 0;
+    }
 
 	private void JumpAndGravity()
 	{
@@ -218,7 +217,6 @@ public class FirstPersonController : MonoBehaviour
 
 	private void OnControllerColliderHit(ControllerColliderHit hit)
 	{
-		HanelWorldRotation(hit);
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -232,39 +230,6 @@ public class FirstPersonController : MonoBehaviour
 				_verticalVelocity += Mathf.Max(_verticalVelocity, 6f);
 			}
 		}
-	}
-
-	private void HanelWorldRotation(ControllerColliderHit hit)
-	{
-		if (_input.move.x == 0 || isWorldRotating) return;
-		int layer = 1 << hit.gameObject.layer;
-		if ((layer & GroundLayers.value) == 0) return;
-
-		int platofrm = currentPlatform;
-		int.TryParse(hit.gameObject.name, out platofrm);
-		if (platofrm == currentPlatform) return;
-		currentPlatform = platofrm;
-		isWorldRotating = true;
-
-		int factor = Mathf.Abs(platofrm - currentPlatform) == 2 ? 2 : 1;
-
-		StartCoroutine(RotateWorldGenerator(_input.move.x > 0 ? -platoformAngle * factor : platoformAngle * factor));
-	}
-
-	private IEnumerator RotateWorldGenerator(float angle)
-	{
-		float curTime = 0;
-		float moveDistance = -2 * transform.position.x;
-		while (curTime < 1)
-		{
-			curTime += Time.deltaTime;
-			world.transform.Rotate(Vector3.forward, angle * Time.deltaTime);
-			_controller.Move(new Vector3(moveDistance * Time.deltaTime, 0, 0));
-
-			yield return null;
-		}
-		isWorldRotating = false;
-
 	}
 
 	private void GroundSlide()
