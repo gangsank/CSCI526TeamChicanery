@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class FirstPersonController : MonoBehaviour
 {
 	[Header("Player")]
+
+	public float ForwardSpeed = 5.0f;
 	[Tooltip("Move speed of the character in m/s")]
 	public float MoveSpeed = 4.0f;
 	[Tooltip("Sprint speed of the character in m/s")]
@@ -115,7 +117,6 @@ public class FirstPersonController : MonoBehaviour
 		GroundSlide();
 		Move();
 		GroundSlide();
-		Attack();
 	}
 
 	private void LateUpdate()
@@ -132,26 +133,39 @@ public class FirstPersonController : MonoBehaviour
 
 	private void CameraRotation()
 	{
-		if (sliding) return;
-
 		if (!Grounded)
 		{
-			CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(15f, 0.0f, 0.0f);
+			CinemachineCameraTarget.transform.rotation = Quaternion.RotateTowards(
+				CinemachineCameraTarget.transform.rotation,
+				Quaternion.Euler(15f, 0.0f, 0.0f),
+				0.2f
+			);
 		}
+		else if (sliding)
+		{
+            CinemachineCameraTarget.transform.rotation = Quaternion.RotateTowards(
+                CinemachineCameraTarget.transform.rotation,
+                Quaternion.Euler(-15f, 0.0f, 0.0f),
+                0.2f
+            );
+        }
 		else
 		{
-			CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(0, 0.0f, 0.0f);
+            CinemachineCameraTarget.transform.rotation = Quaternion.RotateTowards(
+                CinemachineCameraTarget.transform.rotation,
+                Quaternion.Euler(0, 0.0f, 0.0f),
+                0.2f
+            );
 		}
 	}
 
 	private void Move()
 	{
-		//_controller.Move(new Vector3(0, 0, 5) * Time.deltaTime);
+		_controller.Move(Vector3.forward * ForwardSpeed * Time.deltaTime);
 
 		// set target speed based on move speed, sprint speed and if sprint is pressed
-		float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+		float targetSpeed = MoveSpeed;
 		if (_input.move.x == 0) targetSpeed = 0.0f;
-
 
 		float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 		// accelerate or decelerate to target speed
@@ -208,28 +222,19 @@ public class FirstPersonController : MonoBehaviour
 		}
 	}
 
-	private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+	public void DoubleJump()
+	{
+		if (!Grounded)
+		{
+			_verticalVelocity += Mathf.Min(_verticalVelocity, 6f);
+		}
+	}
+
+    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 	{
 		if (lfAngle < -360f) lfAngle += 360f;
 		if (lfAngle > 360f) lfAngle -= 360f;
 		return Mathf.Clamp(lfAngle, lfMin, lfMax);
-	}
-
-	private void OnControllerColliderHit(ControllerColliderHit hit)
-	{
-	}
-
-	private void OnTriggerEnter(Collider other)
-	{
-		if (!other.name.Contains("Bullet")) return;
-		if (attacking)
-		{
-			Destroy(other.gameObject);
-			if (!Grounded)
-			{
-				_verticalVelocity += Mathf.Max(_verticalVelocity, 6f);
-			}
-		}
 	}
 
 	private void GroundSlide()
@@ -253,9 +258,6 @@ public class FirstPersonController : MonoBehaviour
 			curTime += Time.deltaTime;
 			var scale = Vector3.Lerp(startScale, new Vector3(1, SlideScale, 1), curTime / SlidingAnimation);
 			transform.localScale = scale;
-
-			var rotation = Vector3.Lerp(Vector3.zero, new Vector3(-SlideCameraAngle, 0, 0), curTime / SlidingAnimation);
-			CinemachineCameraTarget.transform.rotation = Quaternion.Euler(rotation);
 			yield return null;
 		}
 
@@ -270,44 +272,8 @@ public class FirstPersonController : MonoBehaviour
 			curTime += Time.deltaTime;
 			var scale = Vector3.Lerp(startScale, Vector3.one, curTime / SlidingAnimation);
 			transform.localScale = scale;
-
-			var rotation = Vector3.Lerp(new Vector3(-SlideCameraAngle, 0, 0), Vector3.zero, curTime / SlidingAnimation);
-			CinemachineCameraTarget.transform.rotation = Quaternion.Euler(rotation);
 			yield return null;
 		}
 
-	}
-
-	private void Attack()
-	{
-		if (!attacking && _input.attack)
-		{
-			_input.attack = false;
-			attacking = true;
-			StartCoroutine(AttackGenerator());
-		}
-	}
-
-	private IEnumerator AttackGenerator()
-	{
-		float curTime = 0;
-		float accAngle = 0;
-		while (curTime < 0.3)
-		{
-			curTime += Time.deltaTime;
-			float curAngle = Mathf.Min(180 * curTime / 0.3f, 180f);
-			weapon.transform.Rotate(Vector3.right, curAngle - accAngle);
-			accAngle = curAngle;
-			yield return null;
-		}
-
-		while (curTime < 0.2)
-		{
-			curTime += Time.deltaTime;
-			var rotation = Vector3.Lerp(Vector3.zero, new Vector3(180, 0, 0), curTime / 0.2f);
-			weapon.transform.localRotation = Quaternion.Euler(rotation);
-			yield return null;
-		}
-		attacking = false;
 	}
 }
