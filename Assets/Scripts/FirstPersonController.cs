@@ -161,13 +161,10 @@ public class FirstPersonController : MonoBehaviour
 
 	private void Move()
 	{
-		_controller.Move(Vector3.forward * ForwardSpeed * Time.deltaTime);
-
 		// set target speed based on move speed, sprint speed and if sprint is pressed
 		float targetSpeed = MoveSpeed;
-		if (_input.move.x == 0) targetSpeed = 0.0f;
 
-		float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+		float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, 0).magnitude;
 		// accelerate or decelerate to target speed
 		if (Mathf.Abs(currentHorizontalSpeed - targetSpeed) > 0.1f)
 		{
@@ -184,15 +181,26 @@ public class FirstPersonController : MonoBehaviour
 		Vector3 inputDirection = transform.right * _input.move.x;
 
 		// move the player
-		_controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+		_controller.Move(
+            Vector3.forward * ForwardSpeed * Time.deltaTime + 
+			inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 	}
 
 	public void CancelJump()
 	{
-		_verticalVelocity = 0;
+        _input.jump = false;
+        _verticalVelocity = -2f;
     }
 
-	private void JumpAndGravity()
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.transform.up == Vector3.down)
+		{
+			CancelJump();
+        }	
+    }
+
+    private void JumpAndGravity()
 	{
 		if (Grounded) // jump 
 		{
@@ -211,12 +219,15 @@ public class FirstPersonController : MonoBehaviour
 			if (_fallTimeoutDelta >= 0.0f)
 				_fallTimeoutDelta -= Time.deltaTime;
 
-			_input.jump = false;
-
+			//_input.jump = false;
 		}
 
 		// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-		if (_verticalVelocity < _terminalVelocity)
+		if (_input.jump)
+		{
+			_verticalVelocity += Time.deltaTime * Gravity * -0.5f;
+        }
+		else if (_verticalVelocity < _terminalVelocity)
 		{
 			_verticalVelocity += Gravity * Time.deltaTime;
 		}
@@ -226,7 +237,7 @@ public class FirstPersonController : MonoBehaviour
 	{
 		if (!Grounded)
 		{
-			_verticalVelocity += Mathf.Min(_verticalVelocity, 6f);
+			_verticalVelocity += Mathf.Min(_verticalVelocity, 8f);
 		}
 	}
 

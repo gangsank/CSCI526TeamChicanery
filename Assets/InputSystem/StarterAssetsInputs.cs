@@ -23,23 +23,12 @@ public class StarterAssetsInputs : MonoBehaviour
 		MoveInput(value.Get<Vector2>());
 	}
 
-
-	//public void OnLook(InputValue value)
-	//{
-	//	if(cursorInputForLook)
-	//	{
-	//		LookInput(;
-	// look = value.Get<Vector2>());
-	//	}
-	//}
-
 	public void OnJump(InputValue value)
 	{
-		JumpInput(value.isPressed);
+		JumpInput(value.Get<float>() > 0);
 	}
 
-
-	public void OnSlide(InputValue value)
+    public void OnSlide(InputValue value)
 	{
 		slide = value.isPressed;
 	}
