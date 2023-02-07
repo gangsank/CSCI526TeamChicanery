@@ -36,9 +36,6 @@ public class FirstPersonController : MonoBehaviour
 	public float SlideDuration = 1f;
 	public float SlideCameraAngle = 15f;
 
-	public GameObject weapon;
-	public bool attacking = false;
-
 	[Header("Player Grounded")]
 	[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
 	public bool Grounded = true;
@@ -56,10 +53,6 @@ public class FirstPersonController : MonoBehaviour
 	public float TopClamp = 90.0f;
 	[Tooltip("How far in degrees can you move the camera down")]
 	public float BottomClamp = -90.0f;
-
-	// World 
-	//public GameObject world;
-	//private bool isWorldRotating = false;
 
 	// cinemachine
 	private float _cinemachineTargetPitch;
@@ -263,7 +256,7 @@ public class FirstPersonController : MonoBehaviour
 	{
 		float curTime = 0;
 		Vector3 startScale = transform.localScale;
-		Time.timeScale = 0.3f;
+		Time.timeScale = 0.6f;
 		while (curTime < SlidingAnimation)
 		{
 			curTime += Time.deltaTime;
