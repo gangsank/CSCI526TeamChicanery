@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - World
+  - Floor&Wall
   layers:
   - Default
   - TransparentFX
