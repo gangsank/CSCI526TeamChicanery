@@ -7,9 +7,7 @@ public class StarterAssetsInputs : MonoBehaviour
 	public Vector2 move;
 	//public Vector2 look;
 	public bool jump;
-	public bool sprint;
-	public bool slide;
-	public bool attack;
+	public bool primaryAction;
 
 	[Header("Movement Settings")]
 	public bool analogMovement;
@@ -28,16 +26,11 @@ public class StarterAssetsInputs : MonoBehaviour
 		JumpInput(value.Get<float>() > 0);
 	}
 
-    public void OnSlide(InputValue value)
+    public void OnMainAction(InputValue value)
 	{
-		slide = value.isPressed;
+        primaryAction = value.isPressed;
+		Debug.Log("action");
 	}
-
-	public void OnAttack(InputValue value)
-	{
-		attack = value.isPressed;
-	}
-
 
 	public void MoveInput(Vector2 newMoveDirection)
 	{

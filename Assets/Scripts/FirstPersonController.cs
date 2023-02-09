@@ -23,18 +23,13 @@ public class FirstPersonController : MonoBehaviour
 	public float JumpHeight = 1.2f;
 	[Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
 	public float Gravity = -9.8f;
+	public float gravityDirection = 1;
 
 	[Space(10)]
 	[Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
 	public float JumpTimeout = 0.1f;
 	[Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
 	public float FallTimeout = 0.15f;
-
-	public bool sliding = false;
-	public float SlideScale = 0.5f;
-	public float SlidingAnimation = 0.3f;
-	public float SlideDuration = 1f;
-	public float SlideCameraAngle = 15f;
 
 	[Header("Player Grounded")]
 	[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
@@ -105,11 +100,10 @@ public class FirstPersonController : MonoBehaviour
 
 	private void Update()
 	{
-		JumpAndGravity();
+		ReverseGravity();
+        JumpAndGravity();
 		GroundedCheck();
-		GroundSlide();
 		Move();
-		GroundSlide();
 	}
 
 	private void LateUpdate()
@@ -120,7 +114,7 @@ public class FirstPersonController : MonoBehaviour
 	private void GroundedCheck()
 	{
 		// set sphere position, with offset
-		Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
+		Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y + 2f + GroundedOffset, transform.position.z);
 		Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 	}
 
@@ -134,14 +128,6 @@ public class FirstPersonController : MonoBehaviour
 				0.2f
 			);
 		}
-		else if (sliding)
-		{
-            CinemachineCameraTarget.transform.rotation = Quaternion.RotateTowards(
-                CinemachineCameraTarget.transform.rotation,
-                Quaternion.Euler(-15f, 0.0f, 0.0f),
-                0.2f
-            );
-        }
 		else
 		{
             CinemachineCameraTarget.transform.rotation = Quaternion.RotateTowards(
@@ -151,6 +137,7 @@ public class FirstPersonController : MonoBehaviour
             );
 		}
 	}
+
 
 	private void Move()
 	{
@@ -179,7 +166,18 @@ public class FirstPersonController : MonoBehaviour
 			inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 	}
 
-	public void CancelJump()
+    private void ReverseGravity()
+	{
+		if (_input.primaryAction)
+		{
+            gravityDirection = -gravityDirection;
+			_verticalVelocity = 0;
+			_input.primaryAction = false;
+		}
+	}
+
+
+    public void CancelJump()
 	{
         _input.jump = false;
         _verticalVelocity = -2f;
@@ -199,7 +197,7 @@ public class FirstPersonController : MonoBehaviour
 		{
 			// reset the fall timeout timer
 			_fallTimeoutDelta = FallTimeout;
-			_verticalVelocity = Mathf.Max(-3f, _verticalVelocity);
+			_verticalVelocity = Mathf.Max(-3f * gravityDirection, _verticalVelocity);
 
 			if (_input.jump && _jumpTimeoutDelta <= 0.0f)
 				_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
@@ -222,7 +220,8 @@ public class FirstPersonController : MonoBehaviour
         }
 		else if (_verticalVelocity < _terminalVelocity)
 		{
-			_verticalVelocity += Gravity * Time.deltaTime;
+			_verticalVelocity += Gravity * Time.deltaTime * gravityDirection;
+			Debug.Log(_verticalVelocity);
 		}
 	}
 
@@ -241,43 +240,4 @@ public class FirstPersonController : MonoBehaviour
 		return Mathf.Clamp(lfAngle, lfMin, lfMax);
 	}
 
-	private void GroundSlide()
-	{
-		if (_input.slide && !sliding && Grounded)
-		{
-			sliding = true;
-			_input.slide = false;
-
-			StartCoroutine(GroundSlideGenerator());
-		}
-	}
-
-	private IEnumerator GroundSlideGenerator()
-	{
-		float curTime = 0;
-		Vector3 startScale = transform.localScale;
-		Time.timeScale = 0.6f;
-		while (curTime < SlidingAnimation)
-		{
-			curTime += Time.deltaTime;
-			var scale = Vector3.Lerp(startScale, new Vector3(1, SlideScale, 1), curTime / SlidingAnimation);
-			transform.localScale = scale;
-			yield return null;
-		}
-
-		yield return new WaitForSecondsRealtime(SlideDuration);
-		Time.timeScale = 1f;
-		sliding = false;
-
-		curTime = 0;
-		startScale = transform.localScale;
-		while (curTime < SlidingAnimation)
-		{
-			curTime += Time.deltaTime;
-			var scale = Vector3.Lerp(startScale, Vector3.one, curTime / SlidingAnimation);
-			transform.localScale = scale;
-			yield return null;
-		}
-
-	}
 }
