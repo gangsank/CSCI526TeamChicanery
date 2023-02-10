@@ -30,11 +30,7 @@ public class FirstPersonController : MonoBehaviour
 	[Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
 	public float FallTimeout = 0.15f;
 
-	public bool sliding = false;
-	public float SlideScale = 0.5f;
-	public float SlidingAnimation = 0.3f;
-	public float SlideDuration = 1f;
-	public float SlideCameraAngle = 15f;
+	public bool rotating = false;
 
 	[Header("Player Grounded")]
 	[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
@@ -107,9 +103,8 @@ public class FirstPersonController : MonoBehaviour
 	{
 		JumpAndGravity();
 		GroundedCheck();
-		GroundSlide();
 		Move();
-		GroundSlide();
+		Rotate();
 	}
 
 	private void LateUpdate()
@@ -134,7 +129,7 @@ public class FirstPersonController : MonoBehaviour
 				0.2f
 			);
 		}
-		else if (sliding)
+		else if (rotating)
 		{
             CinemachineCameraTarget.transform.rotation = Quaternion.RotateTowards(
                 CinemachineCameraTarget.transform.rotation,
@@ -241,43 +236,29 @@ public class FirstPersonController : MonoBehaviour
 		return Mathf.Clamp(lfAngle, lfMin, lfMax);
 	}
 
-	private void GroundSlide()
-	{
-		if (_input.slide && !sliding && Grounded)
-		{
-			sliding = true;
-			_input.slide = false;
+    private void Rotate()
+    {
+        if (_input.rotate && !rotating && Grounded)
+        {
+            rotating = true;
+            StartCoroutine(RotateGenerator());
+        }
+    }
 
-			StartCoroutine(GroundSlideGenerator());
-		}
-	}
+    private IEnumerator RotateGenerator()
+    {
+        float curTime = 0;
+        float accAngle = 0;
 
-	private IEnumerator GroundSlideGenerator()
-	{
-		float curTime = 0;
-		Vector3 startScale = transform.localScale;
-		Time.timeScale = 0.6f;
-		while (curTime < SlidingAnimation)
-		{
-			curTime += Time.deltaTime;
-			var scale = Vector3.Lerp(startScale, new Vector3(1, SlideScale, 1), curTime / SlidingAnimation);
-			transform.localScale = scale;
-			yield return null;
-		}
+        while (curTime < 1)
+        {
+            curTime += Time.deltaTime;
+            float curAngle = Mathf.Min(90 * curTime / 1f, 90f);
+            transform.Rotate(Vector3.forward, curAngle - accAngle);
+            accAngle = curAngle;
+            yield return null;
+        }
 
-		yield return new WaitForSecondsRealtime(SlideDuration);
-		Time.timeScale = 1f;
-		sliding = false;
-
-		curTime = 0;
-		startScale = transform.localScale;
-		while (curTime < SlidingAnimation)
-		{
-			curTime += Time.deltaTime;
-			var scale = Vector3.Lerp(startScale, Vector3.one, curTime / SlidingAnimation);
-			transform.localScale = scale;
-			yield return null;
-		}
-
-	}
+        rotating = false;
+    }
 }

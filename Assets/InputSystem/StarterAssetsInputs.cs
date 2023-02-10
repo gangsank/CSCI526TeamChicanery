@@ -8,7 +8,7 @@ public class StarterAssetsInputs : MonoBehaviour
 	//public Vector2 look;
 	public bool jump;
 	public bool sprint;
-	public bool slide;
+	public bool rotate;
 	public bool attack;
 
 	[Header("Movement Settings")]
@@ -28,9 +28,9 @@ public class StarterAssetsInputs : MonoBehaviour
 		JumpInput(value.Get<float>() > 0);
 	}
 
-    public void OnSlide(InputValue value)
+    public void OnRotate(InputValue value)
 	{
-		slide = value.isPressed;
+		rotate = value.isPressed;
 	}
 
 	public void OnAttack(InputValue value)
