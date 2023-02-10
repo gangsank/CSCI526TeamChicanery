@@ -70,6 +70,8 @@ public class FirstPersonController : MonoBehaviour
 
 	private const float _threshold = 0.01f;
 
+	private IEnumerator reverseAction;
+
 	private bool IsCurrentDeviceMouse
 	{
 		get
@@ -114,7 +116,7 @@ public class FirstPersonController : MonoBehaviour
 	private void GroundedCheck()
 	{
 		// set sphere position, with offset
-		Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y + 2f + GroundedOffset, transform.position.z);
+		Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y + GroundedOffset, transform.position.z);
 		Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 	}
 
@@ -158,7 +160,7 @@ public class FirstPersonController : MonoBehaviour
 		}
 
 		// normalise input direction
-		Vector3 inputDirection = transform.right * _input.move.x;
+		Vector3 inputDirection = transform.right * _input.move.x * gravityDirection;
 
 		// move the player
 		_controller.Move(
@@ -173,8 +175,29 @@ public class FirstPersonController : MonoBehaviour
             gravityDirection = -gravityDirection;
 			_verticalVelocity = 0;
 			_input.primaryAction = false;
+
+			if (reverseAction != null)
+				StopCoroutine(reverseAction);
+			reverseAction = ReverseCharacterAction(gravityDirection == 1 ? 0 : 180);
+            StartCoroutine(reverseAction);
 		}
 	}
+
+	private IEnumerator ReverseCharacterAction(float angle)
+	{
+		yield return new WaitForSeconds(0.05f);
+
+        while (transform.eulerAngles.z != angle)
+		{
+			transform.eulerAngles = Vector3.MoveTowards(
+				transform.eulerAngles,
+				new Vector3(transform.rotation.eulerAngles.x, transform.rotation.y, angle),
+				Time.deltaTime * 480
+			);
+			yield return null;
+		}
+		reverseAction = null;
+    }
 
 
     public void CancelJump()
@@ -218,10 +241,9 @@ public class FirstPersonController : MonoBehaviour
 		{
 			_verticalVelocity += Time.deltaTime * Gravity * -0.5f;
         }
-		else if (_verticalVelocity < _terminalVelocity)
+		else if (Mathf.Abs(_verticalVelocity) < _terminalVelocity)
 		{
 			_verticalVelocity += Gravity * Time.deltaTime * gravityDirection;
-			Debug.Log(_verticalVelocity);
 		}
 	}
 

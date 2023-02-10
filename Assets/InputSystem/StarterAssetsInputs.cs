@@ -29,7 +29,6 @@ public class StarterAssetsInputs : MonoBehaviour
     public void OnMainAction(InputValue value)
 	{
         primaryAction = value.isPressed;
-		Debug.Log("action");
 	}
 
 	public void MoveInput(Vector2 newMoveDirection)
