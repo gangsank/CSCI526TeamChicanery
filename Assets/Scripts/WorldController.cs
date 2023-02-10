@@ -35,12 +35,14 @@ public class WorldController : MonoBehaviour
         if ((layer & platform) > 0 && !hitUnderGround && !isRotating)
         {
             Vector3 axis = Vector3.Cross(hit.gameObject.transform.up, Vector3.up).normalized;
-            float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up));
+            float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<FirstPersonController>().gravityDirection;
             if (axis != Vector3.zero)
             {
                 isRotating = true;
                 player.GetComponent<FirstPersonController>().enabled = false;
                 player.GetComponent<CharacterController>().enabled = false;
+                player.GetComponent<TrailRenderer>().emitting = false;
+
                 StartCoroutine(RotateWorld(axis, angle, hit.gameObject, hit.gameObject.transform.InverseTransformPoint(hit.point)));
             }
         }
@@ -68,6 +70,7 @@ public class WorldController : MonoBehaviour
         isRotating = false;
         player.GetComponent<FirstPersonController>().enabled = true;
         player.GetComponent<CharacterController>().enabled = true;
+        player.GetComponent<TrailRenderer>().emitting = true;
     }
 
 }
