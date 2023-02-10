@@ -208,7 +208,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.transform.up == Vector3.down)
+        if (hit.gameObject.transform.up == Vector3.down * gravityDirection)
 		{
 			CancelJump();
         }	
@@ -220,10 +220,10 @@ public class FirstPersonController : MonoBehaviour
 		{
 			// reset the fall timeout timer
 			_fallTimeoutDelta = FallTimeout;
-			_verticalVelocity = Mathf.Max(-3f * gravityDirection, _verticalVelocity);
+			_verticalVelocity = gravityDirection > 0 ? Mathf.Max(-3f, _verticalVelocity) : Mathf.Min(3f, _verticalVelocity);
 
 			if (_input.jump && _jumpTimeoutDelta <= 0.0f)
-				_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+				_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity) * gravityDirection;
 			if (_jumpTimeoutDelta >= 0.0f)
 				_jumpTimeoutDelta -= Time.deltaTime;
 		}
@@ -239,19 +239,11 @@ public class FirstPersonController : MonoBehaviour
 		// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 		if (_input.jump)
 		{
-			_verticalVelocity += Time.deltaTime * Gravity * -0.5f;
+			_verticalVelocity += Time.deltaTime * Gravity * gravityDirection * -0.5f;
         }
-		else if (Mathf.Abs(_verticalVelocity) < _terminalVelocity)
+        else if (Mathf.Abs(_verticalVelocity) < _terminalVelocity)
 		{
 			_verticalVelocity += Gravity * Time.deltaTime * gravityDirection;
-		}
-	}
-
-	public void DoubleJump()
-	{
-		if (!Grounded)
-		{
-			_verticalVelocity += Mathf.Min(_verticalVelocity, 8f);
 		}
 	}
 
