@@ -122,24 +122,7 @@ public class FirstPersonController : MonoBehaviour
 
 	private void CameraRotation()
 	{
-		if (!Grounded)
-		{
-			CinemachineCameraTarget.transform.rotation = Quaternion.RotateTowards(
-				CinemachineCameraTarget.transform.rotation,
-				Quaternion.Euler(15f, 0.0f, 0.0f),
-				0.2f
-			);
-		}
-		else
-		{
-            CinemachineCameraTarget.transform.rotation = Quaternion.RotateTowards(
-                CinemachineCameraTarget.transform.rotation,
-                Quaternion.Euler(0, 0.0f, 0.0f),
-                0.2f
-            );
-		}
 	}
-
 
 	private void Move()
 	{
