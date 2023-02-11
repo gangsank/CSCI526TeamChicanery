@@ -56,6 +56,7 @@ public class ObstacleGate : MonoBehaviour
             right.transform.position = Vector3.MoveTowards(rightPos, new Vector3(transform.position.x + rightWidth / 2, rightPos.y, rightPos.z) + dist, distDelta);
 
             float gap = (right.transform.position.x - rightWidth / 2) - (left.transform.position.x + leftWidth / 2);
+            Debug.Log(gap);
             if (gap >= MaxGap) opening = false;
             else if (gap <= MinGap) opening = true;
 
