@@ -7,14 +7,13 @@ using UnityEngine.InputSystem;
 public class FirstPersonController : MonoBehaviour
 {
 	[Header("Player")]
+	public float MaxSpeed = 20f;
+	public float SpeedIncreaseRate = 5f;
+	public float SpeedIncreaseInterval = 5f;
 
 	public float ForwardSpeed = 5.0f;
 	[Tooltip("Move speed of the character in m/s")]
-	public float MoveSpeed = 4.0f;
-	[Tooltip("Sprint speed of the character in m/s")]
-	public float SprintSpeed = 6.0f;
-	[Tooltip("Rotation speed of the character")]
-	public float RotationSpeed = 1.0f;
+	public float CrossSpeed = 4.0f;
 	[Tooltip("Acceleration and deceleration")]
 	public float SpeedChangeRate = 10.0f;
 
@@ -98,7 +97,10 @@ public class FirstPersonController : MonoBehaviour
 		// reset our timeouts on start
 		_jumpTimeoutDelta = JumpTimeout;
 		_fallTimeoutDelta = FallTimeout;
-	}
+
+		SpeedUp();
+
+    }
 
 	private void Update()
 	{
@@ -127,7 +129,7 @@ public class FirstPersonController : MonoBehaviour
 	private void Move()
 	{
 		// set target speed based on move speed, sprint speed and if sprint is pressed
-		float targetSpeed = MoveSpeed;
+		float targetSpeed = CrossSpeed;
 
 		float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, 0).magnitude;
 		// accelerate or decelerate to target speed
@@ -153,7 +155,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void ReverseGravity()
 	{
-		if (_input.primaryAction)
+		if (_input.primaryAction && Physics.Raycast(transform.position, transform.up, 50, GroundLayers))
 		{
             gravityDirection = -gravityDirection;
 			_verticalVelocity = 0;
@@ -237,4 +239,23 @@ public class FirstPersonController : MonoBehaviour
 		return Mathf.Clamp(lfAngle, lfMin, lfMax);
 	}
 
+	public void SpeedUp()
+	{
+		StopCoroutine("SpeedUpAction");
+		StartCoroutine("SpeedUpAction");
+    }
+
+    public IEnumerator SpeedUpAction()
+    {
+		while (true)
+		{
+			if (ForwardSpeed < MaxSpeed)
+			{
+                ForwardSpeed += SpeedIncreaseRate;
+                CrossSpeed += SpeedIncreaseRate;
+            }
+
+            yield return new WaitForSeconds(SpeedIncreaseInterval);
+		}
+    }
 }
