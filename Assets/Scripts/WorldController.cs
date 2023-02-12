@@ -22,51 +22,65 @@ public class WorldController : MonoBehaviour
             environment = GameObject.FindWithTag("World");
         }
 
-        RaycastHit hit;
-        if (Physics.Raycast(player.transform.position, Vector3.down, out hit, 5, platform))
-        {
-            currentGround = hit.transform.parent.gameObject;
-        }
     }
 
     private void Update()
     {
         RaycastHit hit;
-        //if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 20, platform))
-        //{
-        //    player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
-        //}
+        if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 20, platform))
+        {
+            player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
+        }
+
+        if (!isRotating && Physics.Raycast(player.transform.position, -player.transform.up, out hit, 5, platform))
+        {
+            currentGround = hit.transform.gameObject;
+        }
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        var values = AllowRotate(hit);
+
+        if (values != null)
+        {
+            isRotating = true;
+            player.GetComponent<FirstPersonController>().enabled = false;
+            player.GetComponent<CharacterController>().enabled = false;
+            player.GetComponent<TrailRenderer>().emitting = false;
+
+            StartCoroutine(RotateWorld(values.Value.axis, values.Value.angle, hit.gameObject, hit.gameObject.transform.InverseTransformPoint(hit.point)));
+        }
+    }
+
+    private (Vector3 axis, float angle)? AllowRotate(ControllerColliderHit hit)
+    {
         int layer = 1 << hit.gameObject.layer;
         bool hitUnderGround = hit.gameObject.transform.up.y >= 0.95;
 
-        if ((layer & platform) > 0 && !hitUnderGround && !isRotating)
+        bool hitGround = (layer & platform) > 0;
+        bool colorMatched = currentGround.GetComponent<MeshRenderer>().material.color == hit.gameObject.GetComponent<MeshRenderer>().material.color;
+        Debug.Log(currentGround.GetComponent<MeshRenderer>().material.color);
+
+        if (colorMatched && hitGround && !hitUnderGround && !isRotating)
         {
             Vector3 axis = Vector3.Cross(hit.gameObject.transform.up, Vector3.up).normalized;
             float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<FirstPersonController>().gravityDirection;
             if (axis != Vector3.zero)
             {
-                isRotating = true;
-                player.GetComponent<FirstPersonController>().enabled = false;
-                player.GetComponent<CharacterController>().enabled = false;
-                player.GetComponent<TrailRenderer>().emitting = false;
 
-                StartCoroutine(RotateWorld(axis, angle, hit.gameObject, hit.gameObject.transform.InverseTransformPoint(hit.point)));
+                return (axis, angle);
             }
         }
-        
+        return null;
     }
 
     private IEnumerator RotateWorld(Vector3 axis, float angle, GameObject wall, Vector3 local)
     {
         if (axis == Vector3.right)
         {
-            Destroy(currentGround);
+            Destroy(currentGround.transform.parent);
         }
-        currentGround = wall.transform.parent.gameObject;
 
         for (float t = 0; t < rotationDuration; t += Time.deltaTime)
         {
