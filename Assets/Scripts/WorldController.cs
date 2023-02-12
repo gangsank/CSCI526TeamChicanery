@@ -60,7 +60,6 @@ public class WorldController : MonoBehaviour
 
         bool hitGround = (layer & platform) > 0;
         bool colorMatched = currentGround.GetComponent<MeshRenderer>().material.color == hit.gameObject.GetComponent<MeshRenderer>().material.color;
-        Debug.Log(currentGround.GetComponent<MeshRenderer>().material.color);
 
         if (colorMatched && hitGround && !hitUnderGround && !isRotating)
         {
@@ -69,7 +68,7 @@ public class WorldController : MonoBehaviour
             if (axis != Vector3.zero)
             {
 
-                return (axis, angle);
+                return (axis, angle < 0 ? -180 - angle : angle);
             }
         }
         return null;
