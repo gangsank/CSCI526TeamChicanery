@@ -9,6 +9,7 @@ public class WorldController : MonoBehaviour
     public LayerMask platform;
     public bool isRotating = false;
     public float rotationDuration = 1f;
+    private GameObject currentGround;
 
     private GameObject player;
 
@@ -20,11 +21,21 @@ public class WorldController : MonoBehaviour
         {
             environment = GameObject.FindWithTag("World");
         }
+
+        RaycastHit hit;
+        if (Physics.Raycast(player.transform.position, Vector3.down, out hit, 5, platform))
+        {
+            currentGround = hit.transform.parent.gameObject;
+        }
     }
 
     private void Update()
     {
-        // slope slide won't trigger OnControllerColliderHit
+        RaycastHit hit;
+        //if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 20, platform))
+        //{
+        //    player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
+        //}
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -51,6 +62,12 @@ public class WorldController : MonoBehaviour
 
     private IEnumerator RotateWorld(Vector3 axis, float angle, GameObject wall, Vector3 local)
     {
+        if (axis == Vector3.right)
+        {
+            Destroy(currentGround);
+        }
+        currentGround = wall.transform.parent.gameObject;
+
         for (float t = 0; t < rotationDuration; t += Time.deltaTime)
         {
             environment.transform.Rotate(axis, angle * Time.deltaTime / rotationDuration, Space.World);

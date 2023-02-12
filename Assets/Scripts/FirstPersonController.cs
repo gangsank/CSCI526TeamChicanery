@@ -127,7 +127,8 @@ public class FirstPersonController : MonoBehaviour
 
 	private void CameraRotation()
 	{
-	}
+		CinemachineCameraTarget.transform.eulerAngles = new Vector3(0, 0, 0);
+    }
 
 	private void Move()
 	{
@@ -201,10 +202,11 @@ public class FirstPersonController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.transform.up == Vector3.down * gravityDirection)
-		{
-			CancelJump();
-        }	
+  //      if (hit.gameObject.transform.up == Vector3.down * gravityDirection)
+		//{
+		//	Debug.Log("Cancel Jump");
+		//	CancelJump();
+  //      }	
     }
 
     private void JumpAndGravity()
@@ -234,7 +236,7 @@ public class FirstPersonController : MonoBehaviour
 		{
 			_verticalVelocity += Time.deltaTime * Gravity * gravityDirection * -0.5f;
         }
-        else if (Mathf.Abs(_verticalVelocity) < _terminalVelocity)
+        else if (_verticalVelocity < _terminalVelocity)
 		{
 			_verticalVelocity += Gravity * Time.deltaTime * gravityDirection;
 		}
