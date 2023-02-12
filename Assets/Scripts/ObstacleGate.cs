@@ -25,8 +25,9 @@ public class ObstacleGate : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         leftWidth = left.transform.localScale.x;
         rightWidth = right.transform.localScale.x;
-        float gap = (right.transform.position.x - rightWidth / 2) - (left.transform.position.x + leftWidth / 2);
+        float gap = Vector3.Distance(left.transform.position, right.transform.position) - leftWidth / 2 - rightWidth / 2;
         opening = gap < MaxGap;
+        StartCoroutine(StartMove());
     }
 
     // Update is called once per frame
@@ -35,7 +36,7 @@ public class ObstacleGate : MonoBehaviour
         if (action == null && Vector3.Distance(transform.position, player.transform.position) < 100)
         {
             action = StartMove();
-            StartCoroutine(StartMove());
+            StartCoroutine(action);
         }
         else if (action != null && Vector3.Distance(transform.position, player.transform.position) > 150)
         {
@@ -47,16 +48,15 @@ public class ObstacleGate : MonoBehaviour
     {
         while (MaxGap != MinGap)
         {
-            Vector3 dist = new Vector3((opening ? MaxGap : MinGap) / 2, 0, 0);
-            float distDelta = Time.deltaTime * (opening ? OpenSpeed : CloseSpeed);
+            Vector3 dist = (opening ? MaxGap : MinGap) * transform.right;
+            float distDelta = (opening ? OpenSpeed : CloseSpeed);
 
             Vector3 leftPos = left.transform.position;
-            left.transform.position = Vector3.MoveTowards(leftPos, new Vector3(transform.position.x - leftWidth / 2, leftPos.y, leftPos.z) - dist, distDelta);
-            Vector3 rightPos = right.transform.position;
-            right.transform.position = Vector3.MoveTowards(rightPos, new Vector3(transform.position.x + rightWidth / 2, rightPos.y, rightPos.z) + dist, distDelta);
+            left.transform.Translate(distDelta * (opening ? Vector3.left : Vector3.right) * Time.deltaTime);
+            right.transform.Translate(distDelta * (opening ? Vector3.right : Vector3.left) * Time.deltaTime);
 
-            float gap = (right.transform.position.x - rightWidth / 2) - (left.transform.position.x + leftWidth / 2);
-            Debug.Log(gap);
+            float gap = Vector3.Distance(left.transform.position, right.transform.position) - leftWidth / 2 - rightWidth / 2;
+
             if (gap >= MaxGap) opening = false;
             else if (gap <= MinGap) opening = true;
 
