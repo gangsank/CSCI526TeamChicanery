@@ -48,6 +48,9 @@ public class FirstPersonController : MonoBehaviour
 	[Tooltip("How far in degrees can you move the camera down")]
 	public float BottomClamp = -90.0f;
 
+	public delegate void TriggerAction(Collider other);
+	public TriggerAction triggerEnter;
+
 	// cinemachine
 	private float _cinemachineTargetPitch;
 
@@ -152,6 +155,11 @@ public class FirstPersonController : MonoBehaviour
             Vector3.forward * ForwardSpeed * Time.deltaTime + 
 			inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 	}
+
+    private void OnTriggerEnter(Collider other)
+    {
+		triggerEnter?.Invoke(other);
+    }
 
     private void ReverseGravity()
 	{

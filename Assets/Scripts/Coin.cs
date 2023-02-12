@@ -14,6 +14,5 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(transform.parent.gameObject);
     }
 }
