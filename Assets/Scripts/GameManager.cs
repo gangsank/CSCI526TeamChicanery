@@ -1,24 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public int numCoins;
+    public int hp = 4;
 
-    public GameObject player;
+    [SerializeField] private GameObject player;
+    [SerializeField] private Slider healthBar;
+
+    private bool playerInvincible = false;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag(Config.Tag.Player);
         player.GetComponent<FirstPersonController>().triggerEnter += HandleCoinCollect;
+        healthBar.value = hp;
+        healthBar.maxValue = hp;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    private void LateUpdate()
+    {
+        CharacterController controller = player.GetComponent<CharacterController>();
+        if (controller.velocity.z <= 3 && !playerInvincible)
+        {
+            StartCoroutine(DamagePlayer());
+        }
     }
 
     private void HandleCoinCollect(Collider other) {
@@ -27,5 +42,16 @@ public class GameManager : MonoBehaviour
             Destroy(other.gameObject);
             numCoins += 1;
         }
+    }
+
+    private IEnumerator DamagePlayer()
+    {
+        playerInvincible = true;
+        player.GetComponent<CharacterController>().Move(-20 * player.transform.forward);
+        player.GetComponent<FirstPersonController>().ForwardSpeed = 5;
+        hp -= 1;
+        healthBar.value = hp;
+        yield return new WaitForSeconds(2);
+        playerInvincible = false;
     }
 }
