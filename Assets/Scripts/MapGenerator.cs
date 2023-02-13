@@ -13,6 +13,7 @@ public class MapGenerator : MonoBehaviour
     private GameObject preLeftWall;
     private GameObject preTopWall;
     private GameObject preRightWall;
+    
 
     // Start is called before the first frame update
     void Start()
