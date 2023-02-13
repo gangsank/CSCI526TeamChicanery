@@ -12,14 +12,13 @@ GameObject:
   - component: {fileID: 8474342378807244631}
   - component: {fileID: 8474342378807244630}
   - component: {fileID: 8474342378807244625}
-  - component: {fileID: 8474342378807244629}
   m_Layer: 0
   m_Name: PlayerAttackManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8474342378807244628
 Transform:
   m_ObjectHideFlags: 0
@@ -75,19 +74,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 2, z: 1}
   m_Center: {x: 0, y: 1.2, z: 1.2}
---- !u!114 &8474342378807244629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8474342378807244624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e926a8ce9cac2450ea9059cc422fb87d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attacking: 0
 --- !u!1 &8474342378829983492
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Config : MonoBehaviour
+public class Config
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Tag
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public static string Respawn = "Respawn";
+        public static string Finish = "Finish";
+        public static string EditorOnly = "EditorOnly";
+        public static string MainCamera = "MainCamera";
+        public static string Player = "Player";
+        public static string GameController = "GameController";
+        public static string CinemachineTarget = "CinemachineTarget";
+        public static string World = "World";
+        public static string Obstacle = "Obstacle";
+        public static string Item = "Item";
+        public static string Reset = "Reset";
     }
 }
