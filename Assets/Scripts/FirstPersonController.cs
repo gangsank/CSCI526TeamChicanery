@@ -7,14 +7,13 @@ using UnityEngine.InputSystem;
 public class FirstPersonController : MonoBehaviour
 {
 	[Header("Player")]
+	public float MaxSpeed = 20f;
+	public float SpeedIncreaseRate = 5f;
+	public float SpeedIncreaseInterval = 5f;
 
 	public float ForwardSpeed = 5.0f;
 	[Tooltip("Move speed of the character in m/s")]
-	public float MoveSpeed = 4.0f;
-	[Tooltip("Sprint speed of the character in m/s")]
-	public float SprintSpeed = 6.0f;
-	[Tooltip("Rotation speed of the character")]
-	public float RotationSpeed = 1.0f;
+	public float CrossSpeed = 4.0f;
 	[Tooltip("Acceleration and deceleration")]
 	public float SpeedChangeRate = 10.0f;
 
@@ -48,6 +47,9 @@ public class FirstPersonController : MonoBehaviour
 	public float TopClamp = 90.0f;
 	[Tooltip("How far in degrees can you move the camera down")]
 	public float BottomClamp = -90.0f;
+
+	public delegate void TriggerAction(Collider other);
+	public TriggerAction triggerEnter;
 
 	// cinemachine
 	private float _cinemachineTargetPitch;
@@ -98,7 +100,10 @@ public class FirstPersonController : MonoBehaviour
 		// reset our timeouts on start
 		_jumpTimeoutDelta = JumpTimeout;
 		_fallTimeoutDelta = FallTimeout;
-	}
+
+		SpeedUp();
+
+    }
 
 	private void Update()
 	{
@@ -122,12 +127,13 @@ public class FirstPersonController : MonoBehaviour
 
 	private void CameraRotation()
 	{
-	}
+		CinemachineCameraTarget.transform.eulerAngles = new Vector3(0, 0, 0);
+    }
 
 	private void Move()
 	{
 		// set target speed based on move speed, sprint speed and if sprint is pressed
-		float targetSpeed = MoveSpeed;
+		float targetSpeed = CrossSpeed;
 
 		float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, 0).magnitude;
 		// accelerate or decelerate to target speed
@@ -151,9 +157,14 @@ public class FirstPersonController : MonoBehaviour
 			inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 	}
 
+    private void OnTriggerEnter(Collider other)
+    {
+		triggerEnter?.Invoke(other);
+    }
+
     private void ReverseGravity()
 	{
-		if (_input.primaryAction)
+		if (_input.primaryAction && Physics.Raycast(transform.position, transform.up, 50, GroundLayers))
 		{
             gravityDirection = -gravityDirection;
 			_verticalVelocity = 0;
@@ -191,10 +202,11 @@ public class FirstPersonController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.transform.up == Vector3.down * gravityDirection)
-		{
-			CancelJump();
-        }	
+  //      if (hit.gameObject.transform.up == Vector3.down * gravityDirection)
+		//{
+		//	Debug.Log("Cancel Jump");
+		//	CancelJump();
+  //      }	
     }
 
     private void JumpAndGravity()
@@ -224,7 +236,7 @@ public class FirstPersonController : MonoBehaviour
 		{
 			_verticalVelocity += Time.deltaTime * Gravity * gravityDirection * -0.5f;
         }
-        else if (Mathf.Abs(_verticalVelocity) < _terminalVelocity)
+        else if (_verticalVelocity < _terminalVelocity)
 		{
 			_verticalVelocity += Gravity * Time.deltaTime * gravityDirection;
 		}
@@ -237,4 +249,23 @@ public class FirstPersonController : MonoBehaviour
 		return Mathf.Clamp(lfAngle, lfMin, lfMax);
 	}
 
+	public void SpeedUp()
+	{
+		StopCoroutine("SpeedUpAction");
+		StartCoroutine("SpeedUpAction");
+    }
+
+    public IEnumerator SpeedUpAction()
+    {
+		while (true)
+		{
+			if (ForwardSpeed < MaxSpeed)
+			{
+                ForwardSpeed += SpeedIncreaseRate;
+                CrossSpeed += SpeedIncreaseRate;
+            }
+
+            yield return new WaitForSeconds(SpeedIncreaseInterval);
+		}
+    }
 }

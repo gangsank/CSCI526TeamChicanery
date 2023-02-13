@@ -5,10 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class WorldController : MonoBehaviour
 {
+    public bool ColorMatch = true; 
     public GameObject environment;
     public LayerMask platform;
     public bool isRotating = false;
-    public float rotationDuration = 1f;
+    public float rotationDuration = 0.5f;
+    private GameObject currentGround;
 
     private GameObject player;
 
@@ -20,37 +22,67 @@ public class WorldController : MonoBehaviour
         {
             environment = GameObject.FindWithTag("World");
         }
+
     }
 
     private void Update()
     {
-        // slope slide won't trigger OnControllerColliderHit
+        RaycastHit hit;
+        if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 40, platform))
+        {
+            player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
+        }
+
+        if (!isRotating && Physics.Raycast(player.transform.position, -player.transform.up, out hit, platform))
+        {
+            currentGround = hit.transform.gameObject;
+        }
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        var values = AllowRotate(hit);
+
+        if (values != null)
+        {
+            isRotating = true;
+            player.GetComponent<FirstPersonController>().enabled = false;
+            player.GetComponent<CharacterController>().enabled = false;
+            player.GetComponent<TrailRenderer>().emitting = false;
+
+            StartCoroutine(RotateWorld(values.Value.axis, values.Value.angle, hit.gameObject, hit.gameObject.transform.InverseTransformPoint(hit.point)));
+        }
+    }
+
+    private (Vector3 axis, float angle)? AllowRotate(ControllerColliderHit hit)
+    {
         int layer = 1 << hit.gameObject.layer;
         bool hitUnderGround = hit.gameObject.transform.up.y >= 0.95;
 
-        if ((layer & platform) > 0 && !hitUnderGround && !isRotating)
+        bool hitGround = (layer & platform) > 0;
+        Debug.Log(currentGround);
+        bool colorMatched = ColorMatch ? currentGround.GetComponent<MeshRenderer>().material.color == hit.gameObject.GetComponent<MeshRenderer>().material.color : true;
+
+        if (colorMatched && hitGround && !hitUnderGround && !isRotating)
         {
             Vector3 axis = Vector3.Cross(hit.gameObject.transform.up, Vector3.up).normalized;
             float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<FirstPersonController>().gravityDirection;
             if (axis != Vector3.zero)
             {
-                isRotating = true;
-                player.GetComponent<FirstPersonController>().enabled = false;
-                player.GetComponent<CharacterController>().enabled = false;
-                player.GetComponent<TrailRenderer>().emitting = false;
 
-                StartCoroutine(RotateWorld(axis, angle, hit.gameObject, hit.gameObject.transform.InverseTransformPoint(hit.point)));
+                return (axis, angle < 0 ? -180 - angle : angle);
             }
         }
-        
+        return null;
     }
 
     private IEnumerator RotateWorld(Vector3 axis, float angle, GameObject wall, Vector3 local)
     {
+        if (axis == Vector3.right)
+        {
+            Destroy(currentGround.transform.parent);
+        }
+
         for (float t = 0; t < rotationDuration; t += Time.deltaTime)
         {
             environment.transform.Rotate(axis, angle * Time.deltaTime / rotationDuration, Space.World);
@@ -67,10 +99,12 @@ public class WorldController : MonoBehaviour
         player.transform.position = wall.transform.TransformPoint(local);
         player.GetComponent<FirstPersonController>().CancelJump();
 
-        isRotating = false;
         player.GetComponent<FirstPersonController>().enabled = true;
         player.GetComponent<CharacterController>().enabled = true;
         player.GetComponent<TrailRenderer>().emitting = true;
+
+        yield return new WaitForSeconds(0.3f);
+        isRotating = false;
     }
 
 }
