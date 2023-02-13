@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 4148081863482319882}
   - component: {fileID: 4148081863482319881}
   - component: {fileID: 4148081863482319880}
-  - component: {fileID: 4148081863482319887}
   - component: {fileID: 4148081863482319883}
+  - component: {fileID: 1497239681803528642}
+  - component: {fileID: 6491367393699253245}
+  - component: {fileID: 6416131657898972645}
   m_Layer: 0
   m_Name: Wall 2
   m_TagString: Untagged
@@ -1166,7 +1168,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 23
+  m_VersionIndex: 26
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1178,20 +1180,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4148081864431609193}
-  m_Mesh: {fileID: 0}
---- !u!64 &4148081863482319887
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4148081864431609193}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!114 &4148081863482319883
 MonoBehaviour:
@@ -1207,3 +1195,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   respawn: 0
+--- !u!65 &1497239681803528642
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4148081864431609193}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8.045888, y: 10.069391, z: 0.31167603}
+  m_Center: {x: -1.0117515, y: 0, z: 0}
+--- !u!65 &6491367393699253245
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4148081864431609193}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10.069391, y: 7.200206, z: 0.31167603}
+  m_Center: {x: 0, y: 1.4345927, z: 0}
+--- !u!65 &6416131657898972645
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4148081864431609193}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10.069391, y: 1.9795961, z: 0.31167603}
+  m_Center: {x: 0, y: -4.0448976, z: 0}

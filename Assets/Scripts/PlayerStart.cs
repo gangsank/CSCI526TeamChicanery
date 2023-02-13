@@ -8,7 +8,7 @@ public class PlayerStart : MonoBehaviour
     public static int currentHealth;
     void Start()
     {
-        currentHealth = 4;
+        currentHealth = 1;
     }
 
     // Update is called once per frame
