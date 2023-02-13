@@ -105,7 +105,7 @@ public class WorldController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(Config.Tag.Reset))
+        if (other.CompareTag(Config.Tag.Reset) && !shouldReset)
         {
             shouldReset = true;
             RaycastHit hit;
@@ -116,6 +116,7 @@ public class WorldController : MonoBehaviour
                 Vector3 axis = Vector3.Cross(hit.transform.up, Vector3.up).normalized;
                 float angle = environment.transform.eulerAngles.z;
                 player.GetComponent<FirstPersonController>().gravityDirection = 1;
+                Debug.Log("Reset rotate");
                 StartCoroutine(RotateWorld(axis, angle, hit.transform.gameObject, hit.transform.InverseTransformPoint(hit.point)));
             }
         }
