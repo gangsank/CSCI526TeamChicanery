@@ -3643,7 +3643,8 @@ MonoBehaviour:
   numCoins: 0
   hp: 4
   player: {fileID: 0}
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 1570108582}
+  coinsText: {fileID: 0}
 --- !u!4 &1613958381
 Transform:
   m_ObjectHideFlags: 0
@@ -4744,6 +4745,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 574433620, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
+      propertyPath: ColorMatch
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 574433620, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
       propertyPath: environment
       value: 

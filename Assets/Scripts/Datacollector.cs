@@ -25,10 +25,8 @@ public class Datacollector : MonoBehaviour
     {
         if(hit.collider.tag != "Floor&Wall")
         {
-            Debug.Log(hit.collider.name);
             collisionName = hit.collider.name;
             collisionPoint = hit.point.ToString();
-            Debug.Log(hit.point);
             if(collisionName != prevCollisionName)
             {
                 PostToDatabase();

@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class WorldController : MonoBehaviour
 {
+    public bool ColorMatch = true; 
     public GameObject environment;
     public LayerMask platform;
     public bool isRotating = false;
@@ -59,7 +60,8 @@ public class WorldController : MonoBehaviour
         bool hitUnderGround = hit.gameObject.transform.up.y >= 0.95;
 
         bool hitGround = (layer & platform) > 0;
-        bool colorMatched = currentGround.GetComponent<MeshRenderer>().material.color == hit.gameObject.GetComponent<MeshRenderer>().material.color;
+        Debug.Log(currentGround);
+        bool colorMatched = ColorMatch ? currentGround.GetComponent<MeshRenderer>().material.color == hit.gameObject.GetComponent<MeshRenderer>().material.color : true;
 
         if (colorMatched && hitGround && !hitUnderGround && !isRotating)
         {
