@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public int numCoins;
+    public int numCoins = 0;
     public int hp = 4;
 
     [SerializeField] private GameObject player;
     [SerializeField] private Slider healthBar;
+    [SerializeField] private TextMeshProUGUI coinsText;
 
     private bool playerInvincible = false;
 
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(other.gameObject);
             numCoins += 1;
+            coinsText.text = $"{numCoins}";
         }
     }
 

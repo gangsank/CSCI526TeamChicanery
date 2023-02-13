@@ -32,7 +32,7 @@ public class WorldController : MonoBehaviour
             player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
         }
 
-        if (!isRotating && Physics.Raycast(player.transform.position, -player.transform.up, out hit, a, platform))
+        if (!isRotating && Physics.Raycast(player.transform.position, -player.transform.up, out hit, platform))
         {
             currentGround = hit.transform.gameObject;
         }
