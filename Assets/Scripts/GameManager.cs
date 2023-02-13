@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -75,11 +76,17 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         gameoverMenu?.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
 
 
     private void DisableInvincible()
     {
         playerInvincible = false;
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
