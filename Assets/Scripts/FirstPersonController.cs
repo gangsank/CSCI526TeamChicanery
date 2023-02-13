@@ -164,16 +164,20 @@ public class FirstPersonController : MonoBehaviour
 
     private void ReverseGravity()
 	{
-		if (_input.primaryAction && Physics.Raycast(transform.position, transform.up, 50, GroundLayers))
+		if (_input.primaryAction)
 		{
-            gravityDirection = -gravityDirection;
-			_verticalVelocity = 0;
 			_input.primaryAction = false;
+			if (Physics.Raycast(transform.position, transform.up, 50, GroundLayers))
+			{
+                gravityDirection = -gravityDirection;
+                _verticalVelocity = 0;
+                _input.primaryAction = false;
 
-			if (reverseAction != null)
-				StopCoroutine(reverseAction);
-			reverseAction = ReverseCharacterAction(gravityDirection == 1 ? 0 : 180);
-            StartCoroutine(reverseAction);
+                if (reverseAction != null)
+                    StopCoroutine(reverseAction);
+                reverseAction = ReverseCharacterAction(gravityDirection == 1 ? 0 : 180);
+                StartCoroutine(reverseAction);
+            }
 		}
 	}
 

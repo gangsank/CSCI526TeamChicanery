@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class WorldController : MonoBehaviour
 {
-    public bool ColorMatch = true; 
+    public bool ColorMatch = true;
     public GameObject environment;
     public LayerMask platform;
     public bool isRotating = false;
@@ -13,6 +13,7 @@ public class WorldController : MonoBehaviour
     private GameObject currentGround;
 
     private GameObject player;
+    private bool shouldReset = false;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +34,7 @@ public class WorldController : MonoBehaviour
             player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
         }
 
-        if (!isRotating && Physics.Raycast(player.transform.position, -player.transform.up, out hit, platform))
+        if (!isRotating && Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 5, platform))
         {
             currentGround = hit.transform.gameObject;
         }
@@ -45,11 +46,6 @@ public class WorldController : MonoBehaviour
 
         if (values != null)
         {
-            isRotating = true;
-            player.GetComponent<FirstPersonController>().enabled = false;
-            player.GetComponent<CharacterController>().enabled = false;
-            player.GetComponent<TrailRenderer>().emitting = false;
-
             StartCoroutine(RotateWorld(values.Value.axis, values.Value.angle, hit.gameObject, hit.gameObject.transform.InverseTransformPoint(hit.point)));
         }
     }
@@ -60,10 +56,9 @@ public class WorldController : MonoBehaviour
         bool hitUnderGround = hit.gameObject.transform.up.y >= 0.95;
 
         bool hitGround = (layer & platform) > 0;
-        Debug.Log(currentGround);
         bool colorMatched = ColorMatch ? currentGround.GetComponent<MeshRenderer>().material.color == hit.gameObject.GetComponent<MeshRenderer>().material.color : true;
 
-        if (colorMatched && hitGround && !hitUnderGround && !isRotating)
+        if (!shouldReset && colorMatched && hitGround && !hitUnderGround && !isRotating)
         {
             Vector3 axis = Vector3.Cross(hit.gameObject.transform.up, Vector3.up).normalized;
             float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<FirstPersonController>().gravityDirection;
@@ -78,10 +73,10 @@ public class WorldController : MonoBehaviour
 
     private IEnumerator RotateWorld(Vector3 axis, float angle, GameObject wall, Vector3 local)
     {
-        if (axis == Vector3.right)
-        {
-            Destroy(currentGround.transform.parent);
-        }
+        isRotating = true;
+        player.GetComponent<FirstPersonController>().enabled = false;
+        player.GetComponent<CharacterController>().enabled = false;
+        player.GetComponent<TrailRenderer>().emitting = false;
 
         for (float t = 0; t < rotationDuration; t += Time.deltaTime)
         {
@@ -107,4 +102,29 @@ public class WorldController : MonoBehaviour
         isRotating = false;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(Config.Tag.Reset))
+        {
+            shouldReset = true;
+            RaycastHit hit;
+            if (
+                environment.transform.eulerAngles.z != 0 &&
+                Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 5, platform))
+            {
+                Vector3 axis = Vector3.Cross(hit.transform.up, Vector3.up).normalized;
+                float angle = environment.transform.eulerAngles.z;
+                player.GetComponent<FirstPersonController>().gravityDirection = 1;
+                StartCoroutine(RotateWorld(axis, angle, hit.transform.gameObject, hit.transform.InverseTransformPoint(hit.point)));
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(Config.Tag.Reset))
+        {
+            shouldReset = false;
+        }
+    }
 }

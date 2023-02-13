@@ -12,5 +12,6 @@ public class Config
         public static string World = "World";
         public static string Obstacle = "Obstacle";
         public static string Item = "Item";
+        public static string Reset = "Reset";
     }
 }
