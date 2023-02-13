@@ -25,9 +25,9 @@ public class GameManager : MonoBehaviour
         player.GetComponent<FirstPersonController>().triggerEnter += HandleCoinCollect;
         healthBar.value = hp;
         healthBar.maxValue = hp;
-        gameoverMenu?.SetActive(false);
-
-        end.GetComponent<End>().triggerEnter += GameOver;
+        
+        if (gameoverMenu != null) gameoverMenu?.SetActive(false);
+        if (end != null) end.GetComponent<End>().triggerEnter += GameOver;
         Invoke("DisableInvincible", 1);
     }
 
