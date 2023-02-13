@@ -8,7 +8,7 @@ public class WorldController : MonoBehaviour
     public GameObject environment;
     public LayerMask platform;
     public bool isRotating = false;
-    public float rotationDuration = 1f;
+    public float rotationDuration = 0.5f;
     private GameObject currentGround;
 
     private GameObject player;
@@ -27,12 +27,12 @@ public class WorldController : MonoBehaviour
     private void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 20, platform))
+        if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 40, platform))
         {
             player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
         }
 
-        if (!isRotating && Physics.Raycast(player.transform.position, -player.transform.up, out hit, 5, platform))
+        if (!isRotating && Physics.Raycast(player.transform.position, -player.transform.up, out hit, a, platform))
         {
             currentGround = hit.transform.gameObject;
         }
@@ -97,10 +97,12 @@ public class WorldController : MonoBehaviour
         player.transform.position = wall.transform.TransformPoint(local);
         player.GetComponent<FirstPersonController>().CancelJump();
 
-        isRotating = false;
         player.GetComponent<FirstPersonController>().enabled = true;
         player.GetComponent<CharacterController>().enabled = true;
         player.GetComponent<TrailRenderer>().emitting = true;
+
+        yield return new WaitForSeconds(0.3f);
+        isRotating = false;
     }
 
 }
