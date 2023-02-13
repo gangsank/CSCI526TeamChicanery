@@ -30,8 +30,6 @@ public class FirstPersonController : MonoBehaviour
 	[Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
 	public float FallTimeout = 0.15f;
 
-	public bool rotating = false;
-
 	[Header("Player Grounded")]
 	[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
 	public bool Grounded = true;
@@ -104,7 +102,6 @@ public class FirstPersonController : MonoBehaviour
 		JumpAndGravity();
 		GroundedCheck();
 		Move();
-		Rotate();
 	}
 
 	private void LateUpdate()
@@ -129,14 +126,6 @@ public class FirstPersonController : MonoBehaviour
 				0.2f
 			);
 		}
-		else if (rotating)
-		{
-            CinemachineCameraTarget.transform.rotation = Quaternion.RotateTowards(
-                CinemachineCameraTarget.transform.rotation,
-                Quaternion.Euler(-15f, 0.0f, 0.0f),
-                0.2f
-            );
-        }
 		else
 		{
             CinemachineCameraTarget.transform.rotation = Quaternion.RotateTowards(
@@ -235,30 +224,4 @@ public class FirstPersonController : MonoBehaviour
 		if (lfAngle > 360f) lfAngle -= 360f;
 		return Mathf.Clamp(lfAngle, lfMin, lfMax);
 	}
-
-    private void Rotate()
-    {
-        if (_input.rotate && !rotating && Grounded)
-        {
-            rotating = true;
-            StartCoroutine(RotateGenerator());
-        }
-    }
-
-    private IEnumerator RotateGenerator()
-    {
-        float curTime = 0;
-        float accAngle = 0;
-
-        while (curTime < 1)
-        {
-            curTime += Time.deltaTime;
-            float curAngle = Mathf.Min(90 * curTime / 1f, 90f);
-            transform.Rotate(Vector3.forward, curAngle - accAngle);
-            accAngle = curAngle;
-            yield return null;
-        }
-
-        rotating = false;
-    }
 }
