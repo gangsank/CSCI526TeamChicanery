@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
+  - World
+  - Obstacle
+  - Item
+  - Floor&Wall
+  - Reset
   layers:
   - Default
   - TransparentFX

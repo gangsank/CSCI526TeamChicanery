@@ -792,7 +792,19 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: STARTER_ASSETS_PACKAGES_CHECKED
+    Android: PROBUILDER_EXPERIMENTAL_FEATURES
+    EmbeddedLinux: PROBUILDER_EXPERIMENTAL_FEATURES
+    GameCoreXboxOne: PROBUILDER_EXPERIMENTAL_FEATURES
+    Lumin: PROBUILDER_EXPERIMENTAL_FEATURES
+    Nintendo Switch: PROBUILDER_EXPERIMENTAL_FEATURES
+    PS4: PROBUILDER_EXPERIMENTAL_FEATURES
+    PS5: PROBUILDER_EXPERIMENTAL_FEATURES
+    Stadia: PROBUILDER_EXPERIMENTAL_FEATURES
+    Standalone: STARTER_ASSETS_PACKAGES_CHECKED;PROBUILDER_EXPERIMENTAL_FEATURES
+    WebGL: PROBUILDER_EXPERIMENTAL_FEATURES
+    Windows Store Apps: PROBUILDER_EXPERIMENTAL_FEATURES
+    XboxOne: PROBUILDER_EXPERIMENTAL_FEATURES
+    tvOS: PROBUILDER_EXPERIMENTAL_FEATURES
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -803,7 +815,7 @@ PlayerSettings:
   allowUnsafeCode: 0
   useDeterministicCompilation: 1
   enableRoslynAnalyzers: 1
-  selectedPlatform: 2
+  selectedPlatform: 0
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 0
@@ -882,7 +894,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: 
   framebufferDepthMemorylessMode: 0
