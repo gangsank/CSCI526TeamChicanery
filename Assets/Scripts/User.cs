@@ -9,13 +9,14 @@ public class User
     public string userCollision;
     public string userCollisionPoint;
     public int userId;
+    public int numCoins;
+    public int endHp;
+    //public User()
+    //{
+    //    userCollision = Datacollector.collisionName;
+    //    userCollisionPoint = Datacollector.collisionPoint;
+    //    userId = Datacollector.playerId;
 
-    public User()
-    {
-        userCollision = Datacollector.collisionName;
-        userCollisionPoint = Datacollector.collisionPoint;
-        userId = Datacollector.playerId;
-
-    }
+    //}
     
 }

@@ -8,9 +8,9 @@ public class Datacollector : MonoBehaviour
 {
     
 
-    public static string collisionName;
+    public string collisionName;
     private string prevCollisionName;
-    public static string collisionPoint;
+    public string collisionPoint;
     public static int playerId;
     private System.Random random = new System.Random();
     // Start is called before the first frame update
@@ -42,8 +42,14 @@ public class Datacollector : MonoBehaviour
 
     private void PostToDatabase()
     {
-        User user = new User();
-        RestClient.Post("https://rotatetest-d8bfc-default-rtdb.firebaseio.com/.json", user);
+        //User user = new User();
+        //RestClient.Post("https://rotatetest-d8bfc-default-rtdb.firebaseio.com/.json", user);
+        RestClient.Post<User>("https://rotatetest-d8bfc-default-rtdb.firebaseio.com/.json", new User
+        {
+            userCollision = collisionName,
+            userCollisionPoint = collisionPoint,
+            userId = playerId
+        });
 
     }
 

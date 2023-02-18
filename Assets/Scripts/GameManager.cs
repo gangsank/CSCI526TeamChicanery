@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Proyecto26;
 
 public class GameManager : MonoBehaviour
 {
@@ -78,10 +79,24 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         Time.timeScale = 0;
+        if(hp > -1)
+        {
+            SendData();
+        }
         gameoverMenu?.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
     }
 
+    private void SendData()
+    {
+        RestClient.Post<User>("https://rotatetest-d8bfc-default-rtdb.firebaseio.com/.json", new User
+        {
+
+            userId = Datacollector.playerId,
+            numCoins = this.numCoins,
+            endHp = this.hp
+        });
+    }
 
     private void DisableInvincible()
     {
