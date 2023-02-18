@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public int numCoins = 0;
     public int hp = 4;
+    public int initialPlayerSpeed = 5;
 
     [SerializeField] private GameObject player;
     [SerializeField] private Slider healthBar;
@@ -57,7 +58,9 @@ public class GameManager : MonoBehaviour
     {
         playerInvincible = true;
         player.GetComponent<CharacterController>().Move(-20 * player.transform.forward);
-        player.GetComponent<FirstPersonController>().ForwardSpeed = 5;
+        player.GetComponent<FirstPersonController>().ForwardSpeed = initialPlayerSpeed;
+        player.GetComponent<FirstPersonController>().CrossSpeed = initialPlayerSpeed;
+        player.GetComponent<FirstPersonController>().SpeedUp();
         hp -= 1;
         healthBar.value = hp;
         if (hp <= 0)
