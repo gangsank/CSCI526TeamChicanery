@@ -3322,5 +3322,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa95bc56a1ae4503971528d57f75829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: Use A and W to avoid obstacles
+  message: Use A and D to avoid obstacles
   gui: {fileID: 888080900}

@@ -5,11 +5,11 @@ using TMPro;
 
 public class Tutorial : MonoBehaviour
 {
-    public string message;
+    [TextArea] public string message;
     [SerializeField] private TextMeshProUGUI gui;
     private float fadeInTime = 1f;
     private float fadeOutTime = 2f;
-    private float displayTime = 9f;
+    private float displayTime = 7f;
     private bool isShown = false;
 
     private void Start()
@@ -17,7 +17,7 @@ public class Tutorial : MonoBehaviour
         gui.CrossFadeAlpha(0, 0, true);
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (!isShown && other.CompareTag(Config.Tag.Player))
         {
