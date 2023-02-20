@@ -30,9 +30,9 @@ public class Weapon : MonoBehaviour
        
     }
 
-    // void TakeDamage(int damage) {
-    //     currentHealth -= damage;
-    // }
+    void TakeDamage(int damage) {
+        PlayerStart.currentHealth -= damage;
+    }
 
 
 }

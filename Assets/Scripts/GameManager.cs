@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public int numCoins = 0;
     public int hp = 4;
+    public int respawn;
 
     [SerializeField] private GameObject player;
     [SerializeField] private Slider healthBar;
@@ -73,8 +75,9 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
+        SceneManager.LoadScene(respawn);
         Time.timeScale = 0;
-        gameoverMenu?.SetActive(true);
+        //gameoverMenu?.SetActive(true);
     }
 
 
