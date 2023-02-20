@@ -65,7 +65,6 @@ public class WorldController : MonoBehaviour
             float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<FirstPersonController>().gravityDirection;
             if (axis != Vector3.zero)
             {
-
                 return (axis, angle < 0 ? -180 - angle : angle);
             }
         }
@@ -78,6 +77,7 @@ public class WorldController : MonoBehaviour
         player.GetComponent<FirstPersonController>().enabled = false;
         player.GetComponent<CharacterController>().enabled = false;
         player.GetComponent<TrailRenderer>().emitting = false;
+        float finalEulerZ = environment.transform.eulerAngles.z + axis.z * angle;
 
         for (float t = 0; t < rotationDuration; t += Time.deltaTime)
         {
@@ -86,11 +86,7 @@ public class WorldController : MonoBehaviour
             yield return null;
         }
 
-        environment.transform.eulerAngles = new Vector3(
-            Mathf.Round(environment.transform.eulerAngles.x / angle) * angle,
-            Mathf.Round(environment.transform.eulerAngles.y / angle) * angle,
-            Mathf.Round(environment.transform.eulerAngles.z / angle) * angle
-        );
+        environment.transform.eulerAngles = new Vector3(0, 0, finalEulerZ);
 
         player.transform.position = wall.transform.TransformPoint(local);
         player.GetComponent<FirstPersonController>().CancelJump();
@@ -99,7 +95,7 @@ public class WorldController : MonoBehaviour
         player.GetComponent<CharacterController>().enabled = true;
         player.GetComponent<TrailRenderer>().emitting = true;
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
         isRotating = false;
     }
 
@@ -116,7 +112,6 @@ public class WorldController : MonoBehaviour
                 Vector3 axis = Vector3.Cross(hit.transform.up, Vector3.up).normalized;
                 float angle = environment.transform.eulerAngles.z;
                 player.GetComponent<FirstPersonController>().gravityDirection = 1;
-                Debug.Log("Reset rotate");
                 StartCoroutine(RotateWorld(axis, angle, hit.transform.gameObject, hit.transform.InverseTransformPoint(hit.point)));
             }
         }
