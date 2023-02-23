@@ -62,7 +62,7 @@ public class WorldController : MonoBehaviour
         if (!shouldReset && colorMatched && hitGround && !hitUnderGround && !isRotating)
         {
             Vector3 axis = Vector3.Cross(hit.gameObject.transform.up, Vector3.up).normalized;
-            float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<FirstPersonController>().gravityDirection;
+            float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<Gravity>().direction;
             if (axis != Vector3.zero)
             {
                 return (axis, angle < 0 ? -180 - angle : angle);
@@ -111,7 +111,7 @@ public class WorldController : MonoBehaviour
             {
                 Vector3 axis = Vector3.Cross(hit.transform.up, Vector3.up).normalized;
                 float angle = environment.transform.eulerAngles.z;
-                player.GetComponent<FirstPersonController>().gravityDirection = 1;
+                //player.GetComponent<FirstPersonController>().gravityDirection = 1;
                 StartCoroutine(RotateWorld(axis, angle, hit.transform.gameObject, hit.transform.InverseTransformPoint(hit.point)));
             }
         }

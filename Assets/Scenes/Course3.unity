@@ -2431,7 +2431,7 @@ PrefabInstance:
     - target: {fileID: 453084650579209845, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_Height
-      value: 1.58
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6556307555316582679, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
@@ -2523,6 +2523,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9fe93fac73ce4588b790cb5a72706b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionName: 
+  collisionPoint: 
 --- !u!1001 &2019651019
 PrefabInstance:
   m_ObjectHideFlags: 0

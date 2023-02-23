@@ -2461,6 +2461,11 @@ PrefabInstance:
       propertyPath: Gravity
       value: -19.6
       objectReference: {fileID: 0}
+    - target: {fileID: 4994807506001262483, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: force
+      value: -19.6
+      objectReference: {fileID: 0}
     - target: {fileID: 5242107653240477475, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -2566,6 +2571,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9fe93fac73ce4588b790cb5a72706b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionName: 
+  collisionPoint: 
 --- !u!1001 &2039874421
 PrefabInstance:
   m_ObjectHideFlags: 0
