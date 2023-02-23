@@ -159,15 +159,6 @@ public class FirstPersonController : MonoBehaviour
         _gravity.velocity = -2f;
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-  //      if (hit.gameObject.transform.up == Vector3.down * gravityDirection)
-		//{
-		//	Debug.Log("Cancel Jump");
-		//	CancelJump();
-  //      }	
-    }
-
     private void JumpAndGravity()
 	{
 		if (_gravity.Grounded) // jump 
@@ -192,8 +183,12 @@ public class FirstPersonController : MonoBehaviour
 		// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 		if (_input.jump)
 		{
-			_gravity.AddForce(Time.deltaTime * _gravity.force * _gravity.direction * -0.5f);
+			_gravity.AddForce(Time.deltaTime * _gravity.force * _gravity.direction * -0.3f);
 		}
+		//else
+		//{
+		//	_gravity.ApplyGravity();
+		//}
 	}
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
