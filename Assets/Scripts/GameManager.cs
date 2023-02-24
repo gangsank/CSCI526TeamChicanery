@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
         player.transform.position = lastSavepoint;
         player.GetComponent<CharacterController>().enabled = false;
         player.GetComponent<FirstPersonController>().enabled = false;
-
         
         hp -= 1;
         healthBar.value = hp;
@@ -94,7 +93,6 @@ public class GameManager : MonoBehaviour
         CharacterController controller = player.GetComponent<CharacterController>();
         if (controller.velocity.z > 3 && Time.realtimeSinceStartup - lastSaveTime >= 2 && player.GetComponent<Gravity>().Grounded)
         {
-            Debug.Log(Time.realtimeSinceStartup);
             lastSaveTime = Time.realtimeSinceStartup;
             lastSavepoint = player.transform.position;
         }
@@ -108,7 +106,10 @@ public class GameManager : MonoBehaviour
         {
             SendData();
         }
-        if (gameoverMenu != null) gameoverMenu?.SetActive(true);
+        if (gameoverMenu != null)
+            gameoverMenu?.SetActive(true);
+        else
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Cursor.lockState = CursorLockMode.None;
     }
 
