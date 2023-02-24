@@ -23,6 +23,8 @@ public class RewardPath : MonoBehaviour
             Instantiate(rewardPrefab, transform.position + transform.up + transform.forward * i, transform.rotation, transform.parent);
             Instantiate(rewardPrefab, transform.position + transform.up - transform.forward * i, transform.rotation, transform.parent);
         }
+
+        Destroy(gameObject);
     }
 
     // Update is called once per frame
