@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Slider healthBar;
     [SerializeField] private TextMeshProUGUI coinsText;
-    [SerializeField] private GameObject end;
+    [SerializeField] private GameObject goal; // use for midtern
     [SerializeField] private GameObject gameoverMenu;
 
     private float lastSaveTime;
@@ -32,9 +32,9 @@ public class GameManager : MonoBehaviour
         healthBar.maxValue = hp;
         lastSavepoint = player.transform.position;
 
-
+        if (goal == null) goal = GameObject.FindWithTag(Config.Tag.Goal);
         if (gameoverMenu != null) gameoverMenu?.SetActive(false);
-        if (end != null) end.GetComponent<End>().triggerEnter += GameOver;
+        if (goal != null) goal.GetComponent<End>().triggerEnter += GameOver;
         Invoke("DisableInvincible", 1);
     }
 

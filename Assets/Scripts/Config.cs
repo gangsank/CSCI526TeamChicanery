@@ -13,5 +13,6 @@ public class Config
         public static string Obstacle = "Obstacle";
         public static string Item = "Item";
         public static string Reset = "Reset";
+        public static string Goal = "Goal";
     }
 }
