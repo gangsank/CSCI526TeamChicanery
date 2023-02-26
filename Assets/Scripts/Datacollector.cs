@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Proyecto26;
+using System;
 
 public class Datacollector : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class Datacollector : MonoBehaviour
             collisionPoint = hit.point.ToString();
             if(collisionName != prevCollisionName)
             {
-                PostToDatabase();
+                //PostToDatabase();
             }
             prevCollisionName = collisionName;
             
@@ -53,5 +54,23 @@ public class Datacollector : MonoBehaviour
 
     }
 
+    
+}
+
+[Serializable]
+public class User
+{
+    public string userCollision;
+    public string userCollisionPoint;
+    public int userId;
+    public int numCoins;
+    public int endHp;
+    //public User()
+    //{
+    //    userCollision = Datacollector.collisionName;
+    //    userCollisionPoint = Datacollector.collisionPoint;
+    //    userId = Datacollector.playerId;
+
+    //}
     
 }

@@ -15,9 +15,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Slider healthBar;
     [SerializeField] private TextMeshProUGUI coinsText;
-    [SerializeField] private GameObject end;
+    [SerializeField] private GameObject goal; // use for midtern
     [SerializeField] private GameObject gameoverMenu;
 
+    private float lastSaveTime;
+    private Vector3 lastSavepoint;
     private bool playerInvincible = true;
 
     // Start is called before the first frame update
@@ -28,9 +30,11 @@ public class GameManager : MonoBehaviour
         player.GetComponent<FirstPersonController>().triggerEnter += HandleCoinCollect;
         healthBar.value = hp;
         healthBar.maxValue = hp;
-        
+        lastSavepoint = player.transform.position;
+
+        if (goal == null) goal = GameObject.FindWithTag(Config.Tag.Goal);
         if (gameoverMenu != null) gameoverMenu?.SetActive(false);
-        if (end != null) end.GetComponent<End>().triggerEnter += GameOver;
+        if (goal != null) goal.GetComponent<End>().triggerEnter += GameOver;
         Invoke("DisableInvincible", 1);
     }
 
@@ -38,8 +42,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Save();
         CharacterController controller = player.GetComponent<CharacterController>();
-        if (controller.velocity.z <= 3 && !playerInvincible)
+        if ((player.transform.position.y <= -20 || controller.velocity.z <= 3) && !playerInvincible)
         {
             StartCoroutine(DamagePlayer());
         }
@@ -58,10 +63,10 @@ public class GameManager : MonoBehaviour
     private IEnumerator DamagePlayer()
     {
         playerInvincible = true;
-        player.GetComponent<CharacterController>().Move(-20 * player.transform.forward);
-        player.GetComponent<FirstPersonController>().ForwardSpeed = initialPlayerSpeed;
-        player.GetComponent<FirstPersonController>().CrossSpeed = initialPlayerSpeed;
-        player.GetComponent<FirstPersonController>().SpeedUp();
+        player.transform.position = lastSavepoint;
+        player.GetComponent<CharacterController>().enabled = false;
+        player.GetComponent<FirstPersonController>().enabled = false;
+        
         hp -= 1;
         healthBar.value = hp;
         if (hp <= 0)
@@ -71,8 +76,26 @@ public class GameManager : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(2);
+            player.GetComponent<CharacterController>().enabled = true;
+            player.GetComponent<FirstPersonController>().enabled = true;
+            player.GetComponent<FirstPersonController>().ForwardSpeed = initialPlayerSpeed;
+            player.GetComponent<FirstPersonController>().CrossSpeed = initialPlayerSpeed;
+            player.GetComponent<FirstPersonController>().SpeedUp();
+            player.GetComponent<FirstPersonController>().CancelJump();
         }
+        yield return new WaitForSeconds(2);
         playerInvincible = false;
+
+    }
+
+    private void Save()
+    {
+        CharacterController controller = player.GetComponent<CharacterController>();
+        if (controller.velocity.z > 3 && Time.realtimeSinceStartup - lastSaveTime >= 2 && player.GetComponent<Gravity>().Grounded)
+        {
+            lastSaveTime = Time.realtimeSinceStartup;
+            lastSavepoint = player.transform.position;
+        }
 
     }
 
@@ -83,7 +106,10 @@ public class GameManager : MonoBehaviour
         {
             SendData();
         }
-        gameoverMenu?.SetActive(true);
+        if (gameoverMenu != null)
+            gameoverMenu?.SetActive(true);
+        else
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Cursor.lockState = CursorLockMode.None;
     }
 

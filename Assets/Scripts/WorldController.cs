@@ -28,23 +28,20 @@ public class WorldController : MonoBehaviour
     private void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 40, platform))
-        {
-            player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
-        }
+        //if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 40, platform))
+        //{
+        //    player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
+        //}
 
         if (!isRotating && Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 5, platform))
         {
             currentGround = hit.transform.gameObject;
         }
-
-        
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         var values = AllowRotate(hit);
-
         if (values != null)
         {
             StartCoroutine(RotateWorld(values.Value.axis, values.Value.angle, hit.gameObject, hit.gameObject.transform.InverseTransformPoint(hit.point)));
@@ -55,14 +52,15 @@ public class WorldController : MonoBehaviour
     {
         int layer = 1 << hit.gameObject.layer;
         bool hitUnderGround = hit.gameObject.transform.up.y >= 0.95;
-
         bool hitGround = (layer & platform) > 0;
+        if (hitUnderGround || !hitGround) return null; 
+
         bool colorMatched = ColorMatch ? currentGround.GetComponent<MeshRenderer>().material.color == hit.gameObject.GetComponent<MeshRenderer>().material.color : true;
 
-        if (!shouldReset && colorMatched && hitGround && !hitUnderGround && !isRotating)
+        if (!shouldReset && colorMatched && !isRotating)
         {
             Vector3 axis = Vector3.Cross(hit.gameObject.transform.up, Vector3.up).normalized;
-            float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<FirstPersonController>().gravityDirection;
+            float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<Gravity>().direction;
             if (axis != Vector3.zero)
             {
                 return (axis, angle < 0 ? -180 - angle : angle);
@@ -111,7 +109,7 @@ public class WorldController : MonoBehaviour
             {
                 Vector3 axis = Vector3.Cross(hit.transform.up, Vector3.up).normalized;
                 float angle = environment.transform.eulerAngles.z;
-                player.GetComponent<FirstPersonController>().gravityDirection = 1;
+                //player.GetComponent<FirstPersonController>().gravityDirection = 1;
                 StartCoroutine(RotateWorld(axis, angle, hit.transform.gameObject, hit.transform.InverseTransformPoint(hit.point)));
             }
         }

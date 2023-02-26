@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(Gravity))]
 public class FirstPersonController : MonoBehaviour
 {
 	[Header("Player")]
@@ -20,25 +21,12 @@ public class FirstPersonController : MonoBehaviour
 	[Space(10)]
 	[Tooltip("The height the player can jump")]
 	public float JumpHeight = 1.2f;
-	[Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
-	public float Gravity = -9.8f;
-	public float gravityDirection = 1;
 
 	[Space(10)]
 	[Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
 	public float JumpTimeout = 0.1f;
 	[Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
 	public float FallTimeout = 0.15f;
-
-	[Header("Player Grounded")]
-	[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-	public bool Grounded = true;
-	[Tooltip("Useful for rough ground")]
-	public float GroundedOffset = -0.14f;
-	[Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
-	public float GroundedRadius = 0.5f;
-	[Tooltip("What layers the character uses as ground")]
-	public LayerMask GroundLayers;
 
 	[Header("Cinemachine")]
 	[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
@@ -57,8 +45,8 @@ public class FirstPersonController : MonoBehaviour
 	// player
 	private float _speed;
 	private float _rotationVelocity;
-	public float _verticalVelocity;
-	private float _terminalVelocity = 53.0f;
+	//public float _verticalVelocity;
+	//private float _terminalVelocity = 53.0f;
 
 	// timeout deltatime
 	private float _jumpTimeoutDelta;
@@ -66,13 +54,12 @@ public class FirstPersonController : MonoBehaviour
 
 
 	private PlayerInput _playerInput;
-	private CharacterController _controller;
+	private Gravity _gravity;
+    private CharacterController _controller;
 	private StarterAssetsInputs _input;
 	private GameObject _mainCamera;
 
-	private const float _threshold = 0.01f;
-
-	private IEnumerator reverseAction;
+    private const float _threshold = 0.01f;
 
 	private bool IsCurrentDeviceMouse
 	{
@@ -96,6 +83,7 @@ public class FirstPersonController : MonoBehaviour
 		_controller = GetComponent<CharacterController>();
 		_input = GetComponent<StarterAssetsInputs>();
 		_playerInput = GetComponent<PlayerInput>();
+		_gravity = GetComponent<Gravity>();
 
 		// reset our timeouts on start
 		_jumpTimeoutDelta = JumpTimeout;
@@ -107,23 +95,16 @@ public class FirstPersonController : MonoBehaviour
 
 	private void Update()
 	{
-		ReverseGravity();
+        ReverseGravity();
         JumpAndGravity();
-		GroundedCheck();
-		Move();
+        Move();
 	}
 
 	private void LateUpdate()
 	{
-		CameraRotation();
+		//CameraRotation();
 	}
 
-	private void GroundedCheck()
-	{
-		// set sphere position, with offset
-		Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y + GroundedOffset, transform.position.z);
-		Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
-	}
 
 	private void CameraRotation()
 	{
@@ -149,12 +130,12 @@ public class FirstPersonController : MonoBehaviour
 		}
 
 		// normalise input direction
-		Vector3 inputDirection = transform.right * _input.move.x * gravityDirection;
+		Vector3 inputDirection = transform.right * _input.move.x;
 
 		// move the player
 		_controller.Move(
             Vector3.forward * ForwardSpeed * Time.deltaTime + 
-			inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _gravity.velocity, 0.0f) * Time.deltaTime);
 	}
 
     private void OnTriggerEnter(Collider other)
@@ -164,65 +145,29 @@ public class FirstPersonController : MonoBehaviour
 
     private void ReverseGravity()
 	{
-		if (_input.primaryAction)
-		{
-			_input.primaryAction = false;
-			if (Physics.Raycast(transform.position, transform.up, 50, GroundLayers))
-			{
-                gravityDirection = -gravityDirection;
-                _verticalVelocity = 0;
-                _input.primaryAction = false;
-
-                if (reverseAction != null)
-                    StopCoroutine(reverseAction);
-                reverseAction = ReverseCharacterAction(gravityDirection == 1 ? 0 : 180);
-                StartCoroutine(reverseAction);
-            }
-		}
+        if (_input.primaryAction)
+        {
+            _input.primaryAction = false;
+            if (_gravity.HasGroundUp())
+                _gravity.Reverse();
+        }
 	}
-
-	private IEnumerator ReverseCharacterAction(float angle)
-	{
-		yield return new WaitForSeconds(0.05f);
-
-        while (transform.eulerAngles.z != angle)
-		{
-			transform.eulerAngles = Vector3.MoveTowards(
-				transform.eulerAngles,
-				new Vector3(transform.rotation.eulerAngles.x, transform.rotation.y, angle),
-				Time.deltaTime * 480
-			);
-			yield return null;
-		}
-		reverseAction = null;
-    }
-
 
     public void CancelJump()
 	{
         _input.jump = false;
-        _verticalVelocity = -2f;
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-  //      if (hit.gameObject.transform.up == Vector3.down * gravityDirection)
-		//{
-		//	Debug.Log("Cancel Jump");
-		//	CancelJump();
-  //      }	
+        _gravity.velocity = -2f;
     }
 
     private void JumpAndGravity()
 	{
-		if (Grounded) // jump 
+		if (_gravity.Grounded) // jump 
 		{
 			// reset the fall timeout timer
 			_fallTimeoutDelta = FallTimeout;
-			_verticalVelocity = gravityDirection > 0 ? Mathf.Max(-3f, _verticalVelocity) : Mathf.Min(3f, _verticalVelocity);
 
 			if (_input.jump && _jumpTimeoutDelta <= 0.0f)
-				_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity) * gravityDirection;
+                _gravity.velocity = Mathf.Sqrt(JumpHeight * -2f * _gravity.force) * _gravity.direction;
 			if (_jumpTimeoutDelta >= 0.0f)
 				_jumpTimeoutDelta -= Time.deltaTime;
 		}
@@ -238,12 +183,12 @@ public class FirstPersonController : MonoBehaviour
 		// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 		if (_input.jump)
 		{
-			_verticalVelocity += Time.deltaTime * Gravity * gravityDirection * -0.5f;
-        }
-        else if (_verticalVelocity < _terminalVelocity)
-		{
-			_verticalVelocity += Gravity * Time.deltaTime * gravityDirection;
+			_gravity.AddForce(Time.deltaTime * _gravity.force * _gravity.direction * -0.3f);
 		}
+		//else
+		//{
+		//	_gravity.ApplyGravity();
+		//}
 	}
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
