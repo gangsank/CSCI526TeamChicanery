@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInput))]
@@ -57,7 +58,9 @@ public class FirstPersonController : MonoBehaviour
 	private Gravity _gravity;
     private CharacterController _controller;
 	private StarterAssetsInputs _input;
+
 	private GameObject _mainCamera;
+	[SerializeField] private Cinemachine.CinemachineVirtualCamera vCamera;
 
     private const float _threshold = 0.01f;
 
@@ -102,13 +105,24 @@ public class FirstPersonController : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		//CameraRotation();
+		CameraRotation();
 	}
 
 
 	private void CameraRotation()
 	{
 		CinemachineCameraTarget.transform.eulerAngles = new Vector3(0, 0, 0);
+		var follow = vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+
+		if (_gravity.direction > 0)
+		{
+			follow.ShoulderOffset.y = Mathf.Min(2f, follow.ShoulderOffset.y + Time.deltaTime);
+		}
+		else
+		{
+            follow.ShoulderOffset.y = Mathf.Max(-2f, follow.ShoulderOffset.y - Time.deltaTime);
+        }
+
     }
 
 	private void Move()
@@ -148,8 +162,10 @@ public class FirstPersonController : MonoBehaviour
         if (_input.primaryAction)
         {
             _input.primaryAction = false;
-            if (_gravity.HasGroundUp())
+			if (_gravity.HasGroundUp())
+			{
                 _gravity.Reverse();
+            }
         }
 	}
 
