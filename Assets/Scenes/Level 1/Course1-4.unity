@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17707849, g: 0.22167407, b: 0.30393827, a: 1}
+  m_IndirectSpecularColor: {r: 0.17707865, g: 0.2216746, b: 0.3039387, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 72673800}
   m_Layer: 2
   m_Name: Boundary
-  m_TagString: Untagged
+  m_TagString: Floor&Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -631,6 +631,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: aecfaebe2bef94ff19c35d368cbe0433, type: 2}
+    - target: {fileID: 5069110186252015658, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Floor&Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 5069110186252015660, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -823,7 +828,7 @@ GameObject:
   - component: {fileID: 375398397}
   m_Layer: 2
   m_Name: Boundary
-  m_TagString: Untagged
+  m_TagString: Floor&Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1039,6 +1044,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: aecfaebe2bef94ff19c35d368cbe0433, type: 2}
+    - target: {fileID: 5069110186252015658, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Floor&Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 5069110186252015660, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1669,6 +1679,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
+--- !u!1 &878635788 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 453084650579209855, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 878635787}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &878635789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878635788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9fe93fac73ce4588b790cb5a72706b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionName: 
+  collisionPoint: 
 --- !u!1 &1018161702
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,7 +2078,7 @@ GameObject:
   - component: {fileID: 1330370620}
   m_Layer: 2
   m_Name: Boundary
-  m_TagString: Untagged
+  m_TagString: Floor&Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2799,6 +2829,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: aecfaebe2bef94ff19c35d368cbe0433, type: 2}
+    - target: {fileID: 5069110186252015658, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Floor&Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 5069110186252015660, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2839,6 +2874,8 @@ MonoBehaviour:
   distance: 5
   duration: 0.5
   triggerRange: 50
+  repeat: 0
+  stopTime: 2
 --- !u!1001 &1763822714
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3162,6 +3199,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: aecfaebe2bef94ff19c35d368cbe0433, type: 2}
+    - target: {fileID: 5069110186252015658, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Floor&Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 5069110186252015660, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -3202,6 +3244,8 @@ MonoBehaviour:
   distance: 2
   duration: 0.4
   triggerRange: 30
+  repeat: 0
+  stopTime: 2
 --- !u!1001 &2004791539
 PrefabInstance:
   m_ObjectHideFlags: 0

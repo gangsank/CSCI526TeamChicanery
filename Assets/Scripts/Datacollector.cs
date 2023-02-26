@@ -30,7 +30,7 @@ public class Datacollector : MonoBehaviour
             collisionPoint = hit.point.ToString();
             if(collisionName != prevCollisionName)
             {
-                //PostToDatabase();
+                PostToDatabase();
             }
             prevCollisionName = collisionName;
             
