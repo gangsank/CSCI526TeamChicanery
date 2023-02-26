@@ -144,7 +144,7 @@ public class FirstPersonController : MonoBehaviour
 		}
 
 		// normalise input direction
-		Vector3 inputDirection = transform.right * _input.move.x;
+		Vector3 inputDirection = transform.right * _input.move.x * _gravity.direction;
 
 		// move the player
 		_controller.Move(

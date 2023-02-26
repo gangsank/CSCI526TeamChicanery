@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     {
         Save();
         CharacterController controller = player.GetComponent<CharacterController>();
-        if ((player.transform.position.y <= -20 || controller.velocity.z <= 3) && !playerInvincible)
+        if ((player.transform.position.y <= -30 || player.transform.position.y >= 30 || controller.velocity.z <= 0.5 ) && !playerInvincible)
         {
             StartCoroutine(DamagePlayer());
         }
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
     private void Save()
     {
         CharacterController controller = player.GetComponent<CharacterController>();
-        if (controller.velocity.z > 3 && Time.realtimeSinceStartup - lastSaveTime >= 2 && player.GetComponent<Gravity>().Grounded)
+        if (controller.velocity.z > 3 && Time.realtimeSinceStartup - lastSaveTime >= 4 && player.GetComponent<Gravity>().Grounded)
         {
             lastSaveTime = Time.realtimeSinceStartup;
             lastSavepoint = player.transform.position;
