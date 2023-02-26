@@ -28,10 +28,10 @@ public class WorldController : MonoBehaviour
     private void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 40, platform))
-        {
-            player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
-        }
+        //if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 40, platform))
+        //{
+        //    player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
+        //}
 
         if (!isRotating && Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 5, platform))
         {

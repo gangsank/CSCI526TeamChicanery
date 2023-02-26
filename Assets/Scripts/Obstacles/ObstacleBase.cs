@@ -6,7 +6,7 @@ public class ObstacleBase : MonoBehaviour
 {
     protected GameObject player;
     protected Vector3 size;
-    protected float destroyOffset = 15;
+    protected float destroyOffset = 100;
 
     // Start is called before the first frame update
     protected virtual void Start()

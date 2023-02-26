@@ -10,8 +10,13 @@ public class ObstacleRotate : ObstacleBase
     private Quaternion startAngle;
     private Quaternion target;
 
+
     public float rotationTime = 1f;
     public float stopTime = 1;
+
+    public bool useTrigger = false;
+    public float triggerRange = 100;
+    private IEnumerator rotateAction;
 
     protected override void Start()
     {
@@ -20,21 +25,40 @@ public class ObstacleRotate : ObstacleBase
         endAngle = Quaternion.Euler(dest);
         target = endAngle;
 
-        StartCoroutine(Rotate());
+        if (!useTrigger)
+        {
+            rotateAction = Rotate();
+            StartCoroutine(rotateAction);
+        }
+    }
+
+
+    protected override void Update()
+    {
+        if (useTrigger && rotateAction == null && (transform.position.z - player.transform.position.z) - (size.z / 2) < triggerRange)
+        {
+            rotateAction = Rotate();
+            StartCoroutine(Rotate());
+        }
     }
 
     private IEnumerator Rotate() {
+        WorldController controller = player.GetComponent<WorldController>();
         while (true)
         {
-            Quaternion start = transform.rotation;
-            for (float t = 0; t < rotationTime; t += Time.deltaTime)
+            Quaternion start = transform.localRotation;
+            for (float t = 0; t < rotationTime; t += controller.isRotating ? 0 : Time.deltaTime)
             {
-                transform.rotation = Quaternion.Slerp(start, target, t / rotationTime);
+                transform.localRotation = Quaternion.Slerp(start, target, t / rotationTime);
                 yield return null;
             }
-            transform.rotation = target;
+            transform.localRotation = target;
             target = target == startAngle ? endAngle : startAngle;
-            yield return new WaitForSeconds(stopTime);
+
+            for (float t = 0; t < stopTime; t += (controller.isRotating ? 0 : Time.deltaTime))
+            {
+                yield return null;
+            }
         }
     }
 }
