@@ -44,6 +44,7 @@ public class Gravity : MonoBehaviour
     public void Reverse()
     {
         direction = -direction;
+        velocity = 0;
 
         if (reverseAction != null)
             StopCoroutine(reverseAction);
@@ -53,7 +54,7 @@ public class Gravity : MonoBehaviour
 
     private IEnumerator ReverseCharacterAction(float angle)
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.1f);
 
         while (transform.eulerAngles.z != angle)
         {

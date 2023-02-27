@@ -97,6 +97,16 @@ public class WorldController : MonoBehaviour
         isRotating = false;
     }
 
+    public void SetRotation(Quaternion rotation)
+    {
+        environment.transform.localRotation = rotation;
+    }
+
+    public Quaternion GetRotation()
+    {
+        return environment.transform.localRotation;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(Config.Tag.Reset) && !shouldReset)

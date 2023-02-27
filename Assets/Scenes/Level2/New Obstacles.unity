@@ -505,7 +505,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-111356
+  m_Name: pb_Mesh-265190
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -685,7 +685,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-111274
+  m_Name: pb_Mesh-265106
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1634,7 +1634,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-111218
+  m_Name: pb_Mesh-265050
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2200,7 +2200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d44d538b8f12f468844d631a33136d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1570108582}
 --- !u!114 &1570108582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2287,7 +2286,7 @@ MonoBehaviour:
   player: {fileID: 0}
   healthBar: {fileID: 1570108582}
   coinsText: {fileID: 0}
-  end: {fileID: 0}
+  goal: {fileID: 0}
   gameoverMenu: {fileID: 0}
 --- !u!4 &1613958381
 Transform:
@@ -2342,7 +2341,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60918
+  m_Name: pb_Mesh99750
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2670,7 +2669,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-111264
+  m_Name: pb_Mesh-265096
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3100,7 +3099,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-111246
+  m_Name: pb_Mesh-265078
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6277,6 +6276,10 @@ PrefabInstance:
       propertyPath: environment
       value: 
       objectReference: {fileID: 1391299958}
+    - target: {fileID: 2012532595, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
+      propertyPath: CameraCollisionFilter.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 453084650579209848, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: MaxSpeed
@@ -6365,7 +6368,7 @@ PrefabInstance:
     - target: {fileID: 7562816848014336328, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 3.06
       objectReference: {fileID: 0}
     - target: {fileID: 7562816848014336328, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
@@ -6395,12 +6398,17 @@ PrefabInstance:
     - target: {fileID: 7842246114752817269, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 3.06
       objectReference: {fileID: 0}
     - target: {fileID: 7842246114752817269, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204767107374096767, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: ColorMatch
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}

@@ -3604,7 +3604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d44d538b8f12f468844d631a33136d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1570108582}
 --- !u!114 &1570108582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3688,10 +3687,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numCoins: 0
   hp: 4
+  initialPlayerSpeed: 5
   player: {fileID: 0}
   healthBar: {fileID: 1570108582}
   coinsText: {fileID: 0}
-  end: {fileID: 0}
+  goal: {fileID: 0}
   gameoverMenu: {fileID: 0}
 --- !u!4 &1613958381
 Transform:
@@ -3720,6 +3720,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1cb1225120194166aed3fdcd5db1746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall1: {fileID: 0}
+  wall2: {fileID: 0}
+  wall3: {fileID: 0}
+  wall4: {fileID: 0}
+  jumpWall1: {fileID: 0}
+  jumpWall2: {fileID: 0}
+  blockWall1: {fileID: 0}
+  blockWall2: {fileID: 0}
+  blockWall3: {fileID: 0}
 --- !u!1 &1674158440 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8204767107216105973, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
@@ -3738,6 +3747,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9fe93fac73ce4588b790cb5a72706b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionName: 
+  collisionPoint: 
 --- !u!1 &1711336624
 GameObject:
   m_ObjectHideFlags: 0
@@ -4081,6 +4092,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9fe93fac73ce4588b790cb5a72706b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionName: 
+  collisionPoint: 
 --- !u!1 &1900915491
 GameObject:
   m_ObjectHideFlags: 0
@@ -4740,6 +4753,11 @@ PrefabInstance:
       propertyPath: environment
       value: 
       objectReference: {fileID: 1391299958}
+    - target: {fileID: 453084650579209845, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: m_Height
+      value: 1.4
+      objectReference: {fileID: 0}
     - target: {fileID: 453084650579209848, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: ForwardSpeed
@@ -4758,7 +4776,7 @@ PrefabInstance:
     - target: {fileID: 6556307555316582679, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.51
       objectReference: {fileID: 0}
     - target: {fileID: 6556307555316582679, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
@@ -4805,15 +4823,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: NestedParent_Unpack
       objectReference: {fileID: 0}
+    - target: {fileID: 7562816848014336328, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.06
+      objectReference: {fileID: 0}
     - target: {fileID: 7842246114752817269, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 3.06
       objectReference: {fileID: 0}
     - target: {fileID: 7842246114752817269, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204767107374096767, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+        type: 3}
+      propertyPath: ColorMatch
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}

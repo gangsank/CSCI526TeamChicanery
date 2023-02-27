@@ -118,14 +118,14 @@ public class FirstPersonController : MonoBehaviour
 
 		if (_gravity.direction > 0)
 		{
-			follow.ShoulderOffset.y = Mathf.Min(2f, follow.ShoulderOffset.y + Time.deltaTime);
+			follow.ShoulderOffset.y = Mathf.Min(2f, follow.ShoulderOffset.y +  2 * Time.deltaTime);
 		}
 		else
 		{
-            follow.ShoulderOffset.y = Mathf.Max(-2f, follow.ShoulderOffset.y - Time.deltaTime);
-        }
+			follow.ShoulderOffset.y = Mathf.Max(-2f, follow.ShoulderOffset.y - 2 * Time.deltaTime);
+		}
 
-    }
+	}
 
 	private void Move()
 	{
@@ -147,8 +147,6 @@ public class FirstPersonController : MonoBehaviour
 
 		// normalise input direction
 		bool hitBoundary = Physics.Raycast(transform.position, transform.right * _input.move.x * _gravity.direction, 0.5f, boundaryMask);
-		Debug.Log(transform.right * _input.move.x * _gravity.direction);
-        //Debug.Log(hitBoundary);
         Vector3 inputDirection = hitBoundary ? Vector3.zero : transform.right * _input.move.x * _gravity.direction;
 
         _controller.Move(
@@ -203,7 +201,7 @@ public class FirstPersonController : MonoBehaviour
 		// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 		if (_input.jump)
 		{
-			_gravity.AddForce(Time.deltaTime * _gravity.force * _gravity.direction * -0.3f);
+			_gravity.AddForce(Time.deltaTime * _gravity.force * _gravity.direction * -0.5f);
 		}
 		//else
 		//{
