@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private Vector3 lastSavepoint;
     private bool playerInvincible = true;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
     {
         Save();
         CharacterController controller = player.GetComponent<CharacterController>();
-        if ((player.transform.position.y <= -30 || player.transform.position.y >= 30 || controller.velocity.z <= 0.5 ) && !playerInvincible)
+        if ((player.transform.position.y <= -30 || player.transform.position.y >= 30 || controller.velocity.z <= 0.1 ) && !playerInvincible)
         {
             StartCoroutine(DamagePlayer());
         }

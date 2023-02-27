@@ -40,6 +40,8 @@ public class FirstPersonController : MonoBehaviour
 	public delegate void TriggerAction(Collider other);
 	public TriggerAction triggerEnter;
 
+	public LayerMask boundaryMask;
+
 	// cinemachine
 	private float _cinemachineTargetPitch;
 
@@ -144,10 +146,12 @@ public class FirstPersonController : MonoBehaviour
 		}
 
 		// normalise input direction
-		Vector3 inputDirection = transform.right * _input.move.x * _gravity.direction;
+		bool hitBoundary = Physics.Raycast(transform.position, transform.right * _input.move.x * _gravity.direction, 0.5f, boundaryMask);
+		Debug.Log(transform.right * _input.move.x * _gravity.direction);
+        //Debug.Log(hitBoundary);
+        Vector3 inputDirection = hitBoundary ? Vector3.zero : transform.right * _input.move.x * _gravity.direction;
 
-		// move the player
-		_controller.Move(
+        _controller.Move(
             Vector3.forward * ForwardSpeed * Time.deltaTime + 
 			inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _gravity.velocity, 0.0f) * Time.deltaTime);
 	}
