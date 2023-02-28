@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInput))]
@@ -39,6 +40,8 @@ public class FirstPersonController : MonoBehaviour
 	public delegate void TriggerAction(Collider other);
 	public TriggerAction triggerEnter;
 
+	public LayerMask boundaryMask;
+
 	// cinemachine
 	private float _cinemachineTargetPitch;
 
@@ -57,7 +60,9 @@ public class FirstPersonController : MonoBehaviour
 	private Gravity _gravity;
     private CharacterController _controller;
 	private StarterAssetsInputs _input;
+
 	private GameObject _mainCamera;
+	public CinemachineVirtualCamera vCamera;
 
     private const float _threshold = 0.01f;
 
@@ -102,14 +107,25 @@ public class FirstPersonController : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		//CameraRotation();
+		CameraRotation();
 	}
 
 
 	private void CameraRotation()
 	{
-		CinemachineCameraTarget.transform.eulerAngles = new Vector3(0, 0, 0);
-    }
+		CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
+		var follow = vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+
+		if (_gravity.direction > 0)
+		{
+			follow.ShoulderOffset.y = Mathf.Min(2f, follow.ShoulderOffset.y + 4 * Time.deltaTime);
+		}
+		else
+		{
+			follow.ShoulderOffset.y = Mathf.Max(-2f, follow.ShoulderOffset.y - 4 * Time.deltaTime);
+		}
+
+	}
 
 	private void Move()
 	{
@@ -130,10 +146,10 @@ public class FirstPersonController : MonoBehaviour
 		}
 
 		// normalise input direction
-		Vector3 inputDirection = transform.right * _input.move.x;
+		bool hitBoundary = Physics.Raycast(transform.position, transform.right * _input.move.x * _gravity.direction, 0.5f, boundaryMask);
+        Vector3 inputDirection = hitBoundary ? Vector3.zero : transform.right * _input.move.x * _gravity.direction;
 
-		// move the player
-		_controller.Move(
+        _controller.Move(
             Vector3.forward * ForwardSpeed * Time.deltaTime + 
 			inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _gravity.velocity, 0.0f) * Time.deltaTime);
 	}
@@ -148,8 +164,10 @@ public class FirstPersonController : MonoBehaviour
         if (_input.primaryAction)
         {
             _input.primaryAction = false;
-            if (_gravity.HasGroundUp())
+			if (_gravity.HasGroundUp())
+			{
                 _gravity.Reverse();
+            }
         }
 	}
 
@@ -183,7 +201,7 @@ public class FirstPersonController : MonoBehaviour
 		// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 		if (_input.jump)
 		{
-			_gravity.AddForce(Time.deltaTime * _gravity.force * _gravity.direction * -0.3f);
+			_gravity.AddForce(Time.deltaTime * _gravity.force * _gravity.direction * -0.5f);
 		}
 		//else
 		//{

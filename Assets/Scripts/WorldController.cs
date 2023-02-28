@@ -50,6 +50,8 @@ public class WorldController : MonoBehaviour
 
     private (Vector3 axis, float angle)? AllowRotate(ControllerColliderHit hit)
     {
+        if (player.GetComponent<CharacterController>().velocity.z == 0) return null;
+
         int layer = 1 << hit.gameObject.layer;
         bool hitUnderGround = hit.gameObject.transform.up.y >= 0.95;
         bool hitGround = (layer & platform) > 0;
@@ -72,6 +74,13 @@ public class WorldController : MonoBehaviour
     private IEnumerator RotateWorld(Vector3 axis, float angle, GameObject wall, Vector3 local)
     {
         isRotating = true;
+        yield return new WaitForSeconds(0.05f);
+        if (player.GetComponent<CharacterController>().velocity.z == 0)
+        {
+            isRotating = false;
+            yield break;
+        }
+
         player.GetComponent<FirstPersonController>().enabled = false;
         player.GetComponent<CharacterController>().enabled = false;
         player.GetComponent<TrailRenderer>().emitting = false;
@@ -95,6 +104,16 @@ public class WorldController : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
         isRotating = false;
+    }
+
+    public void SetRotation(Quaternion rotation)
+    {
+        environment.transform.rotation = rotation;
+    }
+
+    public Quaternion GetRotation()
+    {
+        return environment.transform.rotation;
     }
 
     private void OnTriggerEnter(Collider other)

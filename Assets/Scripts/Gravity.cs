@@ -44,6 +44,7 @@ public class Gravity : MonoBehaviour
     public void Reverse()
     {
         direction = -direction;
+        velocity = 0;
 
         if (reverseAction != null)
             StopCoroutine(reverseAction);
@@ -53,7 +54,7 @@ public class Gravity : MonoBehaviour
 
     private IEnumerator ReverseCharacterAction(float angle)
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.1f);
 
         while (transform.eulerAngles.z != angle)
         {
@@ -81,7 +82,8 @@ public class Gravity : MonoBehaviour
     }
 
     public bool HasGroundUp() {
-        return Physics.Raycast(transform.position, transform.up, 50, GroundLayers);
+        Vector3 ray = Quaternion.AngleAxis(60 * direction, Vector3.right) * transform.up;
+        return Physics.Raycast(transform.position, ray, 50, GroundLayers);
     }
 
 }

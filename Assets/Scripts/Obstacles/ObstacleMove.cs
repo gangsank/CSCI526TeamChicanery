@@ -20,9 +20,9 @@ public class ObstacleMove : ObstacleBase
     protected override void Start()
     {
         base.Start();
-        dest = transform.position;
-        start = transform.position - distance * direction.normalized;
-        transform.position = start;
+        dest = transform.localPosition;
+        start = transform.localPosition - distance * transform.TransformDirection(direction).normalized;
+        transform.localPosition = start;
         target = dest;
     }
 
@@ -42,13 +42,13 @@ public class ObstacleMove : ObstacleBase
         WorldController controller = player.GetComponent<WorldController>();
         do
         {
-            Vector3 start = transform.position;
+            Vector3 start = transform.localPosition;
             for (float t = 0; t < duration; t += controller.isRotating ? 0 : Time.deltaTime)
             {
-                transform.position = Vector3.Lerp(start, dest, t / duration);
+                transform.localPosition = Vector3.Lerp(start, dest, t / duration);
                 yield return null;
             }
-            transform.position = dest;
+            transform.localPosition = dest;
 
             target = target == start ? dest : start;
             for (float t = 0; t < stopTime; t += (controller.isRotating ? 0 : Time.deltaTime))
