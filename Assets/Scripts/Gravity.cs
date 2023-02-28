@@ -83,7 +83,7 @@ public class Gravity : MonoBehaviour
 
     public bool HasGroundUp() {
         Vector3 ray = Quaternion.AngleAxis(60 * direction, Vector3.right) * transform.up;
-        return Physics.Raycast(transform.position, ray, 50, GroundLayers);
+        return Physics.Raycast(transform.position, ray, 100, GroundLayers);
     }
 
 }

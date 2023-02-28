@@ -5,6 +5,8 @@ using TMPro;
 
 public class Tutorial : MonoBehaviour
 {
+    static IEnumerator displayMessageAction;
+
     [TextArea] public string message;
     [SerializeField] private TextMeshProUGUI gui;
     private float fadeInTime = 1f;
@@ -21,7 +23,12 @@ public class Tutorial : MonoBehaviour
     {
         if (!isShown && other.CompareTag(Config.Tag.Player))
         {
-            StartCoroutine(DisplayMessage());
+            if (Tutorial.displayMessageAction != null)
+            {
+                StopCoroutine(Tutorial.displayMessageAction);
+            }
+            Tutorial.displayMessageAction = DisplayMessage();
+            StartCoroutine(Tutorial.displayMessageAction);
         }
     }
 
@@ -32,6 +39,7 @@ public class Tutorial : MonoBehaviour
         gui.CrossFadeAlpha(1, fadeInTime, true);
         yield return new WaitForSeconds(displayTime + fadeInTime);
         gui.CrossFadeAlpha(0, fadeOutTime, true);
+        Tutorial.displayMessageAction = null;
     }
 
 }
