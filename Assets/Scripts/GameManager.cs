@@ -72,7 +72,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     private void HandleCoinCollect(Collider other) {
         if (other.gameObject.CompareTag(Config.Tag.Item))
         {
@@ -84,10 +83,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator DamagePlayer()
     {
+        
         LoadSaveData();
-        player.GetComponent<CharacterController>().enabled = false;
-        player.GetComponent<FirstPersonController>().enabled = false;
-        player.GetComponent<TrailRenderer>().Clear();
+        
 
         hp -= 1;
         healthBar.value = hp;
@@ -100,6 +98,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(2);
             player.GetComponent<CharacterController>().enabled = true;
             player.GetComponent<FirstPersonController>().enabled = true;
+            player.GetComponent<WorldController>().enabled = true;
             player.GetComponent<FirstPersonController>().ForwardSpeed = initialPlayerSpeed;
             player.GetComponent<FirstPersonController>().CrossSpeed = initialPlayerSpeed;
             player.GetComponent<FirstPersonController>().SpeedUp();
@@ -116,21 +115,24 @@ public class GameManager : MonoBehaviour
         WorldController wc = player.GetComponent<WorldController>();
 
         RaycastHit hit;
-        if (cc.velocity.z > 0 && Time.realtimeSinceStartup - saveData.time >= 3 && player.GetComponent<Gravity>().Grounded)
+        if (
+            cc.velocity.z > 0 &&
+            Time.realtimeSinceStartup - saveData.time >= 3 &&
+            player.GetComponent<Gravity>().Grounded &&
+            (player.transform.localRotation.z == 0 || player.transform.localRotation.z == 1) 
+        )
         {
-            Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 1.3f, wc.platform);
-            //Debug.Log(Vector3.Cross(hit.transform.up, transform.up).magnitude);
-            if (Vector3.Cross(hit.transform.up, transform.up).magnitude < 1E-6) {
+            if (Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 1.1f, wc.platform) && Vector3.Cross(hit.transform.up, transform.up).magnitude < 1E-6) {
                 var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
                 saveData = new PlayerSave(
                     player.transform.position,
-                    player.GetComponent<Gravity>().direction > 0 ? new Quaternion() : new Quaternion(0, 0, 1, 0),
+                    player.GetComponent<Gravity>().direction > 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 0, -180),
                     player.GetComponent<Gravity>().direction,
                     player.GetComponent<WorldController>().GetRotation(),
                     follow.ShoulderOffset.y,
                     Time.realtimeSinceStartup
                 );
-                //Debug.Log($"Save: {saveData.playerPos}/{saveData.playerRotation}/{saveData.gravityDirection}/{saveData.worldRotation}/");
+                Debug.Log($"Save: {saveData.playerPos}/{saveData.playerRotation.eulerAngles}/{saveData.gravityDirection}/{saveData.worldRotation.eulerAngles}/");
             }
         }
 
@@ -138,12 +140,17 @@ public class GameManager : MonoBehaviour
 
     private void LoadSaveData()
     {
+        player.GetComponent<CharacterController>().enabled = false;
+        player.GetComponent<FirstPersonController>().enabled = false;
+        player.GetComponent<TrailRenderer>().Clear();
+
         var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-        //Debug.Log($"Load: {saveData.playerPos}/{saveData.playerRotation}/{saveData.gravityDirection}/{saveData.worldRotation}/");
+        Debug.Log($"Load: {saveData.playerPos}/{saveData.playerRotation.eulerAngles}/{saveData.gravityDirection}/{saveData.worldRotation.eulerAngles}/");
 
         player.transform.position = saveData.playerPos;
         player.transform.rotation = saveData.playerRotation;
         player.GetComponent<Gravity>().direction = saveData.gravityDirection;
+        player.GetComponent<Gravity>().velocity = player.GetComponent<Gravity>().force * -saveData.gravityDirection;
         player.GetComponent<WorldController>().SetRotation(saveData.worldRotation);
         follow.ShoulderOffset.y = saveData.camerePosY;
 
