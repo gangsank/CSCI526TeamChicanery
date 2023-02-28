@@ -29,7 +29,7 @@ public class ObstacleMove : ObstacleBase
     // Update is called once per frame
     protected override void Update()
     {
-        //base.Update();
+        base.Update();
         if (moveAction == null && (transform.position.z - player.transform.position.z) - (size.z / 2) < triggerRange)
         {
             moveAction = MoveToDest();
