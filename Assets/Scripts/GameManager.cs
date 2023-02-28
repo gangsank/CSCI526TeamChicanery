@@ -5,6 +5,28 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Proyecto26;
+using UnityEngine.InputSystem.XR;
+using Cinemachine;
+
+struct PlayerSave
+{
+    public Vector3 playerPos;
+    public Quaternion playerRotation;
+    public float gravityDirection;
+    public Quaternion worldRotation;
+    public float camerePosY;
+    public float time;
+
+    public PlayerSave(Vector3 _pos, Quaternion _rot, float gDir, Quaternion _wRot, float _cY, float t)
+    {
+        playerPos = _pos;
+        playerRotation = _rot;
+        gravityDirection = gDir;
+        worldRotation = _wRot;
+        camerePosY = _cY;
+        time = t;
+    }
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -18,10 +40,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject goal; // use for midtern
     [SerializeField] private GameObject gameoverMenu;
 
-    private float lastSaveTime;
-    private Vector3 lastSavepoint;
+    private PlayerSave saveData;
     private bool playerInvincible = true;
-
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +51,7 @@ public class GameManager : MonoBehaviour
         player.GetComponent<FirstPersonController>().triggerEnter += HandleCoinCollect;
         healthBar.value = hp;
         healthBar.maxValue = hp;
-        lastSavepoint = player.transform.position;
+        
 
         if (goal == null) goal = GameObject.FindWithTag(Config.Tag.Goal);
         if (gameoverMenu != null) gameoverMenu?.SetActive(false);
@@ -64,10 +84,11 @@ public class GameManager : MonoBehaviour
     private IEnumerator DamagePlayer()
     {
         playerInvincible = true;
-        player.transform.position = lastSavepoint;
+        LoadSaveData();
         player.GetComponent<CharacterController>().enabled = false;
         player.GetComponent<FirstPersonController>().enabled = false;
-        
+        player.GetComponent<TrailRenderer>().Clear();
+
         hp -= 1;
         healthBar.value = hp;
         if (hp <= 0)
@@ -92,12 +113,34 @@ public class GameManager : MonoBehaviour
     private void Save()
     {
         CharacterController controller = player.GetComponent<CharacterController>();
-        if (controller.velocity.z > 3 && Time.realtimeSinceStartup - lastSaveTime >= 4 && player.GetComponent<Gravity>().Grounded)
+        if (controller.velocity.z > 0 && Time.realtimeSinceStartup - saveData.time >= 3 && player.GetComponent<Gravity>().Grounded)
         {
-            lastSaveTime = Time.realtimeSinceStartup;
-            lastSavepoint = player.transform.position;
+            var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+            saveData = new PlayerSave(
+                player.transform.position,
+                player.GetComponent<Gravity>().direction > 0 ? new Quaternion() : new Quaternion(0, 0, 1, 0),
+                player.GetComponent<Gravity>().direction,
+                player.GetComponent<WorldController>().GetRotation(),
+                follow.ShoulderOffset.y,
+                Time.realtimeSinceStartup
+            );
         }
 
+    }
+
+    private void LoadSaveData()
+    {
+        Debug.Log($"{saveData.playerPos}/{saveData.playerRotation}/{saveData.gravityDirection}/{saveData.worldRotation}/");
+        var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+
+        player.transform.position = saveData.playerPos;
+        player.transform.rotation = saveData.playerRotation;
+        player.GetComponent<Gravity>().direction = saveData.gravityDirection;
+        player.GetComponent<WorldController>().SetRotation(saveData.worldRotation);
+        follow.ShoulderOffset.y = saveData.camerePosY;
+
+        player.GetComponent<FirstPersonController>().CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
+        saveData.time = Time.realtimeSinceStartup;
     }
 
     private void GameOver()

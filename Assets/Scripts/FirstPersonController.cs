@@ -62,7 +62,7 @@ public class FirstPersonController : MonoBehaviour
 	private StarterAssetsInputs _input;
 
 	private GameObject _mainCamera;
-	[SerializeField] private Cinemachine.CinemachineVirtualCamera vCamera;
+	public CinemachineVirtualCamera vCamera;
 
     private const float _threshold = 0.01f;
 
@@ -113,16 +113,16 @@ public class FirstPersonController : MonoBehaviour
 
 	private void CameraRotation()
 	{
-		CinemachineCameraTarget.transform.eulerAngles = new Vector3(0, 0, 0);
+		CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
 		var follow = vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
 
 		if (_gravity.direction > 0)
 		{
-			follow.ShoulderOffset.y = Mathf.Min(2f, follow.ShoulderOffset.y +  2 * Time.deltaTime);
+			follow.ShoulderOffset.y = Mathf.Min(2f, follow.ShoulderOffset.y + 4 * Time.deltaTime);
 		}
 		else
 		{
-			follow.ShoulderOffset.y = Mathf.Max(-2f, follow.ShoulderOffset.y - 2 * Time.deltaTime);
+			follow.ShoulderOffset.y = Mathf.Max(-2f, follow.ShoulderOffset.y - 4 * Time.deltaTime);
 		}
 
 	}
