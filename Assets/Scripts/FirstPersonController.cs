@@ -9,15 +9,15 @@ using Cinemachine;
 public class FirstPersonController : MonoBehaviour
 {
 	[Header("Player")]
-	public float MaxSpeed = 20f;
-	public float SpeedIncreaseRate = 5f;
-	public float SpeedIncreaseInterval = 5f;
+	public float MaxSpeed = 5.0f;
+	public float SpeedIncreaseRate = 1.0f;
+	public float SpeedIncreaseInterval = 5.0f;
 
 	public float ForwardSpeed = 5.0f;
 	[Tooltip("Move speed of the character in m/s")]
-	public float CrossSpeed = 4.0f;
+	public float CrossSpeed = 5.0f;
 	[Tooltip("Acceleration and deceleration")]
-	public float SpeedChangeRate = 10.0f;
+	public float SpeedChangeRate = 1.0f;
 
 	[Space(10)]
 	[Tooltip("The height the player can jump")]
