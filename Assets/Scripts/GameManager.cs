@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
         CharacterController controller = player.GetComponent<CharacterController>();
         if ((player.transform.position.y <= -30 || player.transform.position.y >= 30 || controller.velocity.z <= 0.1) && !playerInvincible)
         {
+            playerInvincible = true;
             StartCoroutine(DamagePlayer());
         }
     }
@@ -83,7 +84,6 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator DamagePlayer()
     {
-        playerInvincible = true;
         LoadSaveData();
         player.GetComponent<CharacterController>().enabled = false;
         player.GetComponent<FirstPersonController>().enabled = false;
@@ -112,26 +112,34 @@ public class GameManager : MonoBehaviour
 
     private void Save()
     {
-        CharacterController controller = player.GetComponent<CharacterController>();
-        if (controller.velocity.z > 0 && Time.realtimeSinceStartup - saveData.time >= 3 && player.GetComponent<Gravity>().Grounded)
+        CharacterController cc = player.GetComponent<CharacterController>();
+        WorldController wc = player.GetComponent<WorldController>();
+
+        RaycastHit hit;
+        if (cc.velocity.z > 0 && Time.realtimeSinceStartup - saveData.time >= 3 && player.GetComponent<Gravity>().Grounded)
         {
-            var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-            saveData = new PlayerSave(
-                player.transform.position,
-                player.GetComponent<Gravity>().direction > 0 ? new Quaternion() : new Quaternion(0, 0, 1, 0),
-                player.GetComponent<Gravity>().direction,
-                player.GetComponent<WorldController>().GetRotation(),
-                follow.ShoulderOffset.y,
-                Time.realtimeSinceStartup
-            );
+            Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 1.3f, wc.platform);
+            //Debug.Log(Vector3.Cross(hit.transform.up, transform.up).magnitude);
+            if (Vector3.Cross(hit.transform.up, transform.up).magnitude < 1E-6) {
+                var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+                saveData = new PlayerSave(
+                    player.transform.position,
+                    player.GetComponent<Gravity>().direction > 0 ? new Quaternion() : new Quaternion(0, 0, 1, 0),
+                    player.GetComponent<Gravity>().direction,
+                    player.GetComponent<WorldController>().GetRotation(),
+                    follow.ShoulderOffset.y,
+                    Time.realtimeSinceStartup
+                );
+                //Debug.Log($"Save: {saveData.playerPos}/{saveData.playerRotation}/{saveData.gravityDirection}/{saveData.worldRotation}/");
+            }
         }
 
     }
 
     private void LoadSaveData()
     {
-        Debug.Log($"{saveData.playerPos}/{saveData.playerRotation}/{saveData.gravityDirection}/{saveData.worldRotation}/");
         var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        //Debug.Log($"Load: {saveData.playerPos}/{saveData.playerRotation}/{saveData.gravityDirection}/{saveData.worldRotation}/");
 
         player.transform.position = saveData.playerPos;
         player.transform.rotation = saveData.playerRotation;
