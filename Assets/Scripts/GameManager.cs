@@ -76,8 +76,11 @@ public class GameManager : MonoBehaviour
         if (other.gameObject.CompareTag(Config.Tag.Item))
         {
             Destroy(other.gameObject);
-            numCoins += 1;
-            coinsText.text = $"{numCoins}";
+            Coin coin;
+            if (other.TryGetComponent<Coin>(out coin)) {
+                numCoins += coin.value;
+                coinsText.text = $"{numCoins}";
+            }
         }
     }
 
