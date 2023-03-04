@@ -32,6 +32,7 @@ struct PlayerSave
 public class GameManager : MonoBehaviour
 {
     public int numCoins = 0;
+    public int numCeilingCoins = 0;
     public int hp = 4;
     public int initialPlayerSpeed = 5;
 
@@ -78,6 +79,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void HandleCoinCollect(Collider other) {
+        
         if (other.gameObject.CompareTag(Config.Tag.Item))
         {
             Destroy(other.gameObject);
@@ -85,7 +87,11 @@ public class GameManager : MonoBehaviour
             if (other.TryGetComponent<Coin>(out coin)) {
                 numCoins += coin.value;
                 coinsText.text = $"{numCoins}";
+                if(player.GetComponent<Gravity>().direction == -1)
+                numCeilingCoins += 1;
             }
+
+            
         }
     }
 
@@ -196,6 +202,7 @@ public class GameManager : MonoBehaviour
 
             userId = Datacollector.playerId,
             numCoins = this.numCoins,
+            numCeilCoins = this.numCeilingCoins,
             endHp = this.hp
         });
     }
