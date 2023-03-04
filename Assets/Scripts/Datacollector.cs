@@ -64,6 +64,7 @@ public class User
     public string userCollisionPoint;
     public int userId;
     public int numCoins;
+    public int numCeilCoins;
     public int endHp;
     //public User()
     //{
