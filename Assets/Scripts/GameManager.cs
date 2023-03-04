@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     {
         Save();
         CharacterController controller = player.GetComponent<CharacterController>();
-        if ((player.transform.position.y <= -30 || player.transform.position.y >= 30 || controller.velocity.z <= 0.1) && !playerInvincible)
+        if ((player.transform.position.y <= -50 || player.transform.position.y >= 50 || controller.velocity.z <= 0.1) && !playerInvincible)
         {
             playerInvincible = true;
             StartCoroutine(DamagePlayer());

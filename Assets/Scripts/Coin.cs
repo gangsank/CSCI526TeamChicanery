@@ -5,6 +5,7 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     public float RotateSpeed = 180;
+    public int value = 1;
 
     private GameObject player;
 

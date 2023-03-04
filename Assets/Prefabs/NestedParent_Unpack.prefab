@@ -300,7 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6043bde05a7fc4cba197d06915c1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damping: {x: 1, y: 1, z: 1}
+  Damping: {x: 0, y: 0, z: 1}
   ShoulderOffset: {x: 0, y: 2, z: 0}
   VerticalArmLength: 0
   CameraSide: 1
@@ -310,8 +310,8 @@ MonoBehaviour:
     m_Bits: 513
   IgnoreTag: Player
   CameraRadius: 0.2
-  DampingIntoCollision: 3
-  DampingFromCollision: 3
+  DampingIntoCollision: 1
+  DampingFromCollision: 1
 --- !u!1001 &8204767106804910123
 PrefabInstance:
   m_ObjectHideFlags: 0
