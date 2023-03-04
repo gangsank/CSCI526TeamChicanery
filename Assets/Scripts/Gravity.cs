@@ -21,6 +21,7 @@ public class Gravity : MonoBehaviour
     public float velocity = 0;
     private float _terminalVelocity = 53.0f;
 
+
     // Update is called once per frame
     void Update()
     {
@@ -84,6 +85,15 @@ public class Gravity : MonoBehaviour
     public bool HasGroundUp() {
         Vector3 ray = Quaternion.AngleAxis(60 * direction, Vector3.right) * transform.up;
         return Physics.Raycast(transform.position, ray, 150, GroundLayers);
+    }
+
+    public void Stop()
+    {
+        if (reverseAction != null)
+        {
+            StopCoroutine(reverseAction);
+            reverseAction = null;
+        }
     }
 
 }

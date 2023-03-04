@@ -16,13 +16,11 @@ public class WorldController : MonoBehaviour
     private bool shouldReset = false;
 
     // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         player = GameObject.FindWithTag(Config.Tag.Player);
-        if (!environment)
-        {
-            environment = GameObject.FindWithTag(Config.Tag.World);
-        }
+        environment = GameObject.FindWithTag(Config.Tag.World);
     }
 
     private void Update()

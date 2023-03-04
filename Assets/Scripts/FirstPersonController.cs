@@ -103,7 +103,18 @@ public class FirstPersonController : MonoBehaviour
         ReverseGravity();
         JumpAndGravity();
         Move();
-	}
+
+        if ((_controller.velocity.z < MaxSpeed / 2 || !_gravity.Grounded))
+		{
+			if (GetComponent<TrailRenderer>().emitting)
+                GetComponent<TrailRenderer>().emitting = false;
+        }
+		else if (Mathf.Round(_controller.velocity.z) == Mathf.Round(MaxSpeed))
+		{
+			if (!GetComponent<TrailRenderer>().emitting)
+	            GetComponent<TrailRenderer>().emitting = true;
+        }
+    }
 
 	private void LateUpdate()
 	{
@@ -112,7 +123,9 @@ public class FirstPersonController : MonoBehaviour
 
 	private void CameraRotation()
 	{
-		CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
+		CinemachineCameraTarget.transform.position = transform.position + transform.up;
+
+        CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
 		var follow = vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
 
 		if (_gravity.direction > 0)

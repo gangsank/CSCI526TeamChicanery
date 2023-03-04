@@ -7,6 +7,7 @@ using TMPro;
 using Proyecto26;
 using UnityEngine.InputSystem.XR;
 using Cinemachine;
+using Unity.VisualScripting;
 
 struct PlayerSave
 {
@@ -39,9 +40,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private GameObject goal; // use for midtern
     [SerializeField] private GameObject gameoverMenu;
+    
 
     private PlayerSave saveData;
     private bool playerInvincible = true;
+    private float curTime = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +59,8 @@ public class GameManager : MonoBehaviour
         if (goal == null) goal = GameObject.FindWithTag(Config.Tag.Goal);
         if (gameoverMenu != null) gameoverMenu?.SetActive(false);
         if (goal != null) goal.GetComponent<End>().triggerEnter += GameOver;
+
+        SaveData();
         Invoke("DisableInvincible", 1);
     }
 
@@ -101,7 +106,6 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(2);
             player.GetComponent<CharacterController>().enabled = true;
             player.GetComponent<FirstPersonController>().enabled = true;
-            player.GetComponent<WorldController>().enabled = true;
             player.GetComponent<FirstPersonController>().ForwardSpeed = initialPlayerSpeed;
             player.GetComponent<FirstPersonController>().CrossSpeed = initialPlayerSpeed;
             player.GetComponent<FirstPersonController>().SpeedUp();
@@ -117,48 +121,58 @@ public class GameManager : MonoBehaviour
         CharacterController cc = player.GetComponent<CharacterController>();
         WorldController wc = player.GetComponent<WorldController>();
 
+        curTime += Time.deltaTime;
+
         RaycastHit hit;
         if (
-            cc.velocity.z > 0 &&
-            Time.realtimeSinceStartup - saveData.time >= 3 &&
+            cc.velocity.z > initialPlayerSpeed &&
+            curTime - saveData.time >= 3 &&
             player.GetComponent<Gravity>().Grounded &&
-            (player.transform.localRotation.z == 0 || player.transform.localRotation.z == 1) 
+            (player.transform.localRotation.z == 0 || player.transform.localRotation.z == 1)
         )
         {
             if (Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 1.1f, wc.platform) && Vector3.Cross(hit.transform.up, transform.up).magnitude < 1E-6) {
-                var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-                saveData = new PlayerSave(
-                    player.transform.position,
-                    player.GetComponent<Gravity>().direction > 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 0, -180),
-                    player.GetComponent<Gravity>().direction,
-                    player.GetComponent<WorldController>().GetRotation(),
-                    follow.ShoulderOffset.y,
-                    Time.realtimeSinceStartup
-                );
-                Debug.Log($"Save: {saveData.playerPos}/{saveData.playerRotation.eulerAngles}/{saveData.gravityDirection}/{saveData.worldRotation.eulerAngles}/");
+                SaveData();
             }
         }
 
     }
 
-    private void LoadSaveData()
+    private void SaveData()
+    {
+        var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        saveData = new PlayerSave(
+            player.transform.position,
+            player.GetComponent<Gravity>().direction > 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 0, -180),
+            player.GetComponent<Gravity>().direction,
+            player.GetComponent<WorldController>().GetRotation(),
+            follow.ShoulderOffset.y,
+            curTime
+        );
+        Debug.Log($"Save: {saveData.playerPos}/{saveData.playerRotation.eulerAngles}/{saveData.gravityDirection}/{saveData.worldRotation.eulerAngles}/");
+    }
+
+        private void LoadSaveData()
     {
         player.GetComponent<CharacterController>().enabled = false;
         player.GetComponent<FirstPersonController>().enabled = false;
         player.GetComponent<TrailRenderer>().Clear();
+        player.GetComponent<Gravity>().Stop();
 
         var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
         Debug.Log($"Load: {saveData.playerPos}/{saveData.playerRotation.eulerAngles}/{saveData.gravityDirection}/{saveData.worldRotation.eulerAngles}/");
 
         player.transform.position = saveData.playerPos;
         player.transform.rotation = saveData.playerRotation;
+        player.GetComponent<CharacterController>().enabled = true;
+
         player.GetComponent<Gravity>().direction = saveData.gravityDirection;
         player.GetComponent<Gravity>().velocity = player.GetComponent<Gravity>().force * -saveData.gravityDirection;
         player.GetComponent<WorldController>().SetRotation(saveData.worldRotation);
         follow.ShoulderOffset.y = saveData.camerePosY;
 
         player.GetComponent<FirstPersonController>().CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
-        saveData.time = Time.realtimeSinceStartup;
+        saveData.time = curTime;
     }
 
     private void GameOver()
