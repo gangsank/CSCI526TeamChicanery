@@ -203,6 +203,7 @@ public class GameManager : MonoBehaviour
             userId = Datacollector.playerId,
             numCoins = this.numCoins,
             numCeilCoins = this.numCeilingCoins,
+            numOfRotate = player.GetComponent<WorldController>().numRotate,
             endHp = this.hp
         });
     }

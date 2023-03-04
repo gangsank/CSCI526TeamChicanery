@@ -14,6 +14,7 @@ public class WorldController : MonoBehaviour
 
     private GameObject player;
     private bool shouldReset = false;
+    public int numRotate = 0;
 
     // Start is called before the first frame update
 
@@ -99,6 +100,8 @@ public class WorldController : MonoBehaviour
         player.GetComponent<FirstPersonController>().enabled = true;
         player.GetComponent<CharacterController>().enabled = true;
         player.GetComponent<TrailRenderer>().emitting = true;
+
+        numRotate += 1;
 
         yield return new WaitForSeconds(0.1f);
         isRotating = false;

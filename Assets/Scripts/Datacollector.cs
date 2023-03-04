@@ -66,6 +66,7 @@ public class User
     public int numCoins;
     public int numCeilCoins;
     public int endHp;
+    public int numOfRotate;
     //public User()
     //{
     //    userCollision = Datacollector.collisionName;
