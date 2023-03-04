@@ -110,7 +110,6 @@ public class FirstPersonController : MonoBehaviour
 		CameraRotation();
 	}
 
-
 	private void CameraRotation()
 	{
 		CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
