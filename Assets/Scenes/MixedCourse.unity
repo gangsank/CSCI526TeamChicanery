@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1001,7 +1001,7 @@ GameObject:
   - component: {fileID: 202948729}
   - component: {fileID: 202948728}
   m_Layer: 0
-  m_Name: Cube (4) - Course2
+  m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2615,7 +2615,7 @@ GameObject:
   - component: {fileID: 419393370}
   - component: {fileID: 419393369}
   m_Layer: 0
-  m_Name: Cube (2) - Course2
+  m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3614,7 +3614,7 @@ GameObject:
   - component: {fileID: 538197796}
   - component: {fileID: 538197795}
   m_Layer: 0
-  m_Name: Cube (1) - Course2
+  m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4957,7 +4957,7 @@ GameObject:
   - component: {fileID: 748103193}
   - component: {fileID: 748103192}
   m_Layer: 0
-  m_Name: Cube (3) - Course4
+  m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6260,7 +6260,7 @@ GameObject:
   - component: {fileID: 1020811557}
   - component: {fileID: 1020811556}
   m_Layer: 0
-  m_Name: Cube (3) - Course2
+  m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6357,7 +6357,7 @@ GameObject:
   - component: {fileID: 1042480511}
   - component: {fileID: 1042480510}
   m_Layer: 0
-  m_Name: Cube (3) - Course3
+  m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6454,7 +6454,7 @@ GameObject:
   - component: {fileID: 1088632360}
   - component: {fileID: 1088632359}
   m_Layer: 0
-  m_Name: Cube (4) - Course4
+  m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6641,7 +6641,7 @@ GameObject:
   - component: {fileID: 1124666637}
   - component: {fileID: 1124666636}
   m_Layer: 0
-  m_Name: Cube (6) - Course3
+  m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9396,7 +9396,7 @@ GameObject:
   - component: {fileID: 1547797909}
   - component: {fileID: 1547797908}
   m_Layer: 0
-  m_Name: Cube (4) - Course3
+  m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9583,7 +9583,7 @@ GameObject:
   - component: {fileID: 1638445734}
   - component: {fileID: 1638445733}
   m_Layer: 0
-  m_Name: Cube (13) - Course6
+  m_Name: Cube (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9799,7 +9799,7 @@ GameObject:
   - component: {fileID: 1725919694}
   - component: {fileID: 1725919693}
   m_Layer: 0
-  m_Name: Cube (1) - Course4
+  m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11192,7 +11192,7 @@ GameObject:
   - component: {fileID: 2086792028}
   - component: {fileID: 2086792027}
   m_Layer: 0
-  m_Name: Cube (2) - Course4
+  m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11289,7 +11289,7 @@ GameObject:
   - component: {fileID: 2109980807}
   - component: {fileID: 2109980806}
   m_Layer: 0
-  m_Name: Cube (5) - Course3
+  m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

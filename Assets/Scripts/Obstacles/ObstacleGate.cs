@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleGate : MonoBehaviour
+public class ObstacleGate : ObstacleBase
 {
     public GameObject left;
     public GameObject right;
@@ -12,7 +12,6 @@ public class ObstacleGate : MonoBehaviour
     public float MaxGap = 20;
     public float MinGap = 10;
 
-    private GameObject player;
     private float leftWidth;
     private float rightWidth;
     private bool opening;
@@ -20,9 +19,9 @@ public class ObstacleGate : MonoBehaviour
     private IEnumerator action;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        base.Start();
         leftWidth = left.transform.localScale.x;
         rightWidth = right.transform.localScale.x;
         float gap = Vector3.Distance(left.transform.position, right.transform.position) - leftWidth / 2 - rightWidth / 2;
@@ -31,8 +30,9 @@ public class ObstacleGate : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (action == null && Vector3.Distance(transform.position, player.transform.position) < 100)
         {
             action = StartMove();
