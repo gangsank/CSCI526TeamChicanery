@@ -11,6 +11,7 @@ TagManager:
   - Floor&Wall
   - Reset
   - Goal
+  - GameMenu
   layers:
   - Default
   - TransparentFX

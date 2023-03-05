@@ -7,12 +7,14 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject mainMenu;
     public GameObject tutorialPanel;
+    public GameObject gameMenu;
     public List<GameObject> levelPanels;
 
     // Start is called before the first frame update
     void Start()
     {
         ShowMainMenu();
+        DontDestroyOnLoad(gameMenu);
     }
 
     public void ShowMainMenu()
@@ -41,4 +43,5 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(name);
     }
+
 }

@@ -14,5 +14,6 @@ public class Config
         public static string Item = "Item";
         public static string Reset = "Reset";
         public static string Goal = "Goal";
+        public static string GameMenu = "GameMenu";
     }
 }
