@@ -17,6 +17,7 @@ public class Gravity : MonoBehaviour
 
     public float force = -9.8f;
     public float direction = 1;
+    public bool applyReverseAction = true;
     private IEnumerator reverseAction;
     public float velocity = 0;
     private float _terminalVelocity = 53.0f;
@@ -27,7 +28,7 @@ public class Gravity : MonoBehaviour
     {
         GroundedCheck();
 
-        if (Grounded) // jump 
+        if (Grounded)
         {
             velocity = direction > 0 ? Mathf.Max(-3f, velocity) : Mathf.Min(3f, velocity);
         }
@@ -35,11 +36,12 @@ public class Gravity : MonoBehaviour
         ApplyGravity();
     }
 
-    private void GroundedCheck()
+    public bool GroundedCheck()
     {
         // set sphere position, with offset
-        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y + GroundedOffset, transform.position.z);
+        Vector3 spherePosition = transform.position + transform.up * GroundedOffset;
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+        return Grounded;
     }
 
     public void Reverse()
@@ -47,13 +49,16 @@ public class Gravity : MonoBehaviour
         direction = -direction;
         velocity = 0;
 
-        if (reverseAction != null)
-            StopCoroutine(reverseAction);
-        reverseAction = ReverseCharacterAction(direction == 1 ? 0 : 180);
-        StartCoroutine(reverseAction);
+        if (applyReverseAction)
+        {
+            if (reverseAction != null)
+                StopCoroutine(reverseAction);
+            reverseAction = ReverseAction(direction == 1 ? 0 : 180);
+            StartCoroutine(reverseAction);
+        }
     }
 
-    private IEnumerator ReverseCharacterAction(float angle)
+    private IEnumerator ReverseAction(float angle)
     {
         yield return new WaitForSeconds(0.1f);
 
@@ -79,7 +84,7 @@ public class Gravity : MonoBehaviour
 
     public void AddForce(float velocity)
     {
-        this.velocity += Time.deltaTime * force * direction * -0.5f;
+        this.velocity += velocity;
     }
 
     public bool HasGroundUp() {

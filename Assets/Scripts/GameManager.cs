@@ -129,14 +129,15 @@ public class GameManager : MonoBehaviour
 
         curTime += Time.deltaTime;
 
-        RaycastHit hit;
         if (
             cc.velocity.z > initialPlayerSpeed &&
             curTime - saveData.time >= 3 &&
             player.GetComponent<Gravity>().Grounded &&
+            !Physics.Raycast(player.transform.position + player.transform.up, player.transform.forward, 5) &&
             (player.transform.localRotation.z == 0 || player.transform.localRotation.z == 1)
         )
         {
+            RaycastHit hit;
             if (Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 1.1f, wc.platform) && Vector3.Cross(hit.transform.up, transform.up).magnitude < 1E-6) {
                 SaveData();
             }
