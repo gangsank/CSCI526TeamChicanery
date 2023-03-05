@@ -1001,7 +1001,7 @@ GameObject:
   - component: {fileID: 202948729}
   - component: {fileID: 202948728}
   m_Layer: 0
-  m_Name: Cube (8)
+  m_Name: Cube (4) - Course2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1730,7 +1730,7 @@ GameObject:
   - component: {fileID: 294435171}
   - component: {fileID: 294435170}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cube (1) - Course3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2615,7 +2615,7 @@ GameObject:
   - component: {fileID: 419393370}
   - component: {fileID: 419393369}
   m_Layer: 0
-  m_Name: Cube (6)
+  m_Name: Cube (2) - Course2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3614,7 +3614,7 @@ GameObject:
   - component: {fileID: 538197796}
   - component: {fileID: 538197795}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube (1) - Course2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4647,7 +4647,7 @@ GameObject:
   - component: {fileID: 683491820}
   - component: {fileID: 683491819}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube (3) - Course6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4957,7 +4957,7 @@ GameObject:
   - component: {fileID: 748103193}
   - component: {fileID: 748103192}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Cube (3) - Course4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5087,7 +5087,7 @@ GameObject:
   - component: {fileID: 805859443}
   - component: {fileID: 805859442}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cube (6) - Course6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5547,7 +5547,7 @@ GameObject:
   - component: {fileID: 892244098}
   - component: {fileID: 892244097}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cube (2) - Course6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6260,7 +6260,7 @@ GameObject:
   - component: {fileID: 1020811557}
   - component: {fileID: 1020811556}
   m_Layer: 0
-  m_Name: Cube (7)
+  m_Name: Cube (3) - Course2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6357,7 +6357,7 @@ GameObject:
   - component: {fileID: 1042480511}
   - component: {fileID: 1042480510}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cube (3) - Course3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6454,7 +6454,7 @@ GameObject:
   - component: {fileID: 1088632360}
   - component: {fileID: 1088632359}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: Cube (4) - Course4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6661,7 +6661,7 @@ GameObject:
   - component: {fileID: 1124666637}
   - component: {fileID: 1124666636}
   m_Layer: 0
-  m_Name: Cube (5)
+  m_Name: Cube (6) - Course3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6758,7 +6758,7 @@ GameObject:
   - component: {fileID: 1192325749}
   - component: {fileID: 1192325748}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube (1) - Course6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6940,7 +6940,7 @@ GameObject:
   - component: {fileID: 1232698283}
   - component: {fileID: 1232698282}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Cube (2) - Course3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8177,6 +8177,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 46.942
       objectReference: {fileID: 0}
+    - target: {fileID: 3214163350498989884, guid: c8c81a47be5c041d9b3304aa65178c44,
+        type: 3}
+      propertyPath: m_Name
+      value: Gate Right - Course4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214163351556058419, guid: c8c81a47be5c041d9b3304aa65178c44,
+        type: 3}
+      propertyPath: m_Name
+      value: Gate Left - Course4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8c81a47be5c041d9b3304aa65178c44, type: 3}
 --- !u!4 &1373119673 stripped
@@ -8844,7 +8854,7 @@ GameObject:
   - component: {fileID: 1521202892}
   - component: {fileID: 1521202891}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube (5) - Course6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9309,7 +9319,7 @@ GameObject:
   - component: {fileID: 1539649812}
   - component: {fileID: 1539649811}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cube (4) - Course6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9406,7 +9416,7 @@ GameObject:
   - component: {fileID: 1547797909}
   - component: {fileID: 1547797908}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Cube (4) - Course3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9557,6 +9567,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064305281242184, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Name
+      value: Cube (11) - Course6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Name
+      value: Cube (12) - Course6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Name
+      value: Gate (3) - Course6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09247ba22f0274e49884df1155201a45, type: 3}
 --- !u!4 &1619725949 stripped
@@ -9578,7 +9603,7 @@ GameObject:
   - component: {fileID: 1638445734}
   - component: {fileID: 1638445733}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube (13) - Course6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9794,7 +9819,7 @@ GameObject:
   - component: {fileID: 1725919694}
   - component: {fileID: 1725919693}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube (1) - Course4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10114,6 +10139,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -120
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064305281242184, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Name
+      value: Cube (7) - Course6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Name
+      value: Cube (8) - Course6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Name
+      value: Gate (1) - Course6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09247ba22f0274e49884df1155201a45, type: 3}
@@ -10902,6 +10942,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064305281242184, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Name
+      value: Cube (9) - Course6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Name
+      value: Cube (10) - Course6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Name
+      value: Gate (2) - Course6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09247ba22f0274e49884df1155201a45, type: 3}
 --- !u!4 &2004942495 stripped
@@ -11157,7 +11212,7 @@ GameObject:
   - component: {fileID: 2086792028}
   - component: {fileID: 2086792027}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cube (2) - Course4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11254,7 +11309,7 @@ GameObject:
   - component: {fileID: 2109980807}
   - component: {fileID: 2109980806}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: Cube (5) - Course3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
