@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class GameMenu : MonoBehaviour
 {
-    private bool active = false;
+    //private bool active = false;
     const int mainMenuIndex = 0;
     public Button back;
 
