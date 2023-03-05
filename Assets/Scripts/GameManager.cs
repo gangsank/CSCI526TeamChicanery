@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     private PlayerSave saveData;
     private bool playerInvincible = true;
     private float curTime = 0;
+    private int activate_shield = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -76,6 +77,9 @@ public class GameManager : MonoBehaviour
             playerInvincible = true;
             StartCoroutine(DamagePlayer());
         }
+
+        showshield();
+
     }
 
     private void HandleCoinCollect(Collider other) {
@@ -100,8 +104,14 @@ public class GameManager : MonoBehaviour
         
         LoadSaveData();
         
-
-        hp -= 1;
+        if (numCoins >= activate_shield ){
+            numCoins -= activate_shield;
+            coinsText.text = $"{numCoins}";
+        }
+        else{
+            hp -= 1;
+        }
+        
         healthBar.value = hp;
         if (hp <= 0)
         {
@@ -217,5 +227,18 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private void showshield(){
+        if (numCoins>=activate_shield){
+            //show shield
+            //Debug.Log(numCoins);
+            player.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            player.GetComponent<Renderer>().material.color = Color.red;
+        }
+        else{
+            //Debug.Log("less than 5");
+        }
+       
     }
 }
