@@ -2,44 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Proyecto26;
 using System;
 
 public class Datacollector : MonoBehaviour
 {
-    
+    public static int playerId = 0;
 
     public string collisionName;
     private string prevCollisionName;
     public string collisionPoint;
-    public static int playerId;
     private System.Random random = new System.Random();
-    // Start is called before the first frame update
 
-    void Start()
+    private void Awake()
     {
-        playerId = random.Next(0, 1001);
+        if (Datacollector.playerId == 0)
+            Datacollector.playerId = random.Next(1, 1001);
     }
-
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if(hit.collider.tag != "Floor&Wall")
-        {
+
+        if (
+            hit.gameObject.layer != Config.Layer.Ground &&
+            hit.gameObject.layer != Config.Layer.Boundary
+        ) {
             collisionName = hit.collider.name;
             collisionPoint = hit.point.ToString();
-            if(collisionName != prevCollisionName)
+            if (collisionName != prevCollisionName)
             {
                 PostToDatabase();
             }
             prevCollisionName = collisionName;
-            
         }
-
-        
     }
-
-    
 
     private void PostToDatabase()
     {
@@ -49,12 +46,10 @@ public class Datacollector : MonoBehaviour
         {
             userCollision = collisionName,
             userCollisionPoint = collisionPoint,
-            userId = playerId
+            userId = playerId,
+            scene = SceneManager.GetActiveScene().name
         });
-
     }
-
-    
 }
 
 [Serializable]
@@ -67,6 +62,7 @@ public class User
     public int numCeilCoins;
     public int endHp;
     public int numOfRotate;
+    public string scene;
     //public User()
     //{
     //    userCollision = Datacollector.collisionName;

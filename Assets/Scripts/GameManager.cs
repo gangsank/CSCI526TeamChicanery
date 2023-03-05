@@ -248,6 +248,7 @@ public class GameManager : MonoBehaviour
 
     private void SendData()
     {
+        Debug.Log("SendData");
         RestClient.Post<User>("https://rotatetest-d8bfc-default-rtdb.firebaseio.com/.json", new User
         {
 
@@ -255,7 +256,8 @@ public class GameManager : MonoBehaviour
             numCoins = this.numCoins,
             numCeilCoins = this.numCeilingCoins,
             numOfRotate = player.GetComponent<WorldController>().numRotate,
-            endHp = this.hp
+            endHp = this.hp,
+            scene = SceneManager.GetActiveScene().name
         });
     }
 
