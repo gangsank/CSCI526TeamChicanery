@@ -1676,7 +1676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa95bc56a1ae4503971528d57f75829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: Left click to overcome what binds you
+  message: Press W to overcome what binds you
   gui: {fileID: 1389960062}
 --- !u!64 &1631331981
 MeshCollider:
