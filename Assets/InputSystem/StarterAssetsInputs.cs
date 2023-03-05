@@ -8,6 +8,7 @@ public class StarterAssetsInputs : MonoBehaviour
 	//public Vector2 look;
 	public bool jump;
 	public bool primaryAction;
+	public bool menu;
 
 	[Header("Movement Settings")]
 	public bool analogMovement;
@@ -31,7 +32,12 @@ public class StarterAssetsInputs : MonoBehaviour
         primaryAction = value.isPressed;
 	}
 
-	public void MoveInput(Vector2 newMoveDirection)
+    public void OnMenu(InputValue value)
+    {
+        menu = value.isPressed;
+    }
+
+    public void MoveInput(Vector2 newMoveDirection)
 	{
 		move = newMoveDirection;
 	}

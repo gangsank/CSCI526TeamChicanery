@@ -6,17 +6,56 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Playground.unity
-    guid: 707acc8dffb72b144bb1ffbe1c965f3d
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 124d2b9359a1f492aa0c47d851451398
   - enabled: 1
-    path: Assets/Scenes/Level2/New Obstacles.unity
-    guid: 298a674848ff95c40aa7cace1ecb1a87
-  - enabled: 1
     path: Assets/Scenes/MixedCourse.unity
     guid: 8cf9a5f245e1d4976b210d5255bb3f1a
+  - enabled: 1
+    path: Assets/Scenes/Level1/Course1-1.unity
+    guid: caa347b98031c4eb8a5dcb0598bc6b72
+  - enabled: 1
+    path: Assets/Scenes/Level1/Course1-2.unity
+    guid: 0023caaf6aa414b85ad69a1a7a5b1b18
+  - enabled: 1
+    path: Assets/Scenes/Level1/Course1-3.unity
+    guid: 9e408fe2f27ea43ad9b947809065fdef
+  - enabled: 1
+    path: Assets/Scenes/Level1/Course1-4.unity
+    guid: 5fa85540f51cd498290aae0652bdedcb
+  - enabled: 1
+    path: Assets/Scenes/Level1/Course1-5.unity
+    guid: 722b51d0791ae41569081d20c36cdc07
+  - enabled: 1
+    path: Assets/Scenes/Level1/Course1-6.unity
+    guid: 485017bac76a34da387bfc6e5af99fe2
+  - enabled: 1
+    path: Assets/Scenes/Level2/Course2-1.unity
+    guid: eaab8725fd5024e4a8609df82d46dc24
+  - enabled: 1
+    path: Assets/Scenes/Level2/Course2-2.unity
+    guid: 19c61b9e782b74be6a86e039747bf7d7
+  - enabled: 1
+    path: Assets/Scenes/Level2/Course2-3.unity
+    guid: 682bc24b59f29422faa77f3a74b982b7
+  - enabled: 1
+    path: Assets/Scenes/Level2/Course2-4.unity
+    guid: 6f7862b3dc80943f4a5d7779851881da
+  - enabled: 1
+    path: Assets/Scenes/Level2/Course2-5.unity
+    guid: 510256acf50e64e84a5803710e851430
+  - enabled: 1
+    path: Assets/Scenes/Level2/Course2-6.unity
+    guid: 6509b99aad6ff41279a98e99cb70f4ab
+  - enabled: 1
+    path: Assets/Scenes/Level3/Course3-1.unity
+    guid: b95054a7e0c364e049dc089111934376
+  - enabled: 1
+    path: Assets/Scenes/Level3/Course3-2.unity
+    guid: 6788c8573be1b4bcd94d0aac995dbe92
+  - enabled: 1
+    path: Assets/Scenes/Level3/Course3-3.unity
+    guid: 200ed193b41164baca10c602ca7969c0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
       type: 2}

@@ -45,4 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numCoins: 0
+  numCeilingCoins: 0
+  hp: 4
+  initialPlayerSpeed: 5
   player: {fileID: 0}
+  healthBar: {fileID: 0}
+  coinsText: {fileID: 0}
+  goal: {fileID: 0}
+  gameoverMenu: {fileID: 0}
