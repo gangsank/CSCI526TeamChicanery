@@ -3254,7 +3254,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2176433862220954021, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 035bf1ba97d19214580cfe6f5a29fdc3, type: 3}
 --- !u!1001 &507483142
 PrefabInstance:
@@ -4942,8 +4943,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9fe93fac73ce4588b790cb5a72706b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionName: 
-  collisionPoint: 
 --- !u!1 &748103190
 GameObject:
   m_ObjectHideFlags: 0

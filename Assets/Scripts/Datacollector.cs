@@ -10,9 +10,9 @@ public class Datacollector : MonoBehaviour
 {
     public static int playerId = 0;
 
-    public string collisionName;
+    private string collisionName;
     private string prevCollisionName;
-    public string collisionPoint;
+    private string collisionPoint;
 
     private System.Random random = new System.Random();
 
@@ -33,6 +33,7 @@ public class Datacollector : MonoBehaviour
             collisionPoint = hit.point.ToString();
             if (collisionName != prevCollisionName)
             {
+                Debug.Log(collisionName);
                 PostToDatabase();
             }
             prevCollisionName = collisionName;
