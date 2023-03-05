@@ -8,6 +8,7 @@ using Proyecto26;
 using UnityEngine.InputSystem.XR;
 using Cinemachine;
 using Unity.VisualScripting;
+using UnityEditor;
 
 struct PlayerSave
 {
@@ -41,17 +42,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private GameObject goal; // use for midtern
     [SerializeField] private GameObject gameoverMenu;
-    
 
+    private GameMenu menu;
     private PlayerSave saveData;
     private bool playerInvincible = true;
     private float curTime = 0;
+    private int stopped = 0;
     private int activate_shield = 5;
 
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 1;
+        menu = GameObject.FindWithTag(Config.Tag.GameMenu)?.GetComponent<GameMenu>();
+        if (menu != null)
+        {
+            menu.back.onClick.RemoveAllListeners();
+            menu.back.onClick.AddListener(Resume);
+        }
+        
         player = GameObject.FindWithTag(Config.Tag.Player);
         player.GetComponent<FirstPersonController>().triggerEnter += HandleCoinCollect;
         healthBar.value = hp;
@@ -64,22 +72,61 @@ public class GameManager : MonoBehaviour
 
         SaveData();
         Invoke("DisableInvincible", 1);
+        Resume();
+
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        var input = player.GetComponent<StarterAssetsInputs>();
         Save();
         CharacterController controller = player.GetComponent<CharacterController>();
-        if ((player.transform.position.y <= -50 || player.transform.position.y >= 50 || controller.velocity.z <= 0.1) && !playerInvincible)
+
+        if (input.menu)
+        {
+            input.menu = false;
+            if (Time.timeScale == 0)
+                Resume();
+            else
+                Pause();
+        }
+
+
+        if (
+            stopped == 0 &&
+            (player.transform.position.y <= -50 || player.transform.position.y >= 50 || controller.velocity.z <= 0.1) &&
+            !playerInvincible)
         {
             playerInvincible = true;
             StartCoroutine(DamagePlayer());
         }
 
-        showshield();
+        // Prevent controller.velocity.z is too low when time starts to go
+        if (stopped > 0 && Time.timeScale != 0)
+        {
+            stopped--;
+        }
+    }
 
+    void Pause()
+    {
+        Time.timeScale = 0;
+        stopped = 5;
+        if (menu != null)
+        {
+            menu.Show();
+        }
+    }
+
+    void Resume()
+    {
+        Time.timeScale = 1;
+        if (menu != null)
+        {
+            menu.Hide();
+        }
     }
 
     private void HandleCoinCollect(Collider other) {
@@ -233,8 +280,6 @@ public class GameManager : MonoBehaviour
         if (numCoins>=activate_shield){
             //show shield
             //Debug.Log(numCoins);
-            player.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-            player.GetComponent<Renderer>().material.color = Color.red;
         }
         else{
             //Debug.Log("less than 5");
