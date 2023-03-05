@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 221151602}
   - component: {fileID: 221151603}
   m_Layer: 0
-  m_Name: Gate (6)
+  m_Name: ObstacleGate6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1499,7 +1499,7 @@ GameObject:
   - component: {fileID: 746373737}
   - component: {fileID: 746373738}
   m_Layer: 0
-  m_Name: Gate
+  m_Name: ObstacleGate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1692,7 +1692,7 @@ GameObject:
   - component: {fileID: 980997385}
   - component: {fileID: 980997386}
   m_Layer: 0
-  m_Name: Gate (4)
+  m_Name: ObstacleGate4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1756,7 +1756,7 @@ GameObject:
   - component: {fileID: 1129341087}
   - component: {fileID: 1129341088}
   m_Layer: 0
-  m_Name: Gate (3)
+  m_Name: ObstacleGate3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1905,7 +1905,7 @@ GameObject:
   - component: {fileID: 1225876968}
   - component: {fileID: 1225876969}
   m_Layer: 0
-  m_Name: Gate (2)
+  m_Name: ObstacleGate2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2792,7 +2792,7 @@ GameObject:
   - component: {fileID: 1685984971}
   - component: {fileID: 1685984972}
   m_Layer: 0
-  m_Name: Gate (1)
+  m_Name: ObstacleGate1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2941,7 +2941,7 @@ GameObject:
   - component: {fileID: 1766376300}
   - component: {fileID: 1766376301}
   m_Layer: 0
-  m_Name: Gate (5)
+  m_Name: ObstacleGate5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

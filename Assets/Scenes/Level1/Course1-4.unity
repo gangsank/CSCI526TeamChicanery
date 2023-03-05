@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17707865, g: 0.2216746, b: 0.3039387, a: 1}
+  m_IndirectSpecularColor: {r: 0.17707849, g: 0.22167407, b: 0.30393827, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -644,7 +644,7 @@ PrefabInstance:
     - target: {fileID: 7226745784397794508, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
         type: 3}
       propertyPath: m_Name
-      value: Platform (3)
+      value: MovePlatform3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6046ca3a328a54cf4b9bfa2ccb07305f, type: 3}
@@ -1057,7 +1057,7 @@ PrefabInstance:
     - target: {fileID: 7226745784397794508, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
         type: 3}
       propertyPath: m_Name
-      value: Platform (2)
+      value: MovePlatform2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6046ca3a328a54cf4b9bfa2ccb07305f, type: 3}
@@ -2842,7 +2842,7 @@ PrefabInstance:
     - target: {fileID: 7226745784397794508, guid: 6046ca3a328a54cf4b9bfa2ccb07305f,
         type: 3}
       propertyPath: m_Name
-      value: Platform (1)
+      value: MovePlatform
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6046ca3a328a54cf4b9bfa2ccb07305f, type: 3}

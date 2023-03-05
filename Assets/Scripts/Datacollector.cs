@@ -13,6 +13,7 @@ public class Datacollector : MonoBehaviour
     public string collisionName;
     private string prevCollisionName;
     public string collisionPoint;
+
     private System.Random random = new System.Random();
 
     private void Awake()
@@ -28,7 +29,7 @@ public class Datacollector : MonoBehaviour
             hit.gameObject.layer != Config.Layer.Ground &&
             hit.gameObject.layer != Config.Layer.Boundary
         ) {
-            collisionName = hit.collider.name;
+            collisionName = getFullName(hit.gameObject);
             collisionPoint = hit.point.ToString();
             if (collisionName != prevCollisionName)
             {
@@ -49,6 +50,18 @@ public class Datacollector : MonoBehaviour
             userId = playerId,
             scene = SceneManager.GetActiveScene().name
         });
+    }
+
+    private string getFullName(GameObject obj)
+    {
+        List<string> path = new List<string>();
+        while (obj != null && obj.name != "World" && obj.name != "Pivot") {
+            path.Add(obj.name);
+            obj = obj.transform.parent.gameObject;
+        }
+
+        path.Reverse();
+        return string.Join(" - ", path);
     }
 }
 
