@@ -10,6 +10,8 @@ TagManager:
   - Item
   - Floor&Wall
   - Reset
+  - Goal
+  - GameMenu
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - 
   - Character
   - Ground
-  - 
+  - Boundary
   - 
   - 
   - 

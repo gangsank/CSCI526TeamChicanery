@@ -13,5 +13,19 @@ public class Config
         public static string Obstacle = "Obstacle";
         public static string Item = "Item";
         public static string Reset = "Reset";
+        public static string Goal = "Goal";
+        public static string GameMenu = "GameMenu";
+    }
+
+    public class Layer
+    {
+        public static int Default = 0;
+        public static int TransparentFX = 1;
+        public static int IgnoreRaycast = 2;
+        public static int Water = 4;
+        public static int UI = 5;
+        public static int Character= 8;
+        public static int Ground = 9;
+        public static int Boundary = 10;
     }
 }

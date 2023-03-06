@@ -5,14 +5,26 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     public float RotateSpeed = 180;
+    public int value = 1;
+
+    private GameObject player;
+
+    private void Start()
+    {
+        player = GameObject.FindWithTag(Config.Tag.Player);
+    }
 
     // Update is called once per frame
     void Update()
     {
-        //transform.Rotate(transform.up, RotateSpeed * Time.deltaTime, Space.Self);
+        transform.Rotate(Vector3.up, RotateSpeed * Time.deltaTime);
+        Recycle();
     }
 
-    private void OnTriggerEnter(Collider other)
+    void Recycle()
     {
+        if (player.transform.position.z > transform.position.z + 10)
+            Destroy(gameObject);
     }
+
 }

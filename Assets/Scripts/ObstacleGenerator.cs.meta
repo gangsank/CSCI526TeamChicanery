@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: c6651e1025b4642be86c6d930f68fa3d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - player: {fileID: 7094977340588366727, guid: 035bf1ba97d19214580cfe6f5a29fdc3,
+      type: 3}
+  - wall1: {fileID: 7103491039519111967, guid: bcf76b5ef693b684e9bccc188fc64b5b, type: 3}
+  - wall2: {fileID: 2425496730404195577, guid: 76a4836ec61bd02448c851d70c472fee, type: 3}
+  - wall3: {fileID: 6446580466090674719, guid: 911c47dc1ecd68f4b95163732224cbe2, type: 3}
+  - wall4: {fileID: 6167386745163664160, guid: eadf80103bca5a149b53242799afbea8, type: 3}
+  - jumpWall1: {fileID: 9220855340658625354, guid: c36f5614e32e2af4ab515956d381c19a,
+      type: 3}
+  - jumpWall2: {fileID: 407670958547513176, guid: f539610a7bac4c34ba50730daf7bcd06,
+      type: 3}
+  - blockWall1: {fileID: 1340211311954931041, guid: 86da95a6136037d4587faa230c2b4182,
+      type: 3}
+  - blockWall2: {fileID: 8219590364625602539, guid: 0f9b9e337aa23944bb76a0dd04396aa9,
+      type: 3}
+  - blockWall3: {fileID: 3560689880949446538, guid: 3eabed2d2163fd24e92106d5192593d6,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

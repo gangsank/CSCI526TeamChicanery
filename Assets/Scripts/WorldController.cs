@@ -14,37 +14,33 @@ public class WorldController : MonoBehaviour
 
     private GameObject player;
     private bool shouldReset = false;
+    public int numRotate = 0;
 
     // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         player = GameObject.FindWithTag(Config.Tag.Player);
-        if (!environment)
-        {
-            environment = GameObject.FindWithTag(Config.Tag.World);
-        }
+        environment = GameObject.FindWithTag(Config.Tag.World);
     }
 
     private void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 40, platform))
-        {
-            player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
-        }
+        //if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 40, platform))
+        //{
+        //    player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
+        //}
 
         if (!isRotating && Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 5, platform))
         {
             currentGround = hit.transform.gameObject;
         }
-
-        
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         var values = AllowRotate(hit);
-
         if (values != null)
         {
             StartCoroutine(RotateWorld(values.Value.axis, values.Value.angle, hit.gameObject, hit.gameObject.transform.InverseTransformPoint(hit.point)));
@@ -53,19 +49,21 @@ public class WorldController : MonoBehaviour
 
     private (Vector3 axis, float angle)? AllowRotate(ControllerColliderHit hit)
     {
+        if (player.GetComponent<CharacterController>().velocity.z == 0) return null;
+
         int layer = 1 << hit.gameObject.layer;
         bool hitUnderGround = hit.gameObject.transform.up.y >= 0.95;
-
         bool hitGround = (layer & platform) > 0;
+        if (hitUnderGround || !hitGround) return null; 
+
         bool colorMatched = ColorMatch ? currentGround.GetComponent<MeshRenderer>().material.color == hit.gameObject.GetComponent<MeshRenderer>().material.color : true;
 
-        if (!shouldReset && colorMatched && hitGround && !hitUnderGround && !isRotating)
+        if (!shouldReset && colorMatched && !isRotating)
         {
             Vector3 axis = Vector3.Cross(hit.gameObject.transform.up, Vector3.up).normalized;
-            float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<FirstPersonController>().gravityDirection;
+            float angle = Mathf.Round(Vector3.Angle(Vector3.up, hit.gameObject.transform.up)) * player.GetComponent<Gravity>().direction;
             if (axis != Vector3.zero)
             {
-
                 return (axis, angle < 0 ? -180 - angle : angle);
             }
         }
@@ -75,9 +73,17 @@ public class WorldController : MonoBehaviour
     private IEnumerator RotateWorld(Vector3 axis, float angle, GameObject wall, Vector3 local)
     {
         isRotating = true;
+        yield return new WaitForSeconds(0.05f);
+        if (player.GetComponent<CharacterController>().velocity.z == 0)
+        {
+            isRotating = false;
+            yield break;
+        }
+
         player.GetComponent<FirstPersonController>().enabled = false;
         player.GetComponent<CharacterController>().enabled = false;
         player.GetComponent<TrailRenderer>().emitting = false;
+        float finalEulerZ = environment.transform.eulerAngles.z + axis.z * angle;
 
         for (float t = 0; t < rotationDuration; t += Time.deltaTime)
         {
@@ -86,11 +92,7 @@ public class WorldController : MonoBehaviour
             yield return null;
         }
 
-        environment.transform.eulerAngles = new Vector3(
-            Mathf.Round(environment.transform.eulerAngles.x / angle) * angle,
-            Mathf.Round(environment.transform.eulerAngles.y / angle) * angle,
-            Mathf.Round(environment.transform.eulerAngles.z / angle) * angle
-        );
+        environment.transform.eulerAngles = new Vector3(0, 0, finalEulerZ);
 
         player.transform.position = wall.transform.TransformPoint(local);
         player.GetComponent<FirstPersonController>().CancelJump();
@@ -99,8 +101,20 @@ public class WorldController : MonoBehaviour
         player.GetComponent<CharacterController>().enabled = true;
         player.GetComponent<TrailRenderer>().emitting = true;
 
-        yield return new WaitForSeconds(0.3f);
+        numRotate += 1;
+
+        yield return new WaitForSeconds(0.1f);
         isRotating = false;
+    }
+
+    public void SetRotation(Quaternion rotation)
+    {
+        environment.transform.rotation = rotation;
+    }
+
+    public Quaternion GetRotation()
+    {
+        return environment.transform.rotation;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -115,8 +129,7 @@ public class WorldController : MonoBehaviour
             {
                 Vector3 axis = Vector3.Cross(hit.transform.up, Vector3.up).normalized;
                 float angle = environment.transform.eulerAngles.z;
-                player.GetComponent<FirstPersonController>().gravityDirection = 1;
-                Debug.Log("Reset rotate");
+                //player.GetComponent<FirstPersonController>().gravityDirection = 1;
                 StartCoroutine(RotateWorld(axis, angle, hit.transform.gameObject, hit.transform.InverseTransformPoint(hit.point)));
             }
         }
