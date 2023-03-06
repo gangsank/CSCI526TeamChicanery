@@ -94,10 +94,12 @@ public class GameManager : MonoBehaviour
         }
 
 
-        if (
-            stopped == 0 &&
-            (player.transform.position.y <= -50 || player.transform.position.y >= 50 || controller.velocity.z <= 0.1) &&
-            !playerInvincible)
+        if ( stopped == 0 && (player.transform.position.y <= -50 || player.transform.position.y >= 50) && !playerInvincible)
+        {
+            GameOver();
+        }
+
+        if (stopped == 0 && (controller.velocity.z <= 0.1) && !playerInvincible)
         {
             playerInvincible = true;
             StartCoroutine(DamagePlayer());
