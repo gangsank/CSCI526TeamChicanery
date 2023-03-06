@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     private bool playerInvincible = true;
     private float curTime = 0;
     private int stopped = 0;
-    private int activate_shield = 5;
+    private int activate_shield = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
         {
             stopped--;
         }
+        showshield();
     }
 
     void Pause()
@@ -281,12 +282,20 @@ public class GameManager : MonoBehaviour
     }
 
     private void showshield(){
+         GameObject shield= player.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
         if (numCoins>=activate_shield){
             //show shield
             //Debug.Log(numCoins);
+            shield.transform.localScale = new Vector3(4, 1.2f, 3);
         }
         else{
-            //Debug.Log("less than 5");
+            Debug.Log("less than 5");
+            // player.GetComponentInChildren<Material>().color = Color.red;
+            // Debug.Log(player.GetComponentInChildren<Material>().color);
+           
+            shield.transform.localScale = new Vector3(0,0,0);
+            //shield.GetComponent<Transform>();
+           
         }
        
     }
