@@ -5,12 +5,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameMenu : MonoBehaviour
 {
     //private bool active = false;
     const int mainMenuIndex = 0;
     public Button back;
+    public TextMeshProUGUI text;
 
     private List<string> stages = new List<string>{
         "Course1-1", "Course1-2", "Course1-3", "Course1-4", "Course1-5", "Course1-6",
@@ -19,8 +21,9 @@ public class GameMenu : MonoBehaviour
         "MixedCourses"
     };
 
-    public void Show()
+    public void Show(string msg)
     {
+        text.text = msg;
         for (int i = 0; i < transform.childCount; i++)
         {
             transform.GetChild(i).gameObject.SetActive(true);

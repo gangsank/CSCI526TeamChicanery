@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     private bool playerInvincible = true;
     private float curTime = 0;
     private int stopped = 0;
+    private bool gameEnded = false;
     private int activate_shield = 10;
 
     // Start is called before the first frame update
@@ -64,7 +65,6 @@ public class GameManager : MonoBehaviour
         player.GetComponent<FirstPersonController>().triggerEnter += HandleCoinCollect;
         healthBar.value = hp;
         healthBar.maxValue = hp;
-        
 
         if (goal == null) goal = GameObject.FindWithTag(Config.Tag.Goal);
         if (gameoverMenu != null) gameoverMenu?.SetActive(false);
@@ -87,10 +87,13 @@ public class GameManager : MonoBehaviour
         if (input.menu)
         {
             input.menu = false;
-            if (Time.timeScale == 0)
-                Resume();
-            else
-                Pause();
+            if (!gameEnded)
+            {
+                if (Time.timeScale == 0)
+                    Resume();
+                else
+                    Pause();
+            }
         }
 
 
@@ -113,13 +116,13 @@ public class GameManager : MonoBehaviour
         showshield();
     }
 
-    void Pause()
+    void Pause(string message = "Paused")
     {
         Time.timeScale = 0;
         stopped = 5;
         if (menu != null)
         {
-            menu.Show();
+            menu.Show(message);
         }
     }
 
@@ -219,7 +222,7 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Save: {saveData.playerPos}/{saveData.playerRotation.eulerAngles}/{saveData.gravityDirection}/{saveData.worldRotation.eulerAngles}/");
     }
 
-        private void LoadSaveData()
+    private void LoadSaveData()
     {
         player.GetComponent<CharacterController>().enabled = false;
         player.GetComponent<FirstPersonController>().enabled = false;
@@ -245,12 +248,18 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         Time.timeScale = 0;
-        if(hp > -1)
+        gameEnded = true;
+        if (hp > -1)
         {
             SendData();
         }
         if (gameoverMenu != null)
             gameoverMenu?.SetActive(true);
+        else if (menu != null)
+        {
+            Debug.Log("Pause menu");
+            Pause($"{SceneManager.GetActiveScene().name.Replace("Course", "Stage ")} Cleared");
+        }
         else
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Cursor.lockState = CursorLockMode.None;
@@ -258,7 +267,6 @@ public class GameManager : MonoBehaviour
 
     private void SendData()
     {
-        Debug.Log("SendData");
         RestClient.Post<User>("https://rotatetest-d8bfc-default-rtdb.firebaseio.com/.json", new User
         {
 
@@ -289,7 +297,7 @@ public class GameManager : MonoBehaviour
             shield.transform.localScale = new Vector3(4, 1.2f, 3);
         }
         else{
-            Debug.Log("less than 5");
+            //Debug.Log("less than 5");
             // player.GetComponentInChildren<Material>().color = Color.red;
             // Debug.Log(player.GetComponentInChildren<Material>().color);
            
