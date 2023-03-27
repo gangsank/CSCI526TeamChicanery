@@ -5,10 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Proyecto26;
-using UnityEngine.InputSystem.XR;
 using Cinemachine;
-using Unity.VisualScripting;
-using UnityEditor;
 
 struct PlayerSave
 {
@@ -68,7 +65,7 @@ public class GameManager : MonoBehaviour
 
         if (goal == null) goal = GameObject.FindWithTag(Config.Tag.Goal);
         if (gameoverMenu != null) gameoverMenu?.SetActive(false);
-        if (goal != null) goal.GetComponent<End>().triggerEnter += GameOver;
+        if (goal != null) goal.GetComponent<End>().triggerEnter += GameClear;
 
         SaveData();
         Invoke("DisableInvincible", 1);
@@ -80,10 +77,22 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var input = player.GetComponent<StarterAssetsInputs>();
         Save();
-        CharacterController controller = player.GetComponent<CharacterController>();
+        HandleMenu();
+        HandleFall();
+        HandleHitObstacle();
+        ShowShield();
 
+        // Prevent controller.velocity.z is too low when time starts to go
+        if (stopped > 0 && Time.timeScale != 0)
+        {
+            stopped--;
+        }
+    }
+
+    void HandleMenu()
+    {
+        var input = player.GetComponent<StarterAssetsInputs>();
         if (input.menu)
         {
             input.menu = false;
@@ -95,25 +104,24 @@ public class GameManager : MonoBehaviour
                     Pause();
             }
         }
+    }
 
-
-        if ( stopped == 0 && (player.transform.position.y <= -50 || player.transform.position.y >= 50) && !playerInvincible)
+    void HandleFall()
+    {
+        if (stopped == 0 && (player.transform.position.y <= -50 || player.transform.position.y >= 50))
         {
             GameOver();
         }
+    }
 
+    void HandleHitObstacle()
+    {
+        CharacterController controller = player.GetComponent<CharacterController>();
         if (stopped == 0 && (controller.velocity.z <= 0.1) && !playerInvincible)
         {
             playerInvincible = true;
             StartCoroutine(DamagePlayer());
         }
-
-        // Prevent controller.velocity.z is too low when time starts to go
-        if (stopped > 0 && Time.timeScale != 0)
-        {
-            stopped--;
-        }
-        showshield();
     }
 
     void Pause(string message = "Paused")
@@ -147,8 +155,6 @@ public class GameManager : MonoBehaviour
                 if(player.GetComponent<Gravity>().direction == -1)
                 numCeilingCoins += 1;
             }
-
-            
         }
     }
 
@@ -249,20 +255,26 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         gameEnded = true;
-        if (hp > -1)
+        
+        if (menu != null)
+            Pause("YOU ARE DEAD");
+        else
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void GameClear()
+    {
+        Time.timeScale = 0;
+        gameEnded = true;
+        SendData();
+        if (menu != null)
         {
-            SendData();
-        }
-        if (gameoverMenu != null)
-            gameoverMenu?.SetActive(true);
-        else if (menu != null)
-        {
-            Debug.Log("Pause menu");
             Pause($"{SceneManager.GetActiveScene().name.Replace("Course", "Stage ")} Cleared");
         }
         else
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     private void SendData()
@@ -289,7 +301,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    private void showshield(){
+    private void ShowShield(){
          GameObject shield= player.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
         if (numCoins>=activate_shield){
             //show shield
