@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 {
     public int numCoins = 0;
     public int numCeilingCoins = 0;
-    public int hp = 4;
+    public int hp = 100;
     public int initialPlayerSpeed = 5;
 
     [SerializeField] private GameObject player;
@@ -46,7 +46,8 @@ public class GameManager : MonoBehaviour
     private float curTime = 0;
     private int stopped = 0;
     private bool gameEnded = false;
-    private int activate_shield = 10;
+    private int activate_shield = 20;
+    private bool shieldOn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -154,6 +155,17 @@ public class GameManager : MonoBehaviour
                 coinsText.text = $"{numCoins}";
                 if(player.GetComponent<Gravity>().direction == -1)
                 numCeilingCoins += 1;
+                if (hp < 100)
+                {
+                    hp += 2;
+                    healthBar.value = hp;
+                }
+                else if (numCoins >= activate_shield && !shieldOn)
+                {
+                    numCoins -= activate_shield;
+                    shieldOn = true;
+                    coinsText.text = $"{numCoins}";
+                }
             }
         }
     }
@@ -163,14 +175,15 @@ public class GameManager : MonoBehaviour
         
         LoadSaveData();
         
-        if (numCoins >= activate_shield ){
-            numCoins -= activate_shield;
-            coinsText.text = $"{numCoins}";
+        if (shieldOn){
+            shieldOn = false;
         }
         else{
-            hp -= 1;
+            hp -= 25;
+            numCoins = 0;
+            coinsText.text = $"{numCoins}";
         }
-        
+
         healthBar.value = hp;
         if (hp <= 0)
         {
@@ -303,7 +316,7 @@ public class GameManager : MonoBehaviour
 
     private void ShowShield(){
          GameObject shield= player.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
-        if (numCoins>=activate_shield){
+        if (shieldOn){
             //show shield
             //Debug.Log(numCoins);
             shield.transform.localScale = new Vector3(4, 1.2f, 3);
