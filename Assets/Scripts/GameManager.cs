@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     private float curTime = 0;
     private int stopped = 0;
     private bool gameEnded = false;
-    private int activate_shield = 20;
+    private int activate_shield = 25;
     private bool shieldOn = false;
 
     // Start is called before the first frame update
@@ -151,21 +151,24 @@ public class GameManager : MonoBehaviour
             Destroy(other.gameObject);
             Coin coin;
             if (other.TryGetComponent<Coin>(out coin)) {
-                numCoins += coin.value;
-                coinsText.text = $"{numCoins}";
                 if(player.GetComponent<Gravity>().direction == -1)
                 numCeilingCoins += 1;
                 if (hp < 100)
                 {
-                    hp += 2;
+                    hp += 1;
                     healthBar.value = hp;
                 }
-                else if (numCoins >= activate_shield && !shieldOn)
+                else
+                {
+                    numCoins += coin.value;
+                }
+
+                if (hp >= 100 && numCoins >= activate_shield && !shieldOn)
                 {
                     numCoins -= activate_shield;
                     shieldOn = true;
-                    coinsText.text = $"{numCoins}";
                 }
+                coinsText.text = $"{numCoins}";
             }
         }
     }
