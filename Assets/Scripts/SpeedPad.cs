@@ -10,7 +10,7 @@ public class SpeedPad : MonoBehaviour
     public float burstDuration = 3;
 
     private GameObject player;
-    private float reuseCount = 0;
+    private float reuseCountdown = 0;
 
     private void Start()
     {
@@ -20,16 +20,17 @@ public class SpeedPad : MonoBehaviour
 
     private void Update()
     {
-        if (reuseCount > 0) reuseCount -= Time.deltaTime;
+        if (reuseCountdown > 0) reuseCountdown -= Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(Config.Tag.Player) && reuseCount <= 0)
+        if (other.CompareTag(Config.Tag.Player) && reuseCountdown <= 0)
         {
-            reuseCount = 2;
-            //Debug.Log("burst");
-            StartCoroutine(burst());
+            if (action != null) StopCoroutine(action);
+            reuseCountdown = 2;
+            action = burst();
+            StartCoroutine(action);
         }
         //Debug.Log(other.name);
     }
@@ -42,6 +43,7 @@ public class SpeedPad : MonoBehaviour
         controller.CrossSpeed = controller.CrossSpeed + speedDelta;
 
         for (float t = 0; t < burstDuration; t += Time.deltaTime) yield return null;
-        controller.ForwardSpeed -= burstSpeed;
+        controller.ForwardSpeed = controller.MaxSpeed;
+        action = null;
     }
 }

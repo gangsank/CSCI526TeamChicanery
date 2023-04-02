@@ -11,15 +11,17 @@ struct PlayerSave
 {
     public Vector3 playerPos;
     public Quaternion playerRotation;
+    public Vector3 playerSpeed; // Max, Forward, Cross
     public float gravityDirection;
     public Quaternion worldRotation;
     public float camerePosY;
     public float time;
 
-    public PlayerSave(Vector3 _pos, Quaternion _rot, float gDir, Quaternion _wRot, float _cY, float t)
+    public PlayerSave(Vector3 _pos, Quaternion _rot, Vector3 _speed, float gDir, Quaternion _wRot, float _cY, float t)
     {
         playerPos = _pos;
         playerRotation = _rot;
+        playerSpeed = _speed;
         gravityDirection = gDir;
         worldRotation = _wRot;
         camerePosY = _cY;
@@ -235,10 +237,12 @@ public class GameManager : MonoBehaviour
 
     private void SaveData()
     {
-        var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        var pc = player.GetComponent<FirstPersonController>();
+        var follow = pc.vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
         saveData = new PlayerSave(
             player.transform.position,
             player.GetComponent<Gravity>().direction > 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 0, -180),
+            new Vector3(pc.MaxSpeed, pc.ForwardSpeed, pc.CrossSpeed),
             player.GetComponent<Gravity>().direction,
             player.GetComponent<WorldController>().GetRotation(),
             follow.ShoulderOffset.y,
@@ -266,7 +270,11 @@ public class GameManager : MonoBehaviour
         player.GetComponent<WorldController>().SetRotation(saveData.worldRotation);
         follow.ShoulderOffset.y = saveData.camerePosY;
 
-        player.GetComponent<FirstPersonController>().CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
+        var pc = player.GetComponent<FirstPersonController>();
+        pc.MaxSpeed = saveData.playerSpeed.x;
+        pc.ForwardSpeed = saveData.playerSpeed.y;
+        pc.CrossSpeed = saveData.playerSpeed.z;
+        pc.CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
         saveData.time = curTime;
     }
 
