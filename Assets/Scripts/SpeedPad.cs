@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class SpeedPad : MonoBehaviour
 {
-    static IEnumerator action;
+    static SpeedPad last;
     public float speedDelta = 6;
     public float burstSpeed = 4;
     public float burstDuration = 3;
 
+    private IEnumerator action;
     private GameObject player;
     private float reuseCountdown = 0;
 
@@ -23,26 +24,40 @@ public class SpeedPad : MonoBehaviour
         if (reuseCountdown > 0) reuseCountdown -= Time.deltaTime;
     }
 
+    public void Stop()
+    {
+        if (action != null)
+        {
+            StopCoroutine(action);
+            action = null;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(Config.Tag.Player) && reuseCountdown <= 0)
         {
-            if (action != null) StopCoroutine(action);
+            if (last) last.Stop();
+            last = this;
+            
             reuseCountdown = 2;
             action = burst();
             StartCoroutine(action);
         }
-        //Debug.Log(other.name);
     }
 
     private IEnumerator burst()
     {
         var controller = player.GetComponent<FirstPersonController>();
+        var wc = player.GetComponent<WorldController>();
         controller.MaxSpeed += speedDelta;
-        controller.ForwardSpeed = controller.ForwardSpeed + speedDelta + burstSpeed;
-        controller.CrossSpeed = controller.CrossSpeed + speedDelta;
+        controller.ForwardSpeed = controller.MaxSpeed + burstSpeed;
+        controller.CrossSpeed = controller.MaxSpeed;
 
-        for (float t = 0; t < burstDuration; t += Time.deltaTime) yield return null;
+        for (float t = 0; t < burstDuration; t += wc.isRotating ? 0 : Time.deltaTime)
+        {
+            yield return null;
+        }
         controller.ForwardSpeed = controller.MaxSpeed;
         action = null;
     }
