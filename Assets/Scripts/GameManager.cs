@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     private bool gameEnded = false;
     private int activate_shield = 25;
     private bool shieldOn = false;
+    readonly private int MaxHP = 100;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
         
         player = GameObject.FindWithTag(Config.Tag.Player);
         player.GetComponent<FirstPersonController>().triggerEnter += HandleCoinCollect;
+        hp = MaxHP;
         healthBar.value = hp;
         healthBar.maxValue = hp;
 
@@ -153,7 +155,7 @@ public class GameManager : MonoBehaviour
             if (other.TryGetComponent<Coin>(out coin)) {
                 if(player.GetComponent<Gravity>().direction == -1)
                 numCeilingCoins += 1;
-                if (hp < 100)
+                if (hp < MaxHP)
                 {
                     hp += 1;
                     healthBar.value = hp;
@@ -163,7 +165,7 @@ public class GameManager : MonoBehaviour
                     numCoins += coin.value;
                 }
 
-                if (hp >= 100 && numCoins >= activate_shield && !shieldOn)
+                if (hp >= MaxHP && numCoins >= activate_shield && !shieldOn)
                 {
                     numCoins -= activate_shield;
                     shieldOn = true;
@@ -197,9 +199,9 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(2);
             player.GetComponent<CharacterController>().enabled = true;
             player.GetComponent<FirstPersonController>().enabled = true;
-            player.GetComponent<FirstPersonController>().ForwardSpeed = initialPlayerSpeed;
-            player.GetComponent<FirstPersonController>().CrossSpeed = initialPlayerSpeed;
-            player.GetComponent<FirstPersonController>().SpeedUp();
+            //player.GetComponent<FirstPersonController>().ForwardSpeed = initialPlayerSpeed;
+            //player.GetComponent<FirstPersonController>().CrossSpeed = initialPlayerSpeed;
+            //player.GetComponent<FirstPersonController>().SpeedUp();
             player.GetComponent<FirstPersonController>().CancelJump();
         }
         yield return new WaitForSeconds(2);
@@ -211,6 +213,7 @@ public class GameManager : MonoBehaviour
     {
         CharacterController cc = player.GetComponent<CharacterController>();
         WorldController wc = player.GetComponent<WorldController>();
+        FirstPersonController pc = player.GetComponent<FirstPersonController>();
 
         curTime += Time.deltaTime;
 
@@ -218,7 +221,7 @@ public class GameManager : MonoBehaviour
             cc.velocity.z > initialPlayerSpeed &&
             curTime - saveData.time >= 3 &&
             player.GetComponent<Gravity>().Grounded &&
-            !Physics.Raycast(player.transform.position + player.transform.up, player.transform.forward, 5) &&
+            !Physics.Raycast(player.transform.position + player.transform.up, player.transform.forward, 0.8f * pc.ForwardSpeed) &&
             (player.transform.localRotation.z == 0 || player.transform.localRotation.z == 1)
         )
         {
