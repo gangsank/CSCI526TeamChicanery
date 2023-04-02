@@ -201,6 +201,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(2);
             player.GetComponent<CharacterController>().enabled = true;
             player.GetComponent<FirstPersonController>().enabled = true;
+            SpeedPad.last = null;
             //player.GetComponent<FirstPersonController>().ForwardSpeed = initialPlayerSpeed;
             //player.GetComponent<FirstPersonController>().CrossSpeed = initialPlayerSpeed;
             //player.GetComponent<FirstPersonController>().SpeedUp();
