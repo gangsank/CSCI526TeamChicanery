@@ -173,7 +173,6 @@ public class GameManager : MonoBehaviour
 
                 if (hp >= MaxHP && numCoins == activate_shield && !shieldOn)
                 {
-                    numCoins = 0; 
                     shieldOn = true;
                 }
                 coinsText.text = $"{numCoins}";
@@ -186,16 +185,18 @@ public class GameManager : MonoBehaviour
         
         LoadSaveData();
 
+
         if (shieldOn){
             shieldOn = false;
         }
         else
         {
             hp -= 25;
-            numCoins = 0;
-            coinsText.text = $"{numCoins}";
-            shieldBar.value = numCoins;
         }
+
+        numCoins = 0;
+        coinsText.text = $"{numCoins}";
+        shieldBar.value = numCoins;
 
         healthBar.value = hp;
         if (hp <= 0)
