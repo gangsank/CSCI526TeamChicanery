@@ -9,9 +9,9 @@ using Cinemachine;
 public class FirstPersonController : MonoBehaviour
 {
 	[Header("Player")]
-	public float MaxSpeed = 5.0f;
-	public float SpeedIncreaseRate = 1.0f;
-	public float SpeedIncreaseInterval = 5.0f;
+	public float MaxSpeed = 5;
+	//public float SpeedIncreaseRate = 1.0f;
+	//public float SpeedIncreaseInterval = 5.0f;
 
 	public float ForwardSpeed = 5.0f;
 	[Tooltip("Move speed of the character in m/s")]
@@ -94,7 +94,7 @@ public class FirstPersonController : MonoBehaviour
 		_jumpTimeoutDelta = JumpTimeout;
 		_fallTimeoutDelta = FallTimeout;
 
-		SpeedUp();
+		//SpeedUp();
 
     }
 
@@ -104,17 +104,17 @@ public class FirstPersonController : MonoBehaviour
         JumpAndGravity();
         Move();
 
-        if ((_controller.velocity.z < MaxSpeed / 2 || !_gravity.Grounded))
-		{
-			if (GetComponent<TrailRenderer>().emitting)
-                GetComponent<TrailRenderer>().emitting = false;
-        }
-		else if (Mathf.Round(_controller.velocity.z) == Mathf.Round(MaxSpeed))
+		if (_controller.velocity.z - MaxSpeed >= 1)
 		{
 			if (!GetComponent<TrailRenderer>().emitting)
-	            GetComponent<TrailRenderer>().emitting = true;
-        }
-    }
+				GetComponent<TrailRenderer>().emitting = true;
+		}
+		else
+		{
+			if (GetComponent<TrailRenderer>().emitting)
+				GetComponent<TrailRenderer>().emitting = false;
+		}
+	}
 
 	private void LateUpdate()
 	{
@@ -228,23 +228,23 @@ public class FirstPersonController : MonoBehaviour
 		return Mathf.Clamp(lfAngle, lfMin, lfMax);
 	}
 
-	public void SpeedUp()
-	{
-		StopCoroutine("SpeedUpAction");
-		StartCoroutine("SpeedUpAction");
-    }
+	//public void SpeedUp()
+	//{
+	//	StopCoroutine("SpeedUpAction");
+	//	StartCoroutine("SpeedUpAction");
+ //   }
 
-    public IEnumerator SpeedUpAction()
-    {
-		while (true)
-		{
-			if (ForwardSpeed < MaxSpeed)
-			{
-                ForwardSpeed += SpeedIncreaseRate;
-                CrossSpeed += SpeedIncreaseRate;
-            }
+ //   public IEnumerator SpeedUpAction()
+ //   {
+	//	while (true)
+	//	{
+	//		if (ForwardSpeed < MaxSpeed)
+	//		{
+ //               ForwardSpeed += SpeedIncreaseRate;
+ //               CrossSpeed += SpeedIncreaseRate;
+ //           }
 
-            yield return new WaitForSeconds(SpeedIncreaseInterval);
-		}
-    }
+ //           yield return new WaitForSeconds(SpeedIncreaseInterval);
+	//	}
+ //   }
 }
