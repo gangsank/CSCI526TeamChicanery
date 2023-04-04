@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Slider healthBar;
     [SerializeField] private Slider shieldBar;
-    [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private GameObject goal; // use for midtern
     [SerializeField] private GameObject gameoverMenu;
 
@@ -49,7 +48,7 @@ public class GameManager : MonoBehaviour
     private float curTime = 0;
     private int stopped = 0;
     private bool gameEnded = false;
-    private int activate_shield = 25;
+    private int activate_shield = 20;
     private bool shieldOn = false;
     readonly private int MaxHP = 100;
 
@@ -69,7 +68,7 @@ public class GameManager : MonoBehaviour
         healthBar.value = hp;
         healthBar.maxValue = hp;
         shieldBar.value = 0;
-        shieldBar.maxValue = 25;
+        shieldBar.maxValue = 20;
 
         if (goal == null) goal = GameObject.FindWithTag(Config.Tag.Goal);
         if (gameoverMenu != null) gameoverMenu?.SetActive(false);
@@ -175,7 +174,6 @@ public class GameManager : MonoBehaviour
                 {
                     shieldOn = true;
                 }
-                coinsText.text = $"{numCoins}";
             }
         }
     }
@@ -195,7 +193,6 @@ public class GameManager : MonoBehaviour
         }
 
         numCoins = 0;
-        coinsText.text = $"{numCoins}";
         shieldBar.value = numCoins;
 
         healthBar.value = hp;

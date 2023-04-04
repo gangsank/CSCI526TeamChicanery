@@ -2400,7 +2400,7 @@ MonoBehaviour:
   initialPlayerSpeed: 5
   player: {fileID: 0}
   healthBar: {fileID: 1570108582}
-  coinsText: {fileID: 0}
+  shieldBar: {fileID: 0}
   goal: {fileID: 0}
   gameoverMenu: {fileID: 0}
 --- !u!4 &1613958381
