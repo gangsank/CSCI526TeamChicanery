@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: 619e305f5165a9946b7f72464e44ca4a, type: 3}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.030415468, g: 0.066876225, b: 0.1288884, a: 1}
+  m_IndirectSpecularColor: {r: 0.030415552, g: 0.0668764, b: 0.12888905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3691,9 +3691,10 @@ MonoBehaviour:
   initialPlayerSpeed: 5
   player: {fileID: 0}
   healthBar: {fileID: 1570108582}
-  coinsText: {fileID: 0}
+  shieldBar: {fileID: 0}
   goal: {fileID: 0}
   gameoverMenu: {fileID: 0}
+  crash: {fileID: 0}
 --- !u!4 &1613958381
 Transform:
   m_ObjectHideFlags: 0

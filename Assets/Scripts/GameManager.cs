@@ -17,6 +17,8 @@ struct PlayerSave
     public float camerePosY;
     public float time;
 
+    
+
     public PlayerSave(Vector3 _pos, Quaternion _rot, Vector3 _speed, float gDir, Quaternion _wRot, float _cY, float t)
     {
         playerPos = _pos;
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider shieldBar;
     [SerializeField] private GameObject goal; // use for midtern
     [SerializeField] private GameObject gameoverMenu;
+    
 
     private GameMenu menu;
     private PlayerSave saveData;
@@ -51,6 +54,10 @@ public class GameManager : MonoBehaviour
     private int activate_shield = 20;
     private bool shieldOn = false;
     readonly private int MaxHP = 100;
+
+    public AudioSource crash;
+    public AudioSource sound_pickup_coin;
+  
 
     // Start is called before the first frame update
     void Start()
@@ -154,6 +161,7 @@ public class GameManager : MonoBehaviour
         
         if (other.gameObject.CompareTag(Config.Tag.Item))
         {
+            sound_pickup_coin.Play();
             Destroy(other.gameObject);
             Coin coin;
             if (other.TryGetComponent<Coin>(out coin)) {
@@ -182,7 +190,7 @@ public class GameManager : MonoBehaviour
     {
         
         LoadSaveData();
-
+        crash.Play();
 
         if (shieldOn){
             shieldOn = false;

@@ -66,6 +66,10 @@ public class FirstPersonController : MonoBehaviour
 
     private const float _threshold = 0.01f;
 
+	public AudioSource sound_change_gravity;
+	public AudioSource sound_jump;
+
+
 	private bool IsCurrentDeviceMouse
 	{
 		get
@@ -179,6 +183,8 @@ public class FirstPersonController : MonoBehaviour
 			if (_gravity.HasGroundUp())
 			{
                 _gravity.Reverse();
+				sound_change_gravity.Play();
+
             }
         }
 	}
@@ -193,6 +199,7 @@ public class FirstPersonController : MonoBehaviour
 	{
 		if (_gravity.Grounded) // jump 
 		{
+			sound_jump.Play();
 			// reset the fall timeout timer
 			_fallTimeoutDelta = FallTimeout;
 
