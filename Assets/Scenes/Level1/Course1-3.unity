@@ -1431,7 +1431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa95bc56a1ae4503971528d57f75829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: Hold Space to jump higher
+  message: Hold SPACE to jump farther!
   gui: {fileID: 1199881710}
 --- !u!64 &757549255
 MeshCollider:
@@ -2445,7 +2445,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -2594,7 +2594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa95bc56a1ae4503971528d57f75829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: 'Press Space to jump '
+  message: 'Press SPACE to jump! '
   gui: {fileID: 1199881710}
 --- !u!64 &1387331069
 MeshCollider:
