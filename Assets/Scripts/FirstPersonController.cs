@@ -199,13 +199,15 @@ public class FirstPersonController : MonoBehaviour
 	{
 		if (_gravity.Grounded) // jump 
 		{
-			sound_jump.Play();
 			// reset the fall timeout timer
 			_fallTimeoutDelta = FallTimeout;
 
 			if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+			{
+                sound_jump.Play();
                 _gravity.velocity = Mathf.Sqrt(JumpHeight * -2f * _gravity.force) * _gravity.direction;
-			if (_jumpTimeoutDelta >= 0.0f)
+            }
+            if (_jumpTimeoutDelta >= 0.0f)
 				_jumpTimeoutDelta -= Time.deltaTime;
 		}
 		else // fall

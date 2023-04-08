@@ -8,6 +8,11 @@ public class ObstacleBase : MonoBehaviour
     protected Vector3 size;
     protected float destroyOffset = 100;
 
+    private void Awake()
+    {
+        gameObject.layer = Config.Layer.Obstacle;
+    }
+
     // Start is called before the first frame update
     protected virtual void Start()
     {

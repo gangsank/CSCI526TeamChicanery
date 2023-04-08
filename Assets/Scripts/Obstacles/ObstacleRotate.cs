@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class ObstacleRotate : ObstacleBase
 {
-    public Vector3 dest;
+    public List<Vector3> stops;
+    //public Vector3 dest;
 
-    private Quaternion endAngle;
-    private Quaternion startAngle;
-    private Quaternion target;
+    //private Quaternion endAngle;
+    //private Quaternion startAngle;
+    //private Quaternion target;
+    private List<Quaternion> angles = new List<Quaternion>();
+    private int index = 0;
 
 
     public float rotationTime = 1f;
@@ -18,12 +21,17 @@ public class ObstacleRotate : ObstacleBase
     public float triggerRange = 100;
     private IEnumerator rotateAction;
 
+
     protected override void Start()
     {
         base.Start();
-        startAngle = transform.rotation;
-        endAngle = Quaternion.Euler(dest);
-        target = endAngle;
+        foreach (var angle in stops)
+            angles.Add(Quaternion.Euler(angle));
+        angles.Add(transform.rotation);
+
+        //startAngle = transform.rotation;
+        //endAngle = Quaternion.Euler(dest);
+        //target = endAngle;
 
         if (!useTrigger)
         {
@@ -47,13 +55,17 @@ public class ObstacleRotate : ObstacleBase
         while (true)
         {
             Quaternion start = transform.localRotation;
+            Quaternion target = angles[index];
+
             for (float t = 0; t < rotationTime; t += controller.isRotating ? 0 : Time.deltaTime)
             {
                 transform.localRotation = Quaternion.Slerp(start, target, t / rotationTime);
                 yield return null;
             }
+            Debug.Log(target);
             transform.localRotation = target;
-            target = target == startAngle ? endAngle : startAngle;
+            index = (index + 1) % angles.Count;
+            //target = target == startAngle ? endAngle : startAngle;
 
             for (float t = 0; t < stopTime; t += (controller.isRotating ? 0 : Time.deltaTime))
             {

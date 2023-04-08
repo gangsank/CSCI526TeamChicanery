@@ -9,7 +9,7 @@ public class WorldController : MonoBehaviour
     public GameObject environment;
     public LayerMask platform;
     public bool isRotating = false;
-    public float rotationDuration = 0.5f;
+    public float anglePerSecond = 150f;
     private GameObject currentGround;
 
     private GameObject player;
@@ -73,7 +73,7 @@ public class WorldController : MonoBehaviour
     private IEnumerator RotateWorld(Vector3 axis, float angle, GameObject wall, Vector3 local)
     {
         isRotating = true;
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.02f);
         if (player.GetComponent<CharacterController>().velocity.z == 0)
         {
             isRotating = false;
@@ -85,9 +85,10 @@ public class WorldController : MonoBehaviour
         player.GetComponent<TrailRenderer>().emitting = false;
         float finalEulerZ = environment.transform.eulerAngles.z + axis.z * angle;
 
-        for (float t = 0; t < rotationDuration; t += Time.deltaTime)
+        float duration = Mathf.Abs(angle) / anglePerSecond;
+        for (float t = 0; t < duration; t += Time.deltaTime)
         {
-            environment.transform.Rotate(axis, angle * Time.deltaTime / rotationDuration, Space.World);
+            environment.transform.Rotate(axis, angle * Time.deltaTime / duration, Space.World);
             player.transform.position = wall.transform.TransformPoint(local);
             yield return null;
         }

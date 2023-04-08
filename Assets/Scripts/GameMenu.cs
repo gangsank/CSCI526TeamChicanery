@@ -17,8 +17,8 @@ public class GameMenu : MonoBehaviour
     private List<string> stages = new List<string>{
         "Course1-1", "Course1-2", "Course1-3", "Course1-4", "Course1-5", "Course1-6",
         "Course2-1", "Course2-2", "Course2-3", "Course2-4", "Course2-5", "Course2-6",
-        "Course3-1", "Course3-2", "Course3-3",
-        "MixedCourses"
+        "Course3-1", "Course3-2", "Course3-3", "Course3-4",
+        "MixedCourse"
     };
 
     public void Show(string msg)

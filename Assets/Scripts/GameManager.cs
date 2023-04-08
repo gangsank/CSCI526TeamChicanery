@@ -17,7 +17,7 @@ struct PlayerSave
     public float camerePosY;
     public float time;
 
-    
+
 
     public PlayerSave(Vector3 _pos, Quaternion _rot, Vector3 _speed, float gDir, Quaternion _wRot, float _cY, float t)
     {
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider shieldBar;
     [SerializeField] private GameObject goal; // use for midtern
     [SerializeField] private GameObject gameoverMenu;
-    
+
 
     private GameMenu menu;
     private PlayerSave saveData;
@@ -55,9 +55,9 @@ public class GameManager : MonoBehaviour
     private bool shieldOn = false;
     readonly private int MaxHP = 100;
 
-    public AudioSource crash;
-    public AudioSource sound_pickup_coin;
-  
+    public AudioSource crashSFX;
+    public AudioSource coinSFX;
+
 
     // Start is called before the first frame update
     void Start()
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
             menu.back.onClick.RemoveAllListeners();
             menu.back.onClick.AddListener(Resume);
         }
-        
+
         player = GameObject.FindWithTag(Config.Tag.Player);
         player.GetComponent<FirstPersonController>().triggerEnter += HandleCoinCollect;
         hp = MaxHP;
@@ -76,6 +76,15 @@ public class GameManager : MonoBehaviour
         healthBar.maxValue = hp;
         shieldBar.value = 0;
         shieldBar.maxValue = 20;
+
+        var audios = player.GetComponentsInChildren<AudioSource>();
+        foreach (var audio in audios)
+        {
+            if (audio.gameObject.name == "CrashAudio")
+                crashSFX = audio;
+            else if (audio.gameObject.name == "CoinAudio")
+                coinSFX = audio;
+        }
 
         if (goal == null) goal = GameObject.FindWithTag(Config.Tag.Goal);
         if (gameoverMenu != null) gameoverMenu?.SetActive(false);
@@ -157,16 +166,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void HandleCoinCollect(Collider other) {
-        
+    private void HandleCoinCollect(Collider other)
+    {
+
         if (other.gameObject.CompareTag(Config.Tag.Item))
         {
-            sound_pickup_coin.Play();
+            coinSFX.Play();
             Destroy(other.gameObject);
             Coin coin;
-            if (other.TryGetComponent<Coin>(out coin)) {
-                if(player.GetComponent<Gravity>().direction == -1)
-                numCeilingCoins += 1;
+            if (other.TryGetComponent<Coin>(out coin))
+            {
+                if (player.GetComponent<Gravity>().direction == -1)
+                    numCeilingCoins += 1;
                 if (hp < MaxHP)
                 {
                     hp += 1;
@@ -188,11 +199,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator DamagePlayer()
     {
-        
-        LoadSaveData();
-        crash.Play();
 
-        if (shieldOn){
+        LoadSaveData();
+        crashSFX.Play();
+
+        if (shieldOn)
+        {
             shieldOn = false;
         }
         else
@@ -241,7 +253,8 @@ public class GameManager : MonoBehaviour
         )
         {
             RaycastHit hit;
-            if (Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 1.1f, wc.platform) && Vector3.Cross(hit.transform.up, transform.up).magnitude < 1E-6) {
+            if (Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 1.1f, wc.platform) && Vector3.Cross(hit.transform.up, transform.up).magnitude < 1E-6)
+            {
                 SaveData();
             }
         }
@@ -295,7 +308,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         gameEnded = true;
-        
+
         if (menu != null)
             Pause("YOU ARE DEAD");
         else
@@ -341,22 +354,17 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    private void ShowShield(){
-         GameObject shield= player.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
-        if (shieldOn){
-            //show shield
-            //Debug.Log(numCoins);
-            shield.transform.localScale = new Vector3(4, 1.2f, 3);
+    private void ShowShield()
+    {
+        GameObject shield = player.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
+        if (shieldOn)
+        {
+            shield.SetActive(true);
         }
-        else{
-            //Debug.Log("less than 5");
-            // player.GetComponentInChildren<Material>().color = Color.red;
-            // Debug.Log(player.GetComponentInChildren<Material>().color);
-           
-            shield.transform.localScale = new Vector3(0,0,0);
-            //shield.GetComponent<Transform>();
-           
+        else
+        {
+            shield.SetActive(false);
         }
-       
+
     }
 }
