@@ -73,7 +73,7 @@ public class WorldController : MonoBehaviour
     private IEnumerator RotateWorld(Vector3 axis, float angle, GameObject wall, Vector3 local)
     {
         isRotating = true;
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.02f);
         if (player.GetComponent<CharacterController>().velocity.z == 0)
         {
             isRotating = false;
