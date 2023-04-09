@@ -310,7 +310,7 @@ public class GameManager : MonoBehaviour
         gameEnded = true;
 
         if (menu != null)
-            Pause("YOU ARE DEAD");
+            Pause("Game Over");
         else
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
