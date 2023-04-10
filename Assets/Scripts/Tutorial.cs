@@ -13,9 +13,9 @@ public class Tutorial : MonoBehaviour
     private float fadeOutTime = 2f;
     private float displayTime = 7f;
     private bool isShown = false;
-
+   
     private void Start()
-    {
+    { 
         gui.CrossFadeAlpha(0, 0, true);
     }
 
