@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     private float curTime = 0;
     private int stopped = 0;
     private bool gameEnded = false;
-    private int activate_shield = 20;
+    private int activate_shield = 10;
     private bool shieldOn = false;
     readonly private int MaxHP = 100;
 
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         healthBar.value = hp;
         healthBar.maxValue = hp;
         shieldBar.value = 0;
-        shieldBar.maxValue = 20;
+        shieldBar.maxValue = 10;
 
         var audios = player.GetComponentsInChildren<AudioSource>();
         foreach (var audio in audios)
