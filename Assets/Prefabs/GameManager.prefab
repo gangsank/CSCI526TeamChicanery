@@ -49,7 +49,12 @@ MonoBehaviour:
   hp: 100
   initialPlayerSpeed: 5
   player: {fileID: 0}
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   healthBar: {fileID: 0}
-  coinsText: {fileID: 0}
+  shieldBar: {fileID: 0}
   goal: {fileID: 0}
   gameoverMenu: {fileID: 0}
+  crashSFX: {fileID: 0}
+  coinSFX: {fileID: 0}

@@ -37,8 +37,10 @@ public class GameManager : MonoBehaviour
     public int numCeilingCoins = 0;
     public int hp = 100;
     public int initialPlayerSpeed = 5;
+   
 
     [SerializeField] private GameObject player;
+    [SerializeField] private LayerMask damageLayer;
     [SerializeField] private Slider healthBar;
     [SerializeField] private Slider shieldBar;
     [SerializeField] private GameObject goal; // use for midtern
@@ -142,8 +144,12 @@ public class GameManager : MonoBehaviour
         CharacterController controller = player.GetComponent<CharacterController>();
         if (stopped == 0 && (controller.velocity.z <= 0.1) && !playerInvincible)
         {
-            playerInvincible = true;
-            StartCoroutine(DamagePlayer());
+            Vector3 spherePosition = player.transform.position + player.transform.up + 0.5f * Vector3.forward;
+            if (Physics.CheckSphere(spherePosition, 0.1f, damageLayer, QueryTriggerInteraction.Ignore))
+            {
+                playerInvincible = true;
+                StartCoroutine(DamagePlayer());
+            }
         }
     }
 
