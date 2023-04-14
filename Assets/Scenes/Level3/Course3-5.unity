@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18378596, g: 0.22836491, b: 0.29985717, a: 1}
+  m_IndirectSpecularColor: {r: 0.18378568, g: 0.22836463, b: 0.2998565, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -818,11 +818,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleRotate
       objectReference: {fileID: 0}
+    - target: {fileID: 6467020559334948978, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8911760771468394588, guid: dc775fc420a5d49f9ba58ed48542bc90,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d98314d583b164993849da3d3e3010b7, type: 2}
+    - target: {fileID: 8911760771468394590, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760771920994826, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772255077524, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772378836346, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772529943476, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760773166120060, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc775fc420a5d49f9ba58ed48542bc90, type: 3}
 --- !u!1 &308753787 stripped
@@ -1641,11 +1676,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleMoveAndRotate2
       objectReference: {fileID: 0}
+    - target: {fileID: 6467020559334948978, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8911760771468394588, guid: dc775fc420a5d49f9ba58ed48542bc90,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d98314d583b164993849da3d3e3010b7, type: 2}
+    - target: {fileID: 8911760771468394590, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760771920994826, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772255077524, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772378836346, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772529943476, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760773166120060, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc775fc420a5d49f9ba58ed48542bc90, type: 3}
 --- !u!4 &650021412 stripped
@@ -2846,11 +2916,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleMoveAndRotate
       objectReference: {fileID: 0}
+    - target: {fileID: 6467020559334948978, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8911760771468394588, guid: dc775fc420a5d49f9ba58ed48542bc90,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d98314d583b164993849da3d3e3010b7, type: 2}
+    - target: {fileID: 8911760771468394590, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760771920994826, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772255077524, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772378836346, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772529943476, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760773166120060, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc775fc420a5d49f9ba58ed48542bc90, type: 3}
 --- !u!4 &1094308788 stripped
@@ -6179,11 +6284,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleRotate4
       objectReference: {fileID: 0}
+    - target: {fileID: 6467020559334948978, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8911760771468394588, guid: dc775fc420a5d49f9ba58ed48542bc90,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d98314d583b164993849da3d3e3010b7, type: 2}
+    - target: {fileID: 8911760771468394590, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760771920994826, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772255077524, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772378836346, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772529943476, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760773166120060, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc775fc420a5d49f9ba58ed48542bc90, type: 3}
 --- !u!4 &1901633872 stripped
@@ -6531,11 +6671,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleRotate3
       objectReference: {fileID: 0}
+    - target: {fileID: 6467020559334948978, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8911760771468394588, guid: dc775fc420a5d49f9ba58ed48542bc90,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d98314d583b164993849da3d3e3010b7, type: 2}
+    - target: {fileID: 8911760771468394590, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760771920994826, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772255077524, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772378836346, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760772529943476, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911760773166120060, guid: dc775fc420a5d49f9ba58ed48542bc90,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc775fc420a5d49f9ba58ed48542bc90, type: 3}
 --- !u!4 &2138037277 stripped

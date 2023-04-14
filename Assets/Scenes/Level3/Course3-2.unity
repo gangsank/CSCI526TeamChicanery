@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18378596, g: 0.22836491, b: 0.29985717, a: 1}
+  m_IndirectSpecularColor: {r: 0.18378568, g: 0.22836463, b: 0.2998565, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 26658250}
   - component: {fileID: 26658249}
   - component: {fileID: 26658248}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 267811794}
   - component: {fileID: 267811793}
   - component: {fileID: 267811792}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -780,7 +780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 306206620}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ObstacleStatic1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1121,7 +1121,7 @@ GameObject:
   - component: {fileID: 777286040}
   - component: {fileID: 777286039}
   - component: {fileID: 777286038}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1769,6 +1769,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleClosed1
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064305051648469, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064305051648474, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_RootOrder
@@ -1823,6 +1828,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064305281242184, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09247ba22f0274e49884df1155201a45, type: 3}
@@ -2481,7 +2501,7 @@ GameObject:
   - component: {fileID: 1490127897}
   - component: {fileID: 1490127896}
   - component: {fileID: 1490127895}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2872,7 +2892,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1596008104}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ObstacleStatic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3576,7 +3596,7 @@ GameObject:
   - component: {fileID: 2014037039}
   - component: {fileID: 2014037038}
   - component: {fileID: 2014037037}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3763,7 +3783,7 @@ GameObject:
   - component: {fileID: 2058480631}
   - component: {fileID: 2058480630}
   - component: {fileID: 2058480629}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3857,7 +3877,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2067260096}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ObstacleStatic2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4040,7 +4060,7 @@ GameObject:
   - component: {fileID: 2133266647}
   - component: {fileID: 2133266646}
   - component: {fileID: 2133266645}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ObstacleStatic3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4137,6 +4157,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleClosed
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064305051648469, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064305051648474, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_RootOrder
@@ -4191,6 +4216,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -120
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064305281242184, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09247ba22f0274e49884df1155201a45, type: 3}

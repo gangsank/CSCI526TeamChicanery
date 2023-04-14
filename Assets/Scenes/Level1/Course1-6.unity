@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1813849, g: 0.22700587, b: 0.3073789, a: 1}
+  m_IndirectSpecularColor: {r: 0.18138474, g: 0.22700556, b: 0.3073783, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -445,7 +445,7 @@ GameObject:
   - component: {fileID: 332552391}
   - component: {fileID: 332552390}
   - component: {fileID: 332552389}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ObstacleStatic3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,7 +1227,7 @@ GameObject:
   - component: {fileID: 971528450}
   - component: {fileID: 971528449}
   - component: {fileID: 971528448}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ObstacleStatic1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2381,7 +2381,7 @@ GameObject:
   - component: {fileID: 2007426278}
   - component: {fileID: 2007426277}
   - component: {fileID: 2007426276}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ObstacleStatic2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2478,7 +2478,7 @@ GameObject:
   - component: {fileID: 2074003958}
   - component: {fileID: 2074003957}
   - component: {fileID: 2074003956}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ObstacleStatic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
