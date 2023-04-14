@@ -22,8 +22,6 @@ public class WorldController : MonoBehaviour
     {
         player = GameObject.FindWithTag(Config.Tag.Player);
         environment = GameObject.FindWithTag(Config.Tag.World);
-
-        
     }
 
     private void Start()
@@ -38,7 +36,7 @@ public class WorldController : MonoBehaviour
 
     private void Update()
     {
-        if (player.GetComponent<Gravity>().velocity > 0)
+        if (!player.GetComponent<Gravity>().Grounded)
         {
             currentGround = null;
         }
@@ -47,6 +45,7 @@ public class WorldController : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         var values = AllowRotate(hit);
+        //Debug.Log(values);
         if (values != null)
         {
             StartCoroutine(RotateWorld(values.Value.axis, values.Value.angle, hit.gameObject, hit.gameObject.transform.InverseTransformPoint(hit.point)));
@@ -58,7 +57,7 @@ public class WorldController : MonoBehaviour
         if (player.GetComponent<CharacterController>().velocity.z == 0) return null;
 
         int layer = 1 << hit.gameObject.layer;
-        bool hitUnderGround = hit.gameObject.transform.up.y >= 0.95;
+        bool hitUnderGround = Mathf.Abs(hit.gameObject.transform.up.y) >= 0.95;
         bool hitGround = (layer & platform) > 0;
 
         if (hitUnderGround)
@@ -90,7 +89,7 @@ public class WorldController : MonoBehaviour
     private IEnumerator RotateWorld(Vector3 axis, float angle, GameObject wall, Vector3 local)
     {
         isRotating = true;
-        yield return new WaitForSeconds(0.02f);
+        yield return new WaitForSeconds(0.05f);
         if (player.GetComponent<CharacterController>().velocity.z == 0)
         {
             isRotating = false;
