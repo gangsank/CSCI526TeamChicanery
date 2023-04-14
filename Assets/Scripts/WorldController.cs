@@ -22,19 +22,25 @@ public class WorldController : MonoBehaviour
     {
         player = GameObject.FindWithTag(Config.Tag.Player);
         environment = GameObject.FindWithTag(Config.Tag.World);
+
+        
+    }
+
+    private void Start()
+    {
+        RaycastHit hit;
+        
+        if (Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 5, platform))
+        {
+            currentGround = hit.transform.gameObject;
+        }
     }
 
     private void Update()
     {
-        RaycastHit hit;
-        //if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 40, platform))
-        //{
-        //    player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
-        //}
-
-        if (!isRotating && Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 5, platform))
+        if (player.GetComponent<Gravity>().velocity > 0)
         {
-            currentGround = hit.transform.gameObject;
+            currentGround = null;
         }
     }
 
@@ -54,9 +60,20 @@ public class WorldController : MonoBehaviour
         int layer = 1 << hit.gameObject.layer;
         bool hitUnderGround = hit.gameObject.transform.up.y >= 0.95;
         bool hitGround = (layer & platform) > 0;
-        if (hitUnderGround || !hitGround) return null; 
 
-        bool colorMatched = ColorMatch ? currentGround.GetComponent<MeshRenderer>().material.color == hit.gameObject.GetComponent<MeshRenderer>().material.color : true;
+        if (hitUnderGround)
+            currentGround = hit.gameObject;
+        if (hitUnderGround || !hitGround) return null; 
+          
+        bool colorMatched = true;
+        if (ColorMatch && currentGround != null && currentGround.GetComponent<MeshRenderer>().material.color != hit.gameObject.GetComponent<MeshRenderer>().material.color)
+        {
+            colorMatched = false;
+        }
+        else
+        {
+            currentGround = hit.gameObject;
+        }
 
         if (!shouldReset && colorMatched && !isRotating)
         {
