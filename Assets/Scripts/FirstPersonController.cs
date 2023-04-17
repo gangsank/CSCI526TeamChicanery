@@ -13,9 +13,9 @@ public class FirstPersonController : MonoBehaviour
 	//public float SpeedIncreaseRate = 1.0f;
 	//public float SpeedIncreaseInterval = 5.0f;
 
-	public float ForwardSpeed = 5.0f;
+	public float ForwardSpeed = 8.0f;
 	[Tooltip("Move speed of the character in m/s")]
-	public float CrossSpeed = 5.0f;
+	public float CrossSpeed = 8.0f;
 	[Tooltip("Acceleration and deceleration")]
 	public float SpeedChangeRate = 1.0f;
 

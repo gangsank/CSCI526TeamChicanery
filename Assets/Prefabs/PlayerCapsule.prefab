@@ -301,26 +301,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpeed: 20
-  SpeedIncreaseRate: 5
-  SpeedIncreaseInterval: 5
-  ForwardSpeed: 5
-  CrossSpeed: 5
+  ForwardSpeed: 8
+  CrossSpeed: 8
   SpeedChangeRate: 10
   JumpHeight: 2
-  Gravity: -15
-  gravityDirection: 1
   JumpTimeout: 0.1
   FallTimeout: 0.15
-  Grounded: 1
-  GroundedOffset: -0.14
-  GroundedRadius: 0.5
-  GroundLayers:
-    serializedVersion: 2
-    m_Bits: 512
   CinemachineCameraTarget: {fileID: 4135013735270702863}
   TopClamp: 89
   BottomClamp: -89
-  _verticalVelocity: 0
+  boundaryMask:
+    serializedVersion: 2
+    m_Bits: 0
+  vCamera: {fileID: 0}
+  sound_change_gravity: {fileID: 0}
+  sound_jump: {fileID: 0}
 --- !u!114 &5420857361349278248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,6 +331,7 @@ MonoBehaviour:
   move: {x: 0, y: 0}
   jump: 0
   primaryAction: 0
+  menu: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -573,7 +569,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   isRotating: 0
-  rotationDuration: 0.5
+  anglePerSecond: 150
+  numRotate: 0
 --- !u!114 &3786452789102804920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,3 +591,5 @@ MonoBehaviour:
     m_Bits: 512
   force: -9.8
   direction: 1
+  applyReverseAction: 1
+  velocity: 0
