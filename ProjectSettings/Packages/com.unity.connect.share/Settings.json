@@ -21,7 +21,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"/Users/gangsank/Desktop/CSCI526/Weekly WebGL Builds/week13 build;/Users/lorne/programs/Chicanery/WebGL Builds;;;;;;;;\"}"
+                "value": "{\"m_Value\":\"/Users/lorne/programs/Portfolio/GeoRush/Week9;/Users/gangsank/Desktop/CSCI526/Weekly WebGL Builds/week13 build;/Users/lorne/programs/Chicanery/WebGL Builds;;;;;;;\"}"
             }
         ]
     }
