@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -914,7 +914,7 @@ GameObject:
   - component: {fileID: 202948730}
   - component: {fileID: 202948729}
   - component: {fileID: 202948728}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1198,7 +1198,7 @@ GameObject:
   - component: {fileID: 226069714}
   - component: {fileID: 226069716}
   - component: {fileID: 226069715}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1698,7 +1698,7 @@ GameObject:
   - component: {fileID: 294435172}
   - component: {fileID: 294435171}
   - component: {fileID: 294435170}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (1) - Course3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2490,7 +2490,7 @@ GameObject:
   - component: {fileID: 419393371}
   - component: {fileID: 419393370}
   - component: {fileID: 419393369}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3431,7 +3431,7 @@ GameObject:
   - component: {fileID: 538197797}
   - component: {fileID: 538197796}
   - component: {fileID: 538197795}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3528,7 +3528,7 @@ GameObject:
   - component: {fileID: 560157750}
   - component: {fileID: 560157752}
   - component: {fileID: 560157751}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4940,7 +4940,7 @@ GameObject:
   - component: {fileID: 748103194}
   - component: {fileID: 748103193}
   - component: {fileID: 748103192}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5853,7 +5853,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 958146917}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6323,7 +6323,7 @@ GameObject:
   - component: {fileID: 1042480512}
   - component: {fileID: 1042480511}
   - component: {fileID: 1042480510}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6421,7 +6421,7 @@ GameObject:
   - component: {fileID: 1088632361}
   - component: {fileID: 1088632360}
   - component: {fileID: 1088632359}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6608,7 +6608,7 @@ GameObject:
   - component: {fileID: 1124666638}
   - component: {fileID: 1124666637}
   - component: {fileID: 1124666636}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6704,7 +6704,7 @@ GameObject:
   - component: {fileID: 1127863766}
   - component: {fileID: 1127863768}
   - component: {fileID: 1127863767}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6974,7 +6974,7 @@ GameObject:
   - component: {fileID: 1232698284}
   - component: {fileID: 1232698283}
   - component: {fileID: 1232698282}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (2) - Course3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8304,6 +8304,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gate
       objectReference: {fileID: 0}
+    - target: {fileID: 3214163349891547813, guid: c8c81a47be5c041d9b3304aa65178c44,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 3214163349891547815, guid: c8c81a47be5c041d9b3304aa65178c44,
         type: 3}
       propertyPath: m_RootOrder
@@ -8369,10 +8374,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gate Right - Course4
       objectReference: {fileID: 0}
+    - target: {fileID: 3214163350498989884, guid: c8c81a47be5c041d9b3304aa65178c44,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 3214163351556058419, guid: c8c81a47be5c041d9b3304aa65178c44,
         type: 3}
       propertyPath: m_Name
       value: Gate Left - Course4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3214163351556058419, guid: c8c81a47be5c041d9b3304aa65178c44,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8c81a47be5c041d9b3304aa65178c44, type: 3}
@@ -9374,7 +9389,7 @@ GameObject:
   - component: {fileID: 1547797910}
   - component: {fileID: 1547797909}
   - component: {fileID: 1547797908}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9471,7 +9486,7 @@ GameObject:
   - component: {fileID: 1568125362}
   - component: {fileID: 1568125364}
   - component: {fileID: 1568125363}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9644,6 +9659,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleClosed (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064305051648469, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064305051648474, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_RootOrder
@@ -9704,15 +9724,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube (11) - Course6
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064305281242184, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_Name
       value: Cube (12) - Course6
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_Name
       value: Gate (3) - Course6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09247ba22f0274e49884df1155201a45, type: 3}
@@ -9734,7 +9769,7 @@ GameObject:
   - component: {fileID: 1638445735}
   - component: {fileID: 1638445734}
   - component: {fileID: 1638445733}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9865,7 +9900,7 @@ GameObject:
   - component: {fileID: 1725919695}
   - component: {fileID: 1725919694}
   - component: {fileID: 1725919693}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10132,6 +10167,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleClosed
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064305051648469, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064305051648474, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_RootOrder
@@ -10192,15 +10232,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube (7) - Course6
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064305281242184, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_Name
       value: Cube (8) - Course6
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_Name
       value: Gate (1) - Course6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09247ba22f0274e49884df1155201a45, type: 3}
@@ -10306,7 +10361,7 @@ GameObject:
   - component: {fileID: 1838804395}
   - component: {fileID: 1838804397}
   - component: {fileID: 1838804396}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10522,7 +10577,7 @@ GameObject:
   - component: {fileID: 1911147933}
   - component: {fileID: 1911147935}
   - component: {fileID: 1911147934}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11191,6 +11246,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleClosed (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064305051648469, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064305051648474, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_RootOrder
@@ -11251,15 +11311,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube (9) - Course6
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064305281242184, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_Name
       value: Cube (10) - Course6
       objectReference: {fileID: 0}
+    - target: {fileID: 6341064306088277314, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
         type: 3}
       propertyPath: m_Name
       value: Gate (2) - Course6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341064306319041082, guid: 09247ba22f0274e49884df1155201a45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09247ba22f0274e49884df1155201a45, type: 3}
@@ -11515,7 +11590,7 @@ GameObject:
   - component: {fileID: 2086792029}
   - component: {fileID: 2086792028}
   - component: {fileID: 2086792027}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11612,7 +11687,7 @@ GameObject:
   - component: {fileID: 2109980808}
   - component: {fileID: 2109980807}
   - component: {fileID: 2109980806}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
