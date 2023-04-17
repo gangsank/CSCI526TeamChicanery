@@ -186,7 +186,7 @@ public class GameManager : MonoBehaviour
                     numCeilingCoins += 1;
                 if (hp < MaxHP)
                 {
-                    hp += 1;
+                    hp += 2;
                     healthBar.value = hp;
                 }
                 else if (!shieldOn)
