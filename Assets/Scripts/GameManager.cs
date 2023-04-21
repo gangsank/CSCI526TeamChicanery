@@ -254,7 +254,6 @@ public class GameManager : MonoBehaviour
             cc.velocity.z > initialPlayerSpeed &&
             curTime - saveData.time >= 3 &&
             player.GetComponent<Gravity>().Grounded &&
-            !Physics.Raycast(player.transform.position + player.transform.up, player.transform.forward, 0.8f * pc.ForwardSpeed) &&
             (player.transform.localRotation.z == 0 || player.transform.localRotation.z == 1)
         )
         {
@@ -291,9 +290,41 @@ public class GameManager : MonoBehaviour
         player.GetComponent<Gravity>().Stop();
 
         var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-        Debug.Log($"Load: {saveData.playerPos}/{saveData.playerRotation.eulerAngles}/{saveData.gravityDirection}/{saveData.worldRotation.eulerAngles}/");
+        //Debug.Log($"Load: {saveData.playerPos}/{saveData.playerRotation.eulerAngles}/{saveData.gravityDirection}/{saveData.worldRotation.eulerAngles}/");
 
-        player.transform.position = saveData.playerPos;
+        RaycastHit forward;
+        Physics.Raycast(saveData.playerPos, player.transform.forward, out forward, saveData.playerSpeed.y, damageLayer);
+
+        if (
+            !Physics.Raycast(saveData.playerPos, player.transform.forward + player.transform.up, out forward, saveData.playerSpeed.y, damageLayer) ||
+            forward.distance >= 0.8 * saveData.playerSpeed.y
+        )
+        {
+            player.transform.position = saveData.playerPos;
+        }
+        else
+        {
+            float complementDistance = 0.8f * saveData.playerSpeed.y - forward.distance;
+            RaycastHit backward;
+            Debug.Log("Too close to front");
+            if (
+                !Physics.Raycast(saveData.playerPos, -player.transform.forward, out backward, saveData.playerSpeed.y, damageLayer) ||
+                (backward.distance - 10) >= complementDistance
+            )
+            {
+                player.transform.position = saveData.playerPos + Vector3.back * complementDistance;
+            }
+            else
+            {
+                Debug.Log("Too close to back");
+
+                float usableDistance = Mathf.Max(backward.distance - 10, 0);
+                player.transform.position = saveData.playerPos + Vector3.back * usableDistance;
+            }
+        }
+
+
+
         player.transform.rotation = saveData.playerRotation;
         player.GetComponent<CharacterController>().enabled = true;
 

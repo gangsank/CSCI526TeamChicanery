@@ -62,7 +62,6 @@ public class ObstacleRotate : ObstacleBase
                 transform.localRotation = Quaternion.Slerp(start, target, t / rotationTime);
                 yield return null;
             }
-            Debug.Log(target);
             transform.localRotation = target;
             index = (index + 1) % angles.Count;
             //target = target == startAngle ? endAngle : startAngle;
