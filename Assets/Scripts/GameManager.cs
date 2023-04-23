@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
     readonly private int MaxHP = 100;
     private float startSpeed;
 
+    private ParticleSystem healingParticle;
+    private IEnumerator healingAnimation;
+
     public AudioSource crashSFX;
     public AudioSource coinSFX;
 
@@ -86,6 +89,9 @@ public class GameManager : MonoBehaviour
             else if (audio.gameObject.name == "CoinAudio")
                 coinSFX = audio;
         }
+
+        healingParticle = player.GetComponentsInChildren<ParticleSystem>()[0];
+        healingParticle.Stop();
 
         if (goal == null) goal = GameObject.FindWithTag(Config.Tag.Goal);
         if (gameoverMenu != null) gameoverMenu?.SetActive(false);
@@ -185,8 +191,7 @@ public class GameManager : MonoBehaviour
                     numCeilingCoins += 1;
                 if (hp < MaxHP)
                 {
-                    hp += 2;
-                    healthBar.value = hp;
+                    Heal();
                 }
                 else if (!shieldOn)
                 {
@@ -207,6 +212,8 @@ public class GameManager : MonoBehaviour
 
         LoadSaveData();
         crashSFX.Play();
+        healingParticle.Stop();
+        healingAnimation = null;
 
         if (shieldOn)
         {
@@ -402,5 +409,25 @@ public class GameManager : MonoBehaviour
             shield.SetActive(false);
         }
 
+    }
+
+    private void Heal()
+    {
+        hp += 2;
+        healthBar.value = hp;
+
+        if (healingAnimation == null)
+        {
+            healingParticle.Play();
+            healingAnimation = HealAction();
+            StartCoroutine(healingAnimation);
+        }
+    }
+
+    private IEnumerator HealAction()
+    {
+        yield return new WaitForSeconds(2);
+        healingParticle.Stop();
+        healingAnimation = null;
     }
 }
