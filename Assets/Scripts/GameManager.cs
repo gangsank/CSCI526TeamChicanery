@@ -17,8 +17,6 @@ struct PlayerSave
     public float camerePosY;
     public float time;
 
-
-
     public PlayerSave(Vector3 _pos, Quaternion _rot, Vector3 _speed, float gDir, Quaternion _wRot, float _cY, float t)
     {
         playerPos = _pos;
@@ -37,7 +35,6 @@ public class GameManager : MonoBehaviour
     public int numCeilingCoins = 0;
     public int hp = 100;
     public int initialPlayerSpeed = 5;
-   
 
     [SerializeField] private GameObject player;
     [SerializeField] private LayerMask damageLayer;
@@ -56,6 +53,7 @@ public class GameManager : MonoBehaviour
     private int activate_shield = 10;
     private bool shieldOn = false;
     readonly private int MaxHP = 100;
+    private float startSpeed;
 
     public AudioSource crashSFX;
     public AudioSource coinSFX;
@@ -73,6 +71,7 @@ public class GameManager : MonoBehaviour
 
         player = GameObject.FindWithTag(Config.Tag.Player);
         player.GetComponent<FirstPersonController>().triggerEnter += HandleCoinCollect;
+        startSpeed = player.GetComponent<FirstPersonController>().ForwardSpeed;
         hp = MaxHP;
         healthBar.value = hp;
         healthBar.maxValue = hp;
@@ -335,8 +334,8 @@ public class GameManager : MonoBehaviour
 
         var pc = player.GetComponent<FirstPersonController>();
         pc.MaxSpeed = saveData.playerSpeed.x;
-        pc.ForwardSpeed = saveData.playerSpeed.y;
-        pc.CrossSpeed = saveData.playerSpeed.z;
+        pc.ForwardSpeed = Mathf.Max(startSpeed, saveData.playerSpeed.y * 0.9f);
+        pc.CrossSpeed = Mathf.Max(startSpeed, saveData.playerSpeed.z * 0.9f);
         pc.CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
         saveData.time = curTime;
     }

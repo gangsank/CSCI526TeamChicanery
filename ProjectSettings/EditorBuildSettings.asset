@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 124d2b9359a1f492aa0c47d851451398
   - enabled: 1
-    path: Assets/Scenes/MixedCourse.unity
+    path: Assets/Scenes/Level3/Course3-6.unity
     guid: 8cf9a5f245e1d4976b210d5255bb3f1a
   - enabled: 1
     path: Assets/Scenes/Level1/Course1-1.unity
