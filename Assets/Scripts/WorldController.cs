@@ -9,7 +9,7 @@ public class WorldController : MonoBehaviour
     public GameObject environment;
     public LayerMask platform;
     public bool isRotating = false;
-    public float rotationDuration = 0.5f;
+    public float anglePerSecond = 150f;
     private GameObject currentGround;
 
     private GameObject player;
@@ -24,23 +24,28 @@ public class WorldController : MonoBehaviour
         environment = GameObject.FindWithTag(Config.Tag.World);
     }
 
-    private void Update()
+    private void Start()
     {
         RaycastHit hit;
-        //if (Physics.Raycast(player.transform.position, player.transform.up, out hit, 40, platform))
-        //{
-        //    player.transform.GetChild(2).GetComponent<MeshRenderer>().material = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
-        //}
-
-        if (!isRotating && Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 5, platform))
+        
+        if (Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 5, platform))
         {
             currentGround = hit.transform.gameObject;
+        }
+    }
+
+    private void Update()
+    {
+        if (!player.GetComponent<Gravity>().Grounded)
+        {
+            currentGround = null;
         }
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         var values = AllowRotate(hit);
+        //Debug.Log(values);
         if (values != null)
         {
             StartCoroutine(RotateWorld(values.Value.axis, values.Value.angle, hit.gameObject, hit.gameObject.transform.InverseTransformPoint(hit.point)));
@@ -52,11 +57,22 @@ public class WorldController : MonoBehaviour
         if (player.GetComponent<CharacterController>().velocity.z == 0) return null;
 
         int layer = 1 << hit.gameObject.layer;
-        bool hitUnderGround = hit.gameObject.transform.up.y >= 0.95;
+        bool hitUnderGround = Mathf.Abs(hit.gameObject.transform.up.y) >= 0.95;
         bool hitGround = (layer & platform) > 0;
-        if (hitUnderGround || !hitGround) return null; 
 
-        bool colorMatched = ColorMatch ? currentGround.GetComponent<MeshRenderer>().material.color == hit.gameObject.GetComponent<MeshRenderer>().material.color : true;
+        if (hitUnderGround)
+            currentGround = hit.gameObject;
+        if (hitUnderGround || !hitGround) return null; 
+          
+        bool colorMatched = true;
+        if (ColorMatch && currentGround != null && currentGround.GetComponent<MeshRenderer>().material.color != hit.gameObject.GetComponent<MeshRenderer>().material.color)
+        {
+            colorMatched = false;
+        }
+        else
+        {
+            currentGround = hit.gameObject;
+        }
 
         if (!shouldReset && colorMatched && !isRotating)
         {
@@ -85,9 +101,10 @@ public class WorldController : MonoBehaviour
         player.GetComponent<TrailRenderer>().emitting = false;
         float finalEulerZ = environment.transform.eulerAngles.z + axis.z * angle;
 
-        for (float t = 0; t < rotationDuration; t += Time.deltaTime)
+        float duration = Mathf.Abs(angle) / anglePerSecond;
+        for (float t = 0; t < duration; t += Time.deltaTime)
         {
-            environment.transform.Rotate(axis, angle * Time.deltaTime / rotationDuration, Space.World);
+            environment.transform.Rotate(axis, angle * Time.deltaTime / duration, Space.World);
             player.transform.position = wall.transform.TransformPoint(local);
             yield return null;
         }

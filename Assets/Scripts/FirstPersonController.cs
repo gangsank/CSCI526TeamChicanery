@@ -9,13 +9,13 @@ using Cinemachine;
 public class FirstPersonController : MonoBehaviour
 {
 	[Header("Player")]
-	public float MaxSpeed = 5.0f;
-	public float SpeedIncreaseRate = 1.0f;
-	public float SpeedIncreaseInterval = 5.0f;
+	public float MaxSpeed = 5;
+	//public float SpeedIncreaseRate = 1.0f;
+	//public float SpeedIncreaseInterval = 5.0f;
 
-	public float ForwardSpeed = 5.0f;
+	public float ForwardSpeed = 8.0f;
 	[Tooltip("Move speed of the character in m/s")]
-	public float CrossSpeed = 5.0f;
+	public float CrossSpeed = 8.0f;
 	[Tooltip("Acceleration and deceleration")]
 	public float SpeedChangeRate = 1.0f;
 
@@ -66,6 +66,10 @@ public class FirstPersonController : MonoBehaviour
 
     private const float _threshold = 0.01f;
 
+	public AudioSource sound_change_gravity;
+	public AudioSource sound_jump;
+
+
 	private bool IsCurrentDeviceMouse
 	{
 		get
@@ -94,7 +98,7 @@ public class FirstPersonController : MonoBehaviour
 		_jumpTimeoutDelta = JumpTimeout;
 		_fallTimeoutDelta = FallTimeout;
 
-		SpeedUp();
+		//SpeedUp();
 
     }
 
@@ -104,17 +108,17 @@ public class FirstPersonController : MonoBehaviour
         JumpAndGravity();
         Move();
 
-        if ((_controller.velocity.z < MaxSpeed / 2 || !_gravity.Grounded))
-		{
-			if (GetComponent<TrailRenderer>().emitting)
-                GetComponent<TrailRenderer>().emitting = false;
-        }
-		else if (Mathf.Round(_controller.velocity.z) == Mathf.Round(MaxSpeed))
+		if (_controller.velocity.z - MaxSpeed >= 1)
 		{
 			if (!GetComponent<TrailRenderer>().emitting)
-	            GetComponent<TrailRenderer>().emitting = true;
-        }
-    }
+				GetComponent<TrailRenderer>().emitting = true;
+		}
+		else
+		{
+			if (GetComponent<TrailRenderer>().emitting)
+				GetComponent<TrailRenderer>().emitting = false;
+		}
+	}
 
 	private void LateUpdate()
 	{
@@ -179,6 +183,8 @@ public class FirstPersonController : MonoBehaviour
 			if (_gravity.HasGroundUp())
 			{
                 _gravity.Reverse();
+				sound_change_gravity.Play();
+
             }
         }
 	}
@@ -197,8 +203,11 @@ public class FirstPersonController : MonoBehaviour
 			_fallTimeoutDelta = FallTimeout;
 
 			if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+			{
+                sound_jump.Play();
                 _gravity.velocity = Mathf.Sqrt(JumpHeight * -2f * _gravity.force) * _gravity.direction;
-			if (_jumpTimeoutDelta >= 0.0f)
+            }
+            if (_jumpTimeoutDelta >= 0.0f)
 				_jumpTimeoutDelta -= Time.deltaTime;
 		}
 		else // fall
@@ -228,23 +237,23 @@ public class FirstPersonController : MonoBehaviour
 		return Mathf.Clamp(lfAngle, lfMin, lfMax);
 	}
 
-	public void SpeedUp()
-	{
-		StopCoroutine("SpeedUpAction");
-		StartCoroutine("SpeedUpAction");
-    }
+	//public void SpeedUp()
+	//{
+	//	StopCoroutine("SpeedUpAction");
+	//	StartCoroutine("SpeedUpAction");
+ //   }
 
-    public IEnumerator SpeedUpAction()
-    {
-		while (true)
-		{
-			if (ForwardSpeed < MaxSpeed)
-			{
-                ForwardSpeed += SpeedIncreaseRate;
-                CrossSpeed += SpeedIncreaseRate;
-            }
+ //   public IEnumerator SpeedUpAction()
+ //   {
+	//	while (true)
+	//	{
+	//		if (ForwardSpeed < MaxSpeed)
+	//		{
+ //               ForwardSpeed += SpeedIncreaseRate;
+ //               CrossSpeed += SpeedIncreaseRate;
+ //           }
 
-            yield return new WaitForSeconds(SpeedIncreaseInterval);
-		}
-    }
+ //           yield return new WaitForSeconds(SpeedIncreaseInterval);
+	//	}
+ //   }
 }

@@ -27,5 +27,6 @@ public class Config
         public static int Character= 8;
         public static int Ground = 9;
         public static int Boundary = 10;
+        public static int Obstacle = 11;
     }
 }

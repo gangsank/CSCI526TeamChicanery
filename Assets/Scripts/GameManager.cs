@@ -5,24 +5,23 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Proyecto26;
-using UnityEngine.InputSystem.XR;
 using Cinemachine;
-using Unity.VisualScripting;
-using UnityEditor;
 
 struct PlayerSave
 {
     public Vector3 playerPos;
     public Quaternion playerRotation;
+    public Vector3 playerSpeed; // Max, Forward, Cross
     public float gravityDirection;
     public Quaternion worldRotation;
     public float camerePosY;
     public float time;
 
-    public PlayerSave(Vector3 _pos, Quaternion _rot, float gDir, Quaternion _wRot, float _cY, float t)
+    public PlayerSave(Vector3 _pos, Quaternion _rot, Vector3 _speed, float gDir, Quaternion _wRot, float _cY, float t)
     {
         playerPos = _pos;
         playerRotation = _rot;
+        playerSpeed = _speed;
         gravityDirection = gDir;
         worldRotation = _wRot;
         camerePosY = _cY;
@@ -34,14 +33,16 @@ public class GameManager : MonoBehaviour
 {
     public int numCoins = 0;
     public int numCeilingCoins = 0;
-    public int hp = 4;
+    public int hp = 100;
     public int initialPlayerSpeed = 5;
 
     [SerializeField] private GameObject player;
+    [SerializeField] private LayerMask damageLayer;
     [SerializeField] private Slider healthBar;
-    [SerializeField] private TextMeshProUGUI coinsText;
+    [SerializeField] private Slider shieldBar;
     [SerializeField] private GameObject goal; // use for midtern
     [SerializeField] private GameObject gameoverMenu;
+
 
     private GameMenu menu;
     private PlayerSave saveData;
@@ -50,6 +51,16 @@ public class GameManager : MonoBehaviour
     private int stopped = 0;
     private bool gameEnded = false;
     private int activate_shield = 10;
+    private bool shieldOn = false;
+    readonly private int MaxHP = 100;
+    private float startSpeed;
+
+    private ParticleSystem healingParticle;
+    private IEnumerator healingAnimation;
+
+    public AudioSource crashSFX;
+    public AudioSource coinSFX;
+
 
     // Start is called before the first frame update
     void Start()
@@ -60,15 +71,31 @@ public class GameManager : MonoBehaviour
             menu.back.onClick.RemoveAllListeners();
             menu.back.onClick.AddListener(Resume);
         }
-        
+
         player = GameObject.FindWithTag(Config.Tag.Player);
         player.GetComponent<FirstPersonController>().triggerEnter += HandleCoinCollect;
+        startSpeed = player.GetComponent<FirstPersonController>().ForwardSpeed;
+        hp = MaxHP;
         healthBar.value = hp;
         healthBar.maxValue = hp;
+        shieldBar.value = 0;
+        shieldBar.maxValue = 10;
+
+        var audios = player.GetComponentsInChildren<AudioSource>();
+        foreach (var audio in audios)
+        {
+            if (audio.gameObject.name == "CrashAudio")
+                crashSFX = audio;
+            else if (audio.gameObject.name == "CoinAudio")
+                coinSFX = audio;
+        }
+
+        healingParticle = player.GetComponentsInChildren<ParticleSystem>()[0];
+        healingParticle.Stop();
 
         if (goal == null) goal = GameObject.FindWithTag(Config.Tag.Goal);
         if (gameoverMenu != null) gameoverMenu?.SetActive(false);
-        if (goal != null) goal.GetComponent<End>().triggerEnter += GameOver;
+        if (goal != null) goal.GetComponent<End>().triggerEnter += GameClear;
 
         SaveData();
         Invoke("DisableInvincible", 1);
@@ -80,10 +107,22 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var input = player.GetComponent<StarterAssetsInputs>();
         Save();
-        CharacterController controller = player.GetComponent<CharacterController>();
+        HandleMenu();
+        HandleFall();
+        HandleHitObstacle();
+        ShowShield();
 
+        // Prevent controller.velocity.z is too low when time starts to go
+        if (stopped > 0 && Time.timeScale != 0)
+        {
+            stopped--;
+        }
+    }
+
+    void HandleMenu()
+    {
+        var input = player.GetComponent<StarterAssetsInputs>();
         if (input.menu)
         {
             input.menu = false;
@@ -95,25 +134,28 @@ public class GameManager : MonoBehaviour
                     Pause();
             }
         }
+    }
 
-
-        if ( stopped == 0 && (player.transform.position.y <= -50 || player.transform.position.y >= 50) && !playerInvincible)
+    void HandleFall()
+    {
+        if (stopped == 0 && (player.transform.position.y <= -50 || player.transform.position.y >= 50))
         {
             GameOver();
         }
+    }
 
+    void HandleHitObstacle()
+    {
+        CharacterController controller = player.GetComponent<CharacterController>();
         if (stopped == 0 && (controller.velocity.z <= 0.1) && !playerInvincible)
         {
-            playerInvincible = true;
-            StartCoroutine(DamagePlayer());
+            Vector3 spherePosition = player.transform.position + player.transform.up + 0.5f * Vector3.forward;
+            if (Physics.CheckSphere(spherePosition, 0.1f, damageLayer, QueryTriggerInteraction.Ignore))
+            {
+                playerInvincible = true;
+                StartCoroutine(DamagePlayer());
+            }
         }
-
-        // Prevent controller.velocity.z is too low when time starts to go
-        if (stopped > 0 && Time.timeScale != 0)
-        {
-            stopped--;
-        }
-        showshield();
     }
 
     void Pause(string message = "Paused")
@@ -135,36 +177,56 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void HandleCoinCollect(Collider other) {
-        
+    private void HandleCoinCollect(Collider other)
+    {
+
         if (other.gameObject.CompareTag(Config.Tag.Item))
         {
+            coinSFX.Play();
             Destroy(other.gameObject);
             Coin coin;
-            if (other.TryGetComponent<Coin>(out coin)) {
-                numCoins += coin.value;
-                coinsText.text = $"{numCoins}";
-                if(player.GetComponent<Gravity>().direction == -1)
-                numCeilingCoins += 1;
-            }
+            if (other.TryGetComponent<Coin>(out coin))
+            {
+                if (player.GetComponent<Gravity>().direction == -1)
+                    numCeilingCoins += 1;
+                if (hp < MaxHP)
+                {
+                    Heal();
+                }
+                else if (!shieldOn)
+                {
+                    numCoins += coin.value;
+                    shieldBar.value = numCoins;
+                }
 
-            
+                if (hp >= MaxHP && numCoins == activate_shield && !shieldOn)
+                {
+                    shieldOn = true;
+                }
+            }
         }
     }
 
     private IEnumerator DamagePlayer()
     {
-        
+
         LoadSaveData();
-        
-        if (numCoins >= activate_shield ){
-            numCoins -= activate_shield;
-            coinsText.text = $"{numCoins}";
+        crashSFX.Play();
+        healingParticle.Stop();
+        healingAnimation = null;
+
+        if (shieldOn)
+        {
+            shieldOn = false;
         }
-        else{
-            hp -= 1;
+        else
+        {
+            hp -= 25;
         }
-        
+
+        numCoins = 0;
+        shieldBar.value = numCoins;
+
         healthBar.value = hp;
         if (hp <= 0)
         {
@@ -175,9 +237,10 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(2);
             player.GetComponent<CharacterController>().enabled = true;
             player.GetComponent<FirstPersonController>().enabled = true;
-            player.GetComponent<FirstPersonController>().ForwardSpeed = initialPlayerSpeed;
-            player.GetComponent<FirstPersonController>().CrossSpeed = initialPlayerSpeed;
-            player.GetComponent<FirstPersonController>().SpeedUp();
+            SpeedPad.last = null;
+            //player.GetComponent<FirstPersonController>().ForwardSpeed = initialPlayerSpeed;
+            //player.GetComponent<FirstPersonController>().CrossSpeed = initialPlayerSpeed;
+            //player.GetComponent<FirstPersonController>().SpeedUp();
             player.GetComponent<FirstPersonController>().CancelJump();
         }
         yield return new WaitForSeconds(2);
@@ -189,6 +252,7 @@ public class GameManager : MonoBehaviour
     {
         CharacterController cc = player.GetComponent<CharacterController>();
         WorldController wc = player.GetComponent<WorldController>();
+        FirstPersonController pc = player.GetComponent<FirstPersonController>();
 
         curTime += Time.deltaTime;
 
@@ -196,12 +260,12 @@ public class GameManager : MonoBehaviour
             cc.velocity.z > initialPlayerSpeed &&
             curTime - saveData.time >= 3 &&
             player.GetComponent<Gravity>().Grounded &&
-            !Physics.Raycast(player.transform.position + player.transform.up, player.transform.forward, 5) &&
             (player.transform.localRotation.z == 0 || player.transform.localRotation.z == 1)
         )
         {
             RaycastHit hit;
-            if (Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 1.1f, wc.platform) && Vector3.Cross(hit.transform.up, transform.up).magnitude < 1E-6) {
+            if (Physics.Raycast(player.transform.position + player.transform.up, -player.transform.up, out hit, 1.1f, wc.platform) && Vector3.Cross(hit.transform.up, transform.up).magnitude < 1E-6)
+            {
                 SaveData();
             }
         }
@@ -210,10 +274,12 @@ public class GameManager : MonoBehaviour
 
     private void SaveData()
     {
-        var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        var pc = player.GetComponent<FirstPersonController>();
+        var follow = pc.vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
         saveData = new PlayerSave(
             player.transform.position,
             player.GetComponent<Gravity>().direction > 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 0, -180),
+            new Vector3(pc.MaxSpeed, pc.ForwardSpeed, pc.CrossSpeed),
             player.GetComponent<Gravity>().direction,
             player.GetComponent<WorldController>().GetRotation(),
             follow.ShoulderOffset.y,
@@ -230,9 +296,41 @@ public class GameManager : MonoBehaviour
         player.GetComponent<Gravity>().Stop();
 
         var follow = player.GetComponent<FirstPersonController>().vCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-        Debug.Log($"Load: {saveData.playerPos}/{saveData.playerRotation.eulerAngles}/{saveData.gravityDirection}/{saveData.worldRotation.eulerAngles}/");
+        //Debug.Log($"Load: {saveData.playerPos}/{saveData.playerRotation.eulerAngles}/{saveData.gravityDirection}/{saveData.worldRotation.eulerAngles}/");
 
-        player.transform.position = saveData.playerPos;
+        RaycastHit forward;
+        Physics.Raycast(saveData.playerPos, player.transform.forward, out forward, saveData.playerSpeed.y, damageLayer);
+
+        if (
+            !Physics.Raycast(saveData.playerPos, player.transform.forward + player.transform.up, out forward, saveData.playerSpeed.y, damageLayer) ||
+            forward.distance >= 0.8 * saveData.playerSpeed.y
+        )
+        {
+            player.transform.position = saveData.playerPos;
+        }
+        else
+        {
+            float complementDistance = 0.8f * saveData.playerSpeed.y - forward.distance;
+            RaycastHit backward;
+            Debug.Log("Too close to front");
+            if (
+                !Physics.Raycast(saveData.playerPos, -player.transform.forward, out backward, saveData.playerSpeed.y, damageLayer) ||
+                (backward.distance - 10) >= complementDistance
+            )
+            {
+                player.transform.position = saveData.playerPos + Vector3.back * complementDistance;
+            }
+            else
+            {
+                Debug.Log("Too close to back");
+
+                float usableDistance = Mathf.Max(backward.distance - 10, 0);
+                player.transform.position = saveData.playerPos + Vector3.back * usableDistance;
+            }
+        }
+
+
+
         player.transform.rotation = saveData.playerRotation;
         player.GetComponent<CharacterController>().enabled = true;
 
@@ -241,7 +339,11 @@ public class GameManager : MonoBehaviour
         player.GetComponent<WorldController>().SetRotation(saveData.worldRotation);
         follow.ShoulderOffset.y = saveData.camerePosY;
 
-        player.GetComponent<FirstPersonController>().CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
+        var pc = player.GetComponent<FirstPersonController>();
+        pc.MaxSpeed = saveData.playerSpeed.x;
+        pc.ForwardSpeed = Mathf.Max(startSpeed, saveData.playerSpeed.y * 0.9f);
+        pc.CrossSpeed = Mathf.Max(startSpeed, saveData.playerSpeed.z * 0.9f);
+        pc.CinemachineCameraTarget.transform.eulerAngles = Vector3.zero;
         saveData.time = curTime;
     }
 
@@ -249,20 +351,26 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         gameEnded = true;
-        if (hp > -1)
+
+        if (menu != null)
+            Pause("Game Over");
+        else
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void GameClear()
+    {
+        Time.timeScale = 0;
+        gameEnded = true;
+        SendData();
+        if (menu != null)
         {
-            SendData();
-        }
-        if (gameoverMenu != null)
-            gameoverMenu?.SetActive(true);
-        else if (menu != null)
-        {
-            Debug.Log("Pause menu");
             Pause($"{SceneManager.GetActiveScene().name.Replace("Course", "Stage ")} Cleared");
         }
         else
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     private void SendData()
@@ -289,22 +397,37 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    private void showshield(){
-         GameObject shield= player.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
-        if (numCoins>=activate_shield){
-            //show shield
-            //Debug.Log(numCoins);
-            shield.transform.localScale = new Vector3(4, 1.2f, 3);
+    private void ShowShield()
+    {
+        GameObject shield = player.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject;
+        if (shieldOn)
+        {
+            shield.SetActive(true);
         }
-        else{
-            //Debug.Log("less than 5");
-            // player.GetComponentInChildren<Material>().color = Color.red;
-            // Debug.Log(player.GetComponentInChildren<Material>().color);
-           
-            shield.transform.localScale = new Vector3(0,0,0);
-            //shield.GetComponent<Transform>();
-           
+        else
+        {
+            shield.SetActive(false);
         }
-       
+
+    }
+
+    private void Heal()
+    {
+        hp += 2;
+        healthBar.value = hp;
+
+        if (healingAnimation == null)
+        {
+            healingParticle.Play();
+            healingAnimation = HealAction();
+            StartCoroutine(healingAnimation);
+        }
+    }
+
+    private IEnumerator HealAction()
+    {
+        yield return new WaitForSeconds(2);
+        healingParticle.Stop();
+        healingAnimation = null;
     }
 }
